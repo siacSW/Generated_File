@@ -146,9 +146,10 @@ namespace Generated_File
                 var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
                 var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
 
-                connection.Value = txtTrgNam.Text;p 
+                connection.Value = txtTrgNam.Text;
                 sql_trg.Value = trgSql.Text;
                 
+                //abdelrahman
             }
 
             // after processing save it in file
