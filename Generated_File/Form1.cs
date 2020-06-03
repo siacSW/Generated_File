@@ -15,6 +15,8 @@ namespace Generated_File
 {
     public partial class Form1 : Form
     {
+
+        List<XElement> ilist = new List<XElement>();
         public Form1()
         {
             InitializeComponent();
@@ -50,7 +52,6 @@ namespace Generated_File
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
 
-            List<XElement> ilist = new List<XElement>();
             ilist.Add(elementsToUpdate);
 
             //update elements value
@@ -70,16 +71,33 @@ namespace Generated_File
                 type.Value = SrCmb.SelectedItem.ToString();
                 database.Value = txtsrDb.Text;
                 port.Value = txtsrPor.Text;
-                username.Value = txtsrUser.Text;
-                password.Value = txtsrPsw.Text;
+             
+            }
 
-                // Console.WriteLine(element);
+
+            ilist.Clear();
+
+
+            var elementsToSrcConn = doc.Descendants()
+                                      .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
+
+            ilist.Add(elementsToSrcConn);
+            foreach (XElement element in ilist)
+            {
+                var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+
+                var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+
+                connection.Value = txtsrname.Text;
+                sql.Value = SrcSql.Text;
             }
 
             // after processing save it in file
-             doc.Save(@"E:\Files\test_trans7.ktr");
+            doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Src Config created ");
+
+            ilist.Clear();
 
         }
 
@@ -93,7 +111,6 @@ namespace Generated_File
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
 
-            List<XElement> ilist = new List<XElement>();
             ilist.Add(elementsToUpdate);
 
             //update elements value
@@ -116,13 +133,30 @@ namespace Generated_File
                 username.Value = txtTrgUs.Text;
                 password.Value = txtTrgPs.Text;
 
-                // Console.WriteLine(element);
+            }
+
+            ilist.Clear();
+
+            var elementsToTrg = doc.Descendants()
+                                   .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
+
+            ilist.Add(elementsToTrg);
+            foreach (XElement element in ilist)
+            {
+                var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+
+                connection.Value = txtTrgNam.Text;
+                sql_trg.Value = trgSql.Text;
             }
 
             // after processing save it in file
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Trg Config created ");
+
+            ilist.Clear();
+
         }
     }
 }

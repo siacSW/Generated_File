@@ -62,12 +62,18 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.SrcSql = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.trgSql = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.SrcSql);
+            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.txtsrPsw);
             this.panel1.Controls.Add(this.txtsrUser);
@@ -86,12 +92,12 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(304, 545);
+            this.panel1.Size = new System.Drawing.Size(468, 606);
             this.panel1.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(69, 468);
+            this.button1.Location = new System.Drawing.Point(172, 551);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 45);
             this.button1.TabIndex = 15;
@@ -136,7 +142,7 @@
             "MSSQLNATIVE"});
             this.SrCmb.Location = new System.Drawing.Point(93, 195);
             this.SrCmb.Name = "SrCmb";
-            this.SrCmb.Size = new System.Drawing.Size(154, 21);
+            this.SrCmb.Size = new System.Drawing.Size(121, 21);
             this.SrCmb.TabIndex = 10;
             // 
             // txtsrServer
@@ -227,6 +233,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.trgSql);
+            this.panel2.Controls.Add(this.label18);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.TrgCmb);
             this.panel2.Controls.Add(this.txtTrgPs);
@@ -243,14 +251,14 @@
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label15);
             this.panel2.Controls.Add(this.label16);
-            this.panel2.Location = new System.Drawing.Point(628, 12);
+            this.panel2.Location = new System.Drawing.Point(542, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(307, 545);
+            this.panel2.Size = new System.Drawing.Size(425, 606);
             this.panel2.TabIndex = 1;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(82, 468);
+            this.button2.Location = new System.Drawing.Point(188, 551);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(111, 45);
             this.button2.TabIndex = 23;
@@ -265,51 +273,51 @@
             this.TrgCmb.Items.AddRange(new object[] {
             "MARIADB",
             "MSSQLNATIVE"});
-            this.TrgCmb.Location = new System.Drawing.Point(116, 179);
+            this.TrgCmb.Location = new System.Drawing.Point(152, 179);
             this.TrgCmb.Name = "TrgCmb";
             this.TrgCmb.Size = new System.Drawing.Size(136, 21);
             this.TrgCmb.TabIndex = 22;
             // 
             // txtTrgPs
             // 
-            this.txtTrgPs.Location = new System.Drawing.Point(116, 400);
+            this.txtTrgPs.Location = new System.Drawing.Point(152, 393);
             this.txtTrgPs.Name = "txtTrgPs";
-            this.txtTrgPs.Size = new System.Drawing.Size(100, 20);
+            this.txtTrgPs.Size = new System.Drawing.Size(136, 20);
             this.txtTrgPs.TabIndex = 21;
             // 
             // txtTrgUs
             // 
-            this.txtTrgUs.Location = new System.Drawing.Point(116, 344);
+            this.txtTrgUs.Location = new System.Drawing.Point(152, 340);
             this.txtTrgUs.Name = "txtTrgUs";
-            this.txtTrgUs.Size = new System.Drawing.Size(100, 20);
+            this.txtTrgUs.Size = new System.Drawing.Size(136, 20);
             this.txtTrgUs.TabIndex = 20;
             // 
             // txtTRPo
             // 
-            this.txtTRPo.Location = new System.Drawing.Point(116, 288);
+            this.txtTRPo.Location = new System.Drawing.Point(152, 284);
             this.txtTRPo.Name = "txtTRPo";
-            this.txtTRPo.Size = new System.Drawing.Size(100, 20);
+            this.txtTRPo.Size = new System.Drawing.Size(136, 20);
             this.txtTRPo.TabIndex = 19;
             // 
             // txtTrDB
             // 
-            this.txtTrDB.Location = new System.Drawing.Point(116, 235);
+            this.txtTrDB.Location = new System.Drawing.Point(152, 231);
             this.txtTrDB.Name = "txtTrDB";
-            this.txtTrDB.Size = new System.Drawing.Size(100, 20);
+            this.txtTrDB.Size = new System.Drawing.Size(136, 20);
             this.txtTrDB.TabIndex = 18;
             // 
             // txtTrSrV
             // 
-            this.txtTrSrV.Location = new System.Drawing.Point(116, 120);
+            this.txtTrSrV.Location = new System.Drawing.Point(152, 120);
             this.txtTrSrV.Name = "txtTrSrV";
-            this.txtTrSrV.Size = new System.Drawing.Size(100, 20);
+            this.txtTrSrV.Size = new System.Drawing.Size(136, 20);
             this.txtTrSrV.TabIndex = 17;
             // 
             // txtTrgNam
             // 
-            this.txtTrgNam.Location = new System.Drawing.Point(116, 65);
+            this.txtTrgNam.Location = new System.Drawing.Point(152, 62);
             this.txtTrgNam.Name = "txtTrgNam";
-            this.txtTrgNam.Size = new System.Drawing.Size(100, 20);
+            this.txtTrgNam.Size = new System.Drawing.Size(136, 20);
             this.txtTrgNam.TabIndex = 16;
             // 
             // label9
@@ -384,6 +392,40 @@
             this.label16.TabIndex = 8;
             this.label16.Text = "Target Data";
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(21, 468);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 16;
+            this.label17.Text = "Src Sql";
+            // 
+            // SrcSql
+            // 
+            this.SrcSql.Location = new System.Drawing.Point(93, 449);
+            this.SrcSql.Multiline = true;
+            this.SrcSql.Name = "SrcSql";
+            this.SrcSql.Size = new System.Drawing.Size(287, 96);
+            this.SrcSql.TabIndex = 17;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(33, 468);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(40, 13);
+            this.label18.TabIndex = 24;
+            this.label18.Text = "Trg Sql";
+            // 
+            // trgSql
+            // 
+            this.trgSql.Location = new System.Drawing.Point(152, 431);
+            this.trgSql.Multiline = true;
+            this.trgSql.Name = "trgSql";
+            this.trgSql.Size = new System.Drawing.Size(264, 96);
+            this.trgSql.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -437,6 +479,10 @@
         private System.Windows.Forms.ComboBox TrgCmb;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox SrcSql;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox trgSql;
     }
 }
 
