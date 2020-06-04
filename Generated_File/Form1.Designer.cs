@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.SrcSql = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.txtsrPsw = new System.Windows.Forms.TextBox();
             this.txtsrUser = new System.Windows.Forms.TextBox();
@@ -46,6 +48,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.trgSql = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.TrgCmb = new System.Windows.Forms.ComboBox();
             this.txtTrgPs = new System.Windows.Forms.TextBox();
@@ -62,12 +66,16 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.SrcSql = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.trgSql = new System.Windows.Forms.TextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.Generate = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label19 = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -94,6 +102,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(468, 606);
             this.panel1.TabIndex = 0;
+            // 
+            // SrcSql
+            // 
+            this.SrcSql.Location = new System.Drawing.Point(93, 449);
+            this.SrcSql.Multiline = true;
+            this.SrcSql.Name = "SrcSql";
+            this.SrcSql.Size = new System.Drawing.Size(287, 96);
+            this.SrcSql.TabIndex = 17;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(21, 468);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 16;
+            this.label17.Text = "Src Sql";
             // 
             // button1
             // 
@@ -251,10 +276,27 @@
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label15);
             this.panel2.Controls.Add(this.label16);
-            this.panel2.Location = new System.Drawing.Point(542, 12);
+            this.panel2.Location = new System.Drawing.Point(692, 12);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(425, 606);
             this.panel2.TabIndex = 1;
+            // 
+            // trgSql
+            // 
+            this.trgSql.Location = new System.Drawing.Point(152, 431);
+            this.trgSql.Multiline = true;
+            this.trgSql.Name = "trgSql";
+            this.trgSql.Size = new System.Drawing.Size(264, 96);
+            this.trgSql.TabIndex = 25;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(33, 468);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(40, 13);
+            this.label18.TabIndex = 24;
+            this.label18.Text = "Trg Sql";
             // 
             // button2
             // 
@@ -392,45 +434,65 @@
             this.label16.TabIndex = 8;
             this.label16.Text = "Target Data";
             // 
-            // label17
+            // panel3
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(21, 468);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(39, 13);
-            this.label17.TabIndex = 16;
-            this.label17.Text = "Src Sql";
+            this.panel3.Controls.Add(this.button3);
+            this.panel3.Controls.Add(this.Generate);
+            this.panel3.Controls.Add(this.dataGridView1);
+            this.panel3.Controls.Add(this.label19);
+            this.panel3.Location = new System.Drawing.Point(12, 668);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(468, 347);
+            this.panel3.TabIndex = 2;
             // 
-            // SrcSql
+            // button3
             // 
-            this.SrcSql.Location = new System.Drawing.Point(93, 449);
-            this.SrcSql.Multiline = true;
-            this.SrcSql.Name = "SrcSql";
-            this.SrcSql.Size = new System.Drawing.Size(287, 96);
-            this.SrcSql.TabIndex = 17;
+            this.button3.Location = new System.Drawing.Point(41, 62);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "new row";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_2);
             // 
-            // label18
+            // Generate
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(33, 468);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(40, 13);
-            this.label18.TabIndex = 24;
-            this.label18.Text = "Trg Sql";
+            this.Generate.Location = new System.Drawing.Point(335, 62);
+            this.Generate.Name = "Generate";
+            this.Generate.Size = new System.Drawing.Size(75, 23);
+            this.Generate.TabIndex = 6;
+            this.Generate.Text = "Click";
+            this.Generate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.Generate.UseVisualStyleBackColor = true;
+            this.Generate.Click += new System.EventHandler(this.Generate_Click);
             // 
-            // trgSql
+            // dataGridView1
             // 
-            this.trgSql.Location = new System.Drawing.Point(152, 431);
-            this.trgSql.Multiline = true;
-            this.trgSql.Name = "trgSql";
-            this.trgSql.Size = new System.Drawing.Size(264, 96);
-            this.trgSql.TabIndex = 25;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(41, 102);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(394, 150);
+            this.dataGridView1.TabIndex = 5;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(186, 17);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(63, 13);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Source Sort";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 618);
+            this.ClientSize = new System.Drawing.Size(1155, 1061);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -439,6 +501,9 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -483,6 +548,12 @@
         private System.Windows.Forms.TextBox SrcSql;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox trgSql;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button Generate;
+        private System.Windows.Forms.Button button3;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

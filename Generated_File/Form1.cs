@@ -17,6 +17,9 @@ namespace Generated_File
     {
 
         List<XElement> ilist = new List<XElement>();
+        TextBox a = new TextBox();
+
+        string SqlSourceStat;
         public Form1()
         {
             InitializeComponent();
@@ -90,6 +93,8 @@ namespace Generated_File
 
                 connection.Value = txtsrname.Text;
                 sql.Value = SrcSql.Text;
+
+                SqlSourceStat = SrcSql.Text;
             }
 
             // after processing save it in file
@@ -149,7 +154,6 @@ namespace Generated_File
                 connection.Value = txtTrgNam.Text;
                 sql_trg.Value = trgSql.Text;
                 
-                //abdelrahman
             }
 
             // after processing save it in file
@@ -160,5 +164,123 @@ namespace Generated_File
             ilist.Clear();
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+          
+            
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            MessageBox.Show(a.Name);
+        }
+
+        private void Generate_Click(object sender, EventArgs e)
+        {
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            dgvCmb.HeaderText = "Sort Column";
+           
+            SqlSourceStat = SrcSql.Text;
+
+            string toBeSearched = "select ";
+            int ix = SqlSourceStat.IndexOf(toBeSearched);
+
+            if (ix != -1)
+            {
+                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+
+
+                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+
+                string[] Arr = FinalWord.Split(',');
+
+                for (int i = 0; i < Arr.Length; i++)
+                {
+                    Arr[i] = Arr[i].Trim();
+
+                    dgvCmb.Items.Add(Arr[i]);
+                }
+                
+            }
+           
+
+            
+            dgvCmb.Name = "cmbName";
+            if (dataGridView1.Rows.Count == 0)
+            {
+                dataGridView1.AllowUserToAddRows = true;
+            }
+            else
+            {
+                dataGridView1.Rows.Add();
+            }
+            dataGridView1.Columns.Add(dgvCmb);
+
+
+        }
+
+        private void button3_Click_2(object sender, EventArgs e)
+        {
+            // if (dataGridView1.)
+            // {
+
+            // }
+
+            //string x =  dataGridView1.Rows.Count.ToString();
+
+            //MessageBox.Show(x);
+            //int columnIndex = dataGridView1.CurrentCell.ColumnIndex;
+            //string columnName = dataGridView1.Columns[columnIndex].Name;
+            //string name = "";
+
+            //int i = 0;
+            //foreach (DataGridViewRow row in dataGridView1.Rows)
+            //{
+            //    if (row.Cells["cmbName"].Value == null)
+            //    {
+            //        dataGridView1.Rows.RemoveAt(i);
+            //    }
+            //    i++;
+
+            //    //if (row.Cells["cmbName"].Value == null)
+            //    //{
+            //    //    MessageBox.Show("Row is empty");
+            //    //}
+            //    //else
+            //    //{
+
+            //    //    name = row.Cells["cmbName"].Value.ToString();
+            //    //}
+
+            //    //MessageBox.Show(name);
+            //}
+
+            dataGridView1.Rows.Add();
+
+
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
     }
+
+
+    static class BeforeStatment
+    {
+        public static string Before(this string value, string a)
+        {
+            int posA = value.IndexOf(a);
+            if (posA == -1)
+            {
+                return "";
+            }
+            return value.Substring(0, posA);
+        }
+    }
+
+
 }
