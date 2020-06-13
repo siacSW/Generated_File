@@ -31,7 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.SrcSql = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSRC = new System.Windows.Forms.Button();
             this.txtsrPsw = new System.Windows.Forms.TextBox();
             this.txtsrUser = new System.Windows.Forms.TextBox();
             this.txtsrPor = new System.Windows.Forms.TextBox();
@@ -66,15 +66,16 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.sortpnl = new System.Windows.Forms.Panel();
+            this.btnsort = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.Generate = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label19 = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btndelete = new System.Windows.Forms.Button();
+            this.btnSortView = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.sortpnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             // 
             this.panel1.Controls.Add(this.SrcSql);
             this.panel1.Controls.Add(this.label17);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btnSRC);
             this.panel1.Controls.Add(this.txtsrPsw);
             this.panel1.Controls.Add(this.txtsrUser);
             this.panel1.Controls.Add(this.txtsrPor);
@@ -120,15 +121,15 @@
             this.label17.TabIndex = 16;
             this.label17.Text = "Src Sql";
             // 
-            // button1
+            // btnSRC
             // 
-            this.button1.Location = new System.Drawing.Point(172, 551);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 45);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Save SRC";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnSRC.Location = new System.Drawing.Point(172, 551);
+            this.btnSRC.Name = "btnSRC";
+            this.btnSRC.Size = new System.Drawing.Size(111, 45);
+            this.btnSRC.TabIndex = 15;
+            this.btnSRC.Text = "Save SRC";
+            this.btnSRC.UseVisualStyleBackColor = true;
+            this.btnSRC.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // txtsrPsw
             // 
@@ -434,42 +435,44 @@
             this.label16.TabIndex = 8;
             this.label16.Text = "Target Data";
             // 
-            // panel3
+            // sortpnl
             // 
-            this.panel3.Controls.Add(this.button3);
-            this.panel3.Controls.Add(this.Generate);
-            this.panel3.Controls.Add(this.dataGridView1);
-            this.panel3.Controls.Add(this.label19);
-            this.panel3.Location = new System.Drawing.Point(12, 668);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(468, 347);
-            this.panel3.TabIndex = 2;
+            this.sortpnl.Controls.Add(this.btndelete);
+            this.sortpnl.Controls.Add(this.btnsort);
+            this.sortpnl.Controls.Add(this.button3);
+            this.sortpnl.Controls.Add(this.dataGridView1);
+            this.sortpnl.Controls.Add(this.label19);
+            this.sortpnl.Location = new System.Drawing.Point(12, 668);
+            this.sortpnl.Name = "sortpnl";
+            this.sortpnl.Size = new System.Drawing.Size(468, 347);
+            this.sortpnl.TabIndex = 2;
+            this.sortpnl.Visible = false;
+            // 
+            // btnsort
+            // 
+            this.btnsort.Location = new System.Drawing.Point(174, 296);
+            this.btnsort.Name = "btnsort";
+            this.btnsort.Size = new System.Drawing.Size(75, 23);
+            this.btnsort.TabIndex = 8;
+            this.btnsort.Text = "Sort";
+            this.btnsort.UseVisualStyleBackColor = true;
+            this.btnsort.Click += new System.EventHandler(this.btnsort_Click);
             // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(41, 62);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(138, 23);
             this.button3.TabIndex = 7;
             this.button3.Text = "new row";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_2);
             // 
-            // Generate
-            // 
-            this.Generate.Location = new System.Drawing.Point(335, 62);
-            this.Generate.Name = "Generate";
-            this.Generate.Size = new System.Drawing.Size(75, 23);
-            this.Generate.TabIndex = 6;
-            this.Generate.Text = "Click";
-            this.Generate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.Generate.UseVisualStyleBackColor = true;
-            this.Generate.Click += new System.EventHandler(this.Generate_Click);
-            // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(41, 102);
+            this.dataGridView1.Location = new System.Drawing.Point(24, 124);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(394, 150);
             this.dataGridView1.TabIndex = 5;
@@ -483,16 +486,33 @@
             this.label19.TabIndex = 0;
             this.label19.Text = "Source Sort";
             // 
-            // backgroundWorker1
+            // btndelete
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.btndelete.Location = new System.Drawing.Point(292, 62);
+            this.btndelete.Name = "btndelete";
+            this.btndelete.Size = new System.Drawing.Size(110, 23);
+            this.btndelete.TabIndex = 9;
+            this.btndelete.Text = "Delete Row";
+            this.btndelete.UseVisualStyleBackColor = true;
+            this.btndelete.Click += new System.EventHandler(this.btndelete_Click);
+            // 
+            // btnSortView
+            // 
+            this.btnSortView.Location = new System.Drawing.Point(166, 639);
+            this.btnSortView.Name = "btnSortView";
+            this.btnSortView.Size = new System.Drawing.Size(149, 23);
+            this.btnSortView.TabIndex = 3;
+            this.btnSortView.Text = "Source Sort";
+            this.btnSortView.UseVisualStyleBackColor = true;
+            this.btnSortView.Click += new System.EventHandler(this.btnSortView_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1155, 1061);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.btnSortView);
+            this.Controls.Add(this.sortpnl);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -501,8 +521,8 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.sortpnl.ResumeLayout(false);
+            this.sortpnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -542,18 +562,19 @@
         private System.Windows.Forms.TextBox txtTrgUs;
         private System.Windows.Forms.TextBox txtTrgPs;
         private System.Windows.Forms.ComboBox TrgCmb;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSRC;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox SrcSql;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox trgSql;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel sortpnl;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button Generate;
         private System.Windows.Forms.Button button3;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button btnsort;
+        private System.Windows.Forms.Button btndelete;
+        private System.Windows.Forms.Button btnSortView;
     }
 }
 

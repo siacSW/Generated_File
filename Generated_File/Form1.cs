@@ -20,6 +20,8 @@ namespace Generated_File
         TextBox a = new TextBox();
 
         string SqlSourceStat;
+        
+         XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
         public Form1()
         {
             InitializeComponent();
@@ -48,7 +50,6 @@ namespace Generated_File
         private void button1_Click_1(object sender, EventArgs e)
         {
             // get the file 
-            var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
 
 
             // to read file property 
@@ -109,7 +110,7 @@ namespace Generated_File
         private void button2_Click(object sender, EventArgs e)
         {
             // get the file 
-            var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
+        //    var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
 
 
             // to read file property 
@@ -165,17 +166,7 @@ namespace Generated_File
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-          
-            
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            MessageBox.Show(a.Name);
-        }
-
+       
         private void Generate_Click(object sender, EventArgs e)
         {
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -207,14 +198,14 @@ namespace Generated_File
 
             
             dgvCmb.Name = "cmbName";
-            if (dataGridView1.Rows.Count == 0)
-            {
-                dataGridView1.AllowUserToAddRows = true;
-            }
-            else
-            {
-                dataGridView1.Rows.Add();
-            }
+            //if (dataGridView1.Rows.Count == 0)
+            //{
+            //    dataGridView1.AllowUserToAddRows = true;
+            //}
+            //else
+            //{
+            //    dataGridView1.Rows.Add();
+            //}
             dataGridView1.Columns.Add(dgvCmb);
 
 
@@ -262,9 +253,94 @@ namespace Generated_File
 
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void btnsort_Click(object sender, EventArgs e)
+        {
+            // get the file 
+        //    var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
+
+
+            // to read file property 
+            var elementsToUpdate = doc.Descendants()
+                                      .Where(o => o.Name == "step" && o.HasElements).Skip(3).FirstOrDefault();
+
+            var fields = elementsToUpdate.Descendants()
+                                     .Where(o => o.Name == "fields" && o.HasElements).FirstOrDefault();
+
+
+
+
+            int rowscount = dataGridView1.Rows.Count;
+
+            for (int i = 0; i < rowscount-1; i++)
+            {
+                var fiedlNode = fields.Descendants()
+                                       .Where(x => x.Name.LocalName == "field")
+                                       .FirstOrDefault();
+                fields.Add(fiedlNode);
+
+            }
+
+
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+
+            MessageBox.Show("Generated Fields Created");
+
+
+        }
+
+        private void btndelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in this.dataGridView1.SelectedRows)
+            {
+                dataGridView1.Rows.RemoveAt(item.Index);
+            }
+        }
+
+        private void btnSortView_Click(object sender, EventArgs e)
         {
 
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            dgvCmb.HeaderText = "Sort Column";
+
+            SqlSourceStat = SrcSql.Text;
+
+            string toBeSearched = "select ";
+            int ix = SqlSourceStat.IndexOf(toBeSearched);
+
+            if (ix != -1)
+            {
+                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+
+
+                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+
+                string[] Arr = FinalWord.Split(',');
+
+                for (int i = 0; i < Arr.Length; i++)
+                {
+                    Arr[i] = Arr[i].Trim();
+
+                    dgvCmb.Items.Add(Arr[i]);
+                }
+
+            }
+
+
+
+            dgvCmb.Name = "cmbName";
+            //if (dataGridView1.Rows.Count == 0)
+            //{
+            //    dataGridView1.AllowUserToAddRows = true;
+            //}
+            //else
+            //{
+            //    dataGridView1.Rows.Add();
+            //}
+            dataGridView1.Columns.Add(dgvCmb);
+
+            sortpnl.Visible = true;
         }
     }
 
