@@ -17,41 +17,18 @@ namespace Generated_File
     {
 
         List<XElement> ilist = new List<XElement>();
-        TextBox a = new TextBox();
-
         string SqlSourceStat;
-        
          XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //FileStream inputt = new FileStream(@"E:\Files\trf_supplierdocs_cis_inventory.ktr", FileMode.Open, FileAccess.Read);
-
-            //StreamReader reader = new StreamReader(inputt);
-
-            //XmlDocument xmlDocument = new XmlDocument();
-
-            //xmlDocument.Load(@"E:\Files\trf_supplierdocs_cis_inventory.ktr");
-
-           // Console.WriteLine();
 
 
-        }
-
+        //Source Event
         private void button1_Click_1(object sender, EventArgs e)
         {
-            // get the file 
-
-
             // to read file property 
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
@@ -107,10 +84,9 @@ namespace Generated_File
 
         }
 
+        //Target Event
         private void button2_Click(object sender, EventArgs e)
         {
-            // get the file 
-        //    var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
 
 
             // to read file property 
@@ -167,99 +143,15 @@ namespace Generated_File
         }
 
        
-        private void Generate_Click(object sender, EventArgs e)
-        {
-            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.HeaderText = "Sort Column";
-           
-            SqlSourceStat = SrcSql.Text;
-
-            string toBeSearched = "select ";
-            int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-            if (ix != -1)
-            {
-                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-
-
-                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
-
-                string[] Arr = FinalWord.Split(',');
-
-                for (int i = 0; i < Arr.Length; i++)
-                {
-                    Arr[i] = Arr[i].Trim();
-
-                    dgvCmb.Items.Add(Arr[i]);
-                }
-                
-            }
-           
-
-            
-            dgvCmb.Name = "cmbName";
-            //if (dataGridView1.Rows.Count == 0)
-            //{
-            //    dataGridView1.AllowUserToAddRows = true;
-            //}
-            //else
-            //{
-            //    dataGridView1.Rows.Add();
-            //}
-            dataGridView1.Columns.Add(dgvCmb);
-
-
-        }
+ 
 
         private void button3_Click_2(object sender, EventArgs e)
         {
-            // if (dataGridView1.)
-            // {
-
-            // }
-
-            //string x =  dataGridView1.Rows.Count.ToString();
-
-            //MessageBox.Show(x);
-            //int columnIndex = dataGridView1.CurrentCell.ColumnIndex;
-            //string columnName = dataGridView1.Columns[columnIndex].Name;
-            //string name = "";
-
-            //int i = 0;
-            //foreach (DataGridViewRow row in dataGridView1.Rows)
-            //{
-            //    if (row.Cells["cmbName"].Value == null)
-            //    {
-            //        dataGridView1.Rows.RemoveAt(i);
-            //    }
-            //    i++;
-
-            //    //if (row.Cells["cmbName"].Value == null)
-            //    //{
-            //    //    MessageBox.Show("Row is empty");
-            //    //}
-            //    //else
-            //    //{
-
-            //    //    name = row.Cells["cmbName"].Value.ToString();
-            //    //}
-
-            //    //MessageBox.Show(name);
-            //}
-
             dataGridView1.Rows.Add();
-
-
-
         }
 
         private void btnsort_Click(object sender, EventArgs e)
         {
-            // get the file 
-        //    var doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
-
-
-            // to read file property 
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "step" && o.HasElements).Skip(3).FirstOrDefault();
 
@@ -271,21 +163,26 @@ namespace Generated_File
 
             int rowscount = dataGridView1.Rows.Count;
 
+            //to append new childs
             for (int i = 0; i < rowscount-1; i++)
             {
                 var fiedlNode = fields.Descendants()
                                        .Where(x => x.Name.LocalName == "field")
                                        .FirstOrDefault();
                 fields.Add(fiedlNode);
-
             }
 
+            //to assign new values 
+            var fieldsNodes = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "field" && o.HasElements).ToList();
 
-
-
+            foreach (var item in fieldsNodes)
+            {
+                
+            }
+           
             doc.Save(@"E:\Files\test_trans7.ktr");
-
-            MessageBox.Show("Generated Fields Created");
+            MessageBox.Show("Sorted Fields Created");
 
 
         }
@@ -330,17 +227,59 @@ namespace Generated_File
 
 
             dgvCmb.Name = "cmbName";
-            //if (dataGridView1.Rows.Count == 0)
-            //{
-            //    dataGridView1.AllowUserToAddRows = true;
-            //}
-            //else
-            //{
-            //    dataGridView1.Rows.Add();
-            //}
+       
             dataGridView1.Columns.Add(dgvCmb);
 
             sortpnl.Visible = true;
+        }
+
+        private void btnTrS_Click(object sender, EventArgs e)
+        {
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            dgvCmb.HeaderText = "Sort Column";
+
+            SqlSourceStat = trgSql.Text;
+
+            string toBeSearched = "select ";
+            int ix = SqlSourceStat.IndexOf(toBeSearched);
+
+            if (ix != -1)
+            {
+                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+
+
+                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+
+                string[] Arr = FinalWord.Split(',');
+
+                for (int i = 0; i < Arr.Length; i++)
+                {
+                    Arr[i] = Arr[i].Trim();
+
+                    dgvCmb.Items.Add(Arr[i]);
+                }
+
+            }
+
+
+
+            dgvCmb.Name = "cmbName";
+          
+            datagridTrgSRT.Columns.Add(dgvCmb);
+
+            trgPnl.Visible = true;
+        }
+
+        private void btnTrgSr_Click(object sender, EventArgs e)
+        {
+            datagridTrgSRT.Rows.Add();
+        }
+        private void btnTrgDel_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in this.datagridTrgSRT.SelectedRows)
+            {
+                datagridTrgSRT.Rows.RemoveAt(item.Index);
+            }
         }
     }
 
