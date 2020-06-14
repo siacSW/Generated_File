@@ -67,18 +67,18 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.sortpnl = new System.Windows.Forms.Panel();
+            this.btndelete = new System.Windows.Forms.Button();
             this.btnsort = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label19 = new System.Windows.Forms.Label();
-            this.btndelete = new System.Windows.Forms.Button();
             this.btnSortView = new System.Windows.Forms.Button();
             this.trgPnl = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.btnTrgSr = new System.Windows.Forms.Button();
-            this.btnTrgDel = new System.Windows.Forms.Button();
-            this.datagridTrgSRT = new System.Windows.Forms.DataGridView();
             this.btnTrgSrt = new System.Windows.Forms.Button();
+            this.datagridTrgSRT = new System.Windows.Forms.DataGridView();
+            this.btnTrgDel = new System.Windows.Forms.Button();
+            this.btnTrgSr = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
             this.btnTrS = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -457,6 +457,16 @@
             this.sortpnl.TabIndex = 2;
             this.sortpnl.Visible = false;
             // 
+            // btndelete
+            // 
+            this.btndelete.Location = new System.Drawing.Point(325, 62);
+            this.btndelete.Name = "btndelete";
+            this.btndelete.Size = new System.Drawing.Size(110, 23);
+            this.btndelete.TabIndex = 9;
+            this.btndelete.Text = "Delete Row";
+            this.btndelete.UseVisualStyleBackColor = true;
+            this.btndelete.Click += new System.EventHandler(this.btndelete_Click);
+            // 
             // btnsort
             // 
             this.btnsort.Location = new System.Drawing.Point(174, 296);
@@ -495,16 +505,6 @@
             this.label19.TabIndex = 0;
             this.label19.Text = "Source Sort";
             // 
-            // btndelete
-            // 
-            this.btndelete.Location = new System.Drawing.Point(325, 62);
-            this.btndelete.Name = "btndelete";
-            this.btndelete.Size = new System.Drawing.Size(110, 23);
-            this.btndelete.TabIndex = 9;
-            this.btndelete.Text = "Delete Row";
-            this.btndelete.UseVisualStyleBackColor = true;
-            this.btndelete.Click += new System.EventHandler(this.btndelete_Click);
-            // 
             // btnSortView
             // 
             this.btnSortView.Location = new System.Drawing.Point(166, 627);
@@ -528,24 +528,24 @@
             this.trgPnl.TabIndex = 4;
             this.trgPnl.Visible = false;
             // 
-            // label20
+            // btnTrgSrt
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(208, 29);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(62, 13);
-            this.label20.TabIndex = 0;
-            this.label20.Text = "Target Sort";
+            this.btnTrgSrt.Location = new System.Drawing.Point(211, 308);
+            this.btnTrgSrt.Name = "btnTrgSrt";
+            this.btnTrgSrt.Size = new System.Drawing.Size(75, 23);
+            this.btnTrgSrt.TabIndex = 4;
+            this.btnTrgSrt.Text = "Sort";
+            this.btnTrgSrt.UseVisualStyleBackColor = true;
+            this.btnTrgSrt.Click += new System.EventHandler(this.btnTrgSrt_Click);
             // 
-            // btnTrgSr
+            // datagridTrgSRT
             // 
-            this.btnTrgSr.Location = new System.Drawing.Point(26, 62);
-            this.btnTrgSr.Name = "btnTrgSr";
-            this.btnTrgSr.Size = new System.Drawing.Size(126, 23);
-            this.btnTrgSr.TabIndex = 1;
-            this.btnTrgSr.Text = "New Row";
-            this.btnTrgSr.UseVisualStyleBackColor = true;
-            this.btnTrgSr.Click += new System.EventHandler(this.btnTrgSr_Click);
+            this.datagridTrgSRT.AllowUserToAddRows = false;
+            this.datagridTrgSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datagridTrgSRT.Location = new System.Drawing.Point(26, 124);
+            this.datagridTrgSRT.Name = "datagridTrgSRT";
+            this.datagridTrgSRT.Size = new System.Drawing.Size(417, 150);
+            this.datagridTrgSRT.TabIndex = 3;
             // 
             // btnTrgDel
             // 
@@ -557,22 +557,24 @@
             this.btnTrgDel.UseVisualStyleBackColor = true;
             this.btnTrgDel.Click += new System.EventHandler(this.btnTrgDel_Click);
             // 
-            // datagridTrgSRT
+            // btnTrgSr
             // 
-            this.datagridTrgSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagridTrgSRT.Location = new System.Drawing.Point(26, 124);
-            this.datagridTrgSRT.Name = "datagridTrgSRT";
-            this.datagridTrgSRT.Size = new System.Drawing.Size(417, 150);
-            this.datagridTrgSRT.TabIndex = 3;
+            this.btnTrgSr.Location = new System.Drawing.Point(26, 62);
+            this.btnTrgSr.Name = "btnTrgSr";
+            this.btnTrgSr.Size = new System.Drawing.Size(126, 23);
+            this.btnTrgSr.TabIndex = 1;
+            this.btnTrgSr.Text = "New Row";
+            this.btnTrgSr.UseVisualStyleBackColor = true;
+            this.btnTrgSr.Click += new System.EventHandler(this.btnTrgSr_Click);
             // 
-            // btnTrgSrt
+            // label20
             // 
-            this.btnTrgSrt.Location = new System.Drawing.Point(211, 308);
-            this.btnTrgSrt.Name = "btnTrgSrt";
-            this.btnTrgSrt.Size = new System.Drawing.Size(75, 23);
-            this.btnTrgSrt.TabIndex = 4;
-            this.btnTrgSrt.Text = "Sort";
-            this.btnTrgSrt.UseVisualStyleBackColor = true;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(208, 29);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(62, 13);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Target Sort";
             // 
             // btnTrS
             // 

@@ -18,13 +18,12 @@ namespace Generated_File
 
         List<XElement> ilist = new List<XElement>();
         string SqlSourceStat;
-         XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
+        
+        XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
         public Form1()
         {
             InitializeComponent();
         }
-
-
 
         //Source Event
         private void button1_Click_1(object sender, EventArgs e)
@@ -87,8 +86,6 @@ namespace Generated_File
         //Target Event
         private void button2_Click(object sender, EventArgs e)
         {
-
-
             // to read file property 
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
@@ -142,9 +139,6 @@ namespace Generated_File
 
         }
 
-       
- 
-
         private void button3_Click_2(object sender, EventArgs e)
         {
             dataGridView1.Rows.Add();
@@ -176,12 +170,16 @@ namespace Generated_File
             var fieldsNodes = elementsToUpdate.Descendants()
                                  .Where(o => o.Name == "field" && o.HasElements).ToList();
 
-            foreach (var item in fieldsNodes)
+            for (int i = 0; i < fieldsNodes.Count; i++)
             {
-                
+                var nam_tst = fieldsNodes[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                nam_tst.Value = dataGridView1.Rows[i].Cells["cmbName"].Value.ToString();
+
             }
-           
+
+
             doc.Save(@"E:\Files\test_trans7.ktr");
+
             MessageBox.Show("Sorted Fields Created");
 
 
@@ -280,6 +278,45 @@ namespace Generated_File
             {
                 datagridTrgSRT.Rows.RemoveAt(item.Index);
             }
+        }
+
+        private void btnTrgSrt_Click(object sender, EventArgs e)
+        {
+            var elementsToUpdate = doc.Descendants()
+                                     .Where(o => o.Name == "step" && o.HasElements).Skip(5).FirstOrDefault();
+
+            var fields = elementsToUpdate.Descendants()
+                                     .Where(o => o.Name == "fields" && o.HasElements).FirstOrDefault();
+
+
+
+
+            int rowscount = datagridTrgSRT.Rows.Count;
+
+            //to append new childs
+            for (int i = 0; i < rowscount - 1; i++)
+            {
+                var fiedlNode = fields.Descendants()
+                                       .Where(x => x.Name.LocalName == "field")
+                                       .FirstOrDefault();
+                fields.Add(fiedlNode);
+            }
+
+            //to assign new values 
+            var fieldsNodes = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "field" && o.HasElements).ToList();
+
+            for (int i = 0; i < fieldsNodes.Count; i++)
+            {
+                var nam_tst = fieldsNodes[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                nam_tst.Value = datagridTrgSRT.Rows[i].Cells["cmbName"].Value.ToString();
+
+            }
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+
+            MessageBox.Show("Sorted Fields Created");
         }
     }
 
