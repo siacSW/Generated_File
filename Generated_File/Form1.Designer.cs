@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.SrcSql = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -80,12 +81,26 @@
             this.btnTrgSr = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.btnTrS = new System.Windows.Forms.Button();
+            this.btnmerg = new System.Windows.Forms.Button();
+            this.MergPnl = new System.Windows.Forms.Panel();
+            this.btnMergSav = new System.Windows.Forms.Button();
+            this.valuedatagrd = new System.Windows.Forms.DataGridView();
+            this.keydatagrd = new System.Windows.Forms.DataGridView();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.btnaddKe = new System.Windows.Forms.Button();
+            this.btnDelKe = new System.Windows.Forms.Button();
+            this.btnaddVal = new System.Windows.Forms.Button();
+            this.btnDelVal = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.sortpnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.trgPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagridTrgSRT)).BeginInit();
+            this.MergPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valuedatagrd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keydatagrd)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -110,7 +125,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(468, 606);
+            this.panel1.Size = new System.Drawing.Size(468, 609);
             this.panel1.TabIndex = 0;
             // 
             // SrcSql
@@ -132,7 +147,7 @@
             // 
             // btnSRC
             // 
-            this.btnSRC.Location = new System.Drawing.Point(172, 551);
+            this.btnSRC.Location = new System.Drawing.Point(154, 551);
             this.btnSRC.Name = "btnSRC";
             this.btnSRC.Size = new System.Drawing.Size(111, 45);
             this.btnSRC.TabIndex = 15;
@@ -288,15 +303,15 @@
             this.panel2.Controls.Add(this.label16);
             this.panel2.Location = new System.Drawing.Point(692, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(425, 606);
+            this.panel2.Size = new System.Drawing.Size(467, 606);
             this.panel2.TabIndex = 1;
             // 
             // trgSql
             // 
-            this.trgSql.Location = new System.Drawing.Point(152, 431);
+            this.trgSql.Location = new System.Drawing.Point(152, 437);
             this.trgSql.Multiline = true;
             this.trgSql.Name = "trgSql";
-            this.trgSql.Size = new System.Drawing.Size(264, 96);
+            this.trgSql.Size = new System.Drawing.Size(299, 97);
             this.trgSql.TabIndex = 25;
             // 
             // label18
@@ -507,9 +522,9 @@
             // 
             // btnSortView
             // 
-            this.btnSortView.Location = new System.Drawing.Point(166, 627);
+            this.btnSortView.Location = new System.Drawing.Point(119, 627);
             this.btnSortView.Name = "btnSortView";
-            this.btnSortView.Size = new System.Drawing.Size(149, 23);
+            this.btnSortView.Size = new System.Drawing.Size(211, 23);
             this.btnSortView.TabIndex = 3;
             this.btnSortView.Text = "Source Sort";
             this.btnSortView.UseVisualStyleBackColor = true;
@@ -586,17 +601,133 @@
             this.btnTrS.UseVisualStyleBackColor = true;
             this.btnTrS.Click += new System.EventHandler(this.btnTrS_Click);
             // 
+            // btnmerg
+            // 
+            this.btnmerg.Location = new System.Drawing.Point(1202, 27);
+            this.btnmerg.Name = "btnmerg";
+            this.btnmerg.Size = new System.Drawing.Size(125, 87);
+            this.btnmerg.TabIndex = 6;
+            this.btnmerg.Text = "MergeRows";
+            this.btnmerg.UseVisualStyleBackColor = true;
+            this.btnmerg.Click += new System.EventHandler(this.btnmerg_Click);
+            // 
+            // MergPnl
+            // 
+            this.MergPnl.Controls.Add(this.btnDelVal);
+            this.MergPnl.Controls.Add(this.btnaddVal);
+            this.MergPnl.Controls.Add(this.btnDelKe);
+            this.MergPnl.Controls.Add(this.btnaddKe);
+            this.MergPnl.Controls.Add(this.btnMergSav);
+            this.MergPnl.Controls.Add(this.valuedatagrd);
+            this.MergPnl.Controls.Add(this.keydatagrd);
+            this.MergPnl.Controls.Add(this.label22);
+            this.MergPnl.Controls.Add(this.label21);
+            this.MergPnl.Location = new System.Drawing.Point(1367, 12);
+            this.MergPnl.Name = "MergPnl";
+            this.MergPnl.Size = new System.Drawing.Size(517, 336);
+            this.MergPnl.TabIndex = 7;
+            this.MergPnl.Visible = false;
+            // 
+            // btnMergSav
+            // 
+            this.btnMergSav.Location = new System.Drawing.Point(201, 294);
+            this.btnMergSav.Name = "btnMergSav";
+            this.btnMergSav.Size = new System.Drawing.Size(123, 23);
+            this.btnMergSav.TabIndex = 4;
+            this.btnMergSav.Text = "Save";
+            this.btnMergSav.UseVisualStyleBackColor = true;
+            this.btnMergSav.Click += new System.EventHandler(this.btnMergSav_Click);
+            // 
+            // valuedatagrd
+            // 
+            this.valuedatagrd.AllowUserToAddRows = false;
+            this.valuedatagrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.valuedatagrd.Location = new System.Drawing.Point(330, 60);
+            this.valuedatagrd.Name = "valuedatagrd";
+            this.valuedatagrd.Size = new System.Drawing.Size(142, 235);
+            this.valuedatagrd.TabIndex = 3;
+            // 
+            // keydatagrd
+            // 
+            this.keydatagrd.AllowUserToAddRows = false;
+            this.keydatagrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.keydatagrd.Location = new System.Drawing.Point(14, 60);
+            this.keydatagrd.Name = "keydatagrd";
+            this.keydatagrd.Size = new System.Drawing.Size(141, 235);
+            this.keydatagrd.TabIndex = 2;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(369, 15);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(38, 13);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "Values";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(61, 15);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(30, 13);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Keys";
+            // 
+            // btnaddKe
+            // 
+            this.btnaddKe.Location = new System.Drawing.Point(14, 31);
+            this.btnaddKe.Name = "btnaddKe";
+            this.btnaddKe.Size = new System.Drawing.Size(44, 23);
+            this.btnaddKe.TabIndex = 5;
+            this.btnaddKe.Text = "Add";
+            this.btnaddKe.UseVisualStyleBackColor = true;
+            this.btnaddKe.Click += new System.EventHandler(this.btnaddKe_Click);
+            // 
+            // btnDelKe
+            // 
+            this.btnDelKe.Location = new System.Drawing.Point(98, 31);
+            this.btnDelKe.Name = "btnDelKe";
+            this.btnDelKe.Size = new System.Drawing.Size(46, 23);
+            this.btnDelKe.TabIndex = 6;
+            this.btnDelKe.Text = "Del";
+            this.btnDelKe.UseVisualStyleBackColor = true;
+            this.btnDelKe.Click += new System.EventHandler(this.btnDelKe_Click);
+            // 
+            // btnaddVal
+            // 
+            this.btnaddVal.Location = new System.Drawing.Point(330, 31);
+            this.btnaddVal.Name = "btnaddVal";
+            this.btnaddVal.Size = new System.Drawing.Size(44, 23);
+            this.btnaddVal.TabIndex = 7;
+            this.btnaddVal.Text = "Add";
+            this.btnaddVal.UseVisualStyleBackColor = true;
+            this.btnaddVal.Click += new System.EventHandler(this.btnaddVal_Click);
+            // 
+            // btnDelVal
+            // 
+            this.btnDelVal.Location = new System.Drawing.Point(429, 31);
+            this.btnDelVal.Name = "btnDelVal";
+            this.btnDelVal.Size = new System.Drawing.Size(43, 23);
+            this.btnDelVal.TabIndex = 8;
+            this.btnDelVal.Text = "Del";
+            this.btnDelVal.UseVisualStyleBackColor = true;
+            this.btnDelVal.Click += new System.EventHandler(this.btnDelVal_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1155, 1061);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.MergPnl);
+            this.Controls.Add(this.btnmerg);
             this.Controls.Add(this.btnTrS);
             this.Controls.Add(this.trgPnl);
             this.Controls.Add(this.btnSortView);
             this.Controls.Add(this.sortpnl);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
@@ -609,6 +740,10 @@
             this.trgPnl.ResumeLayout(false);
             this.trgPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagridTrgSRT)).EndInit();
+            this.MergPnl.ResumeLayout(false);
+            this.MergPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valuedatagrd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keydatagrd)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -667,6 +802,17 @@
         private System.Windows.Forms.DataGridView datagridTrgSRT;
         private System.Windows.Forms.Button btnTrgSrt;
         private System.Windows.Forms.Button btnTrS;
+        private System.Windows.Forms.Button btnmerg;
+        private System.Windows.Forms.Panel MergPnl;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.DataGridView keydatagrd;
+        private System.Windows.Forms.DataGridView valuedatagrd;
+        private System.Windows.Forms.Button btnMergSav;
+        private System.Windows.Forms.Button btnaddKe;
+        private System.Windows.Forms.Button btnDelKe;
+        private System.Windows.Forms.Button btnaddVal;
+        private System.Windows.Forms.Button btnDelVal;
     }
 }
 

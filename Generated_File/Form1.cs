@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -17,6 +18,8 @@ namespace Generated_File
     {
 
         List<XElement> ilist = new List<XElement>();
+        List<string> MergeSort = new List<string>();
+        string[] AllWords;
         string SqlSourceStat;
         
         XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
@@ -210,12 +213,22 @@ namespace Generated_File
 
 
                 string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+              //  List<string> Words = new List<string>();
 
+              
                 string[] Arr = FinalWord.Split(',');
+
+                //foreach (var item in Arr)
+                //{
+                //    MergeSort.Add(item);
+                //}
+
+             //   AllWords = Arr;
 
                 for (int i = 0; i < Arr.Length; i++)
                 {
                     Arr[i] = Arr[i].Trim();
+                    MergeSort.Add(Arr[i]);
 
                     dgvCmb.Items.Add(Arr[i]);
                 }
@@ -236,6 +249,7 @@ namespace Generated_File
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Sort Column";
 
+
             SqlSourceStat = trgSql.Text;
 
             string toBeSearched = "select ";
@@ -250,9 +264,17 @@ namespace Generated_File
 
                 string[] Arr = FinalWord.Split(',');
 
+                //foreach (var item in Arr)
+                //{
+                //    MergeSort.Add(item);
+                //}
+
+               // AllWords = Arr;
+
                 for (int i = 0; i < Arr.Length; i++)
                 {
                     Arr[i] = Arr[i].Trim();
+                    MergeSort.Add(Arr[i]);
 
                     dgvCmb.Items.Add(Arr[i]);
                 }
@@ -289,8 +311,6 @@ namespace Generated_File
                                      .Where(o => o.Name == "fields" && o.HasElements).FirstOrDefault();
 
 
-
-
             int rowscount = datagridTrgSRT.Rows.Count;
 
             //to append new childs
@@ -317,6 +337,69 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Sorted Fields Created");
+        }
+
+        private void btnmerg_Click(object sender, EventArgs e)
+        {
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
+            dgvCmb.HeaderText = "Values Column";
+            keycmb.HeaderText = "Keys Column";
+          
+            //For Values datagridView
+
+            foreach (var item in MergeSort)
+            {
+                dgvCmb.Items.Add(item);
+            }
+
+            var query = MergeSort.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+
+
+            //For Keys datagridView
+            foreach (var item in query)
+            {
+                keycmb.Items.Add(item);
+            }
+         
+
+            valuedatagrd.Columns.Add(dgvCmb);
+            keydatagrd.Columns.Add(keycmb);
+            MergPnl.Visible = true;
+        }
+
+        private void btnMergSav_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnaddKe_Click(object sender, EventArgs e)
+        {
+            keydatagrd.Rows.Add();
+        }
+
+        private void btnaddVal_Click(object sender, EventArgs e)
+        {
+            valuedatagrd.Rows.Add();
+        }
+
+        private void btnDelKe_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in this.keydatagrd.SelectedRows)
+            {
+                keydatagrd.Rows.RemoveAt(item.Index);
+            }
+        }
+
+        private void btnDelVal_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in this.valuedatagrd.SelectedRows)
+            {
+                valuedatagrd.Rows.RemoveAt(item.Index);
+            }
         }
     }
 
