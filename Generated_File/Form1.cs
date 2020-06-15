@@ -264,12 +264,6 @@ namespace Generated_File
 
                 string[] Arr = FinalWord.Split(',');
 
-                //foreach (var item in Arr)
-                //{
-                //    MergeSort.Add(item);
-                //}
-
-               // AllWords = Arr;
 
                 for (int i = 0; i < Arr.Length; i++)
                 {
@@ -347,24 +341,28 @@ namespace Generated_File
             keycmb.HeaderText = "Keys Column";
           
             //For Values datagridView
-
-            foreach (var item in MergeSort)
+            foreach (var item in MergeSort.Distinct())
             {
                 dgvCmb.Items.Add(item);
             }
 
+            //To Filter only matched values ..
             var query = MergeSort.GroupBy(x => x)
               .Where(g => g.Count() > 1)
               .Select(y => y.Key)
               .ToList();
-
 
             //For Keys datagridView
             foreach (var item in query)
             {
                 keycmb.Items.Add(item);
             }
-         
+
+
+
+            dgvCmb.Name = "ValueColms";
+            keycmb.Name = "Keycolms";
+       
 
             valuedatagrd.Columns.Add(dgvCmb);
             keydatagrd.Columns.Add(keycmb);
@@ -373,6 +371,49 @@ namespace Generated_File
 
         private void btnMergSav_Click(object sender, EventArgs e)
         {
+            //Keys Actions
+            #region
+            var elementsToUpdate = doc.Descendants()
+                                    .Where(o => o.Name == "step" && o.HasElements).FirstOrDefault();
+
+            var fields = elementsToUpdate.Descendants()
+                                     .Where(o => o.Name == "keys" && o.HasElements).FirstOrDefault();
+
+
+            int rowscount = keydatagrd.Rows.Count;
+
+            //to append new childs to keys
+            for (int i = 0; i < rowscount - 1; i++)
+            {
+                var fiedlNode = fields.Descendants()
+                                       .Where(x => x.Name.LocalName == "key")
+                                       .FirstOrDefault();
+                fields.Add(fiedlNode);
+            }
+
+            var KeyNodes = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "keys" && o.HasElements).ToList();
+
+            int Counted = fields.Descendants().Count();
+            var List_keys = fields.Elements().ToList();
+
+            //to assign new values for keys
+            for (int i = 0; i < Counted; i++)
+            {
+
+                List_keys[i].Value = keydatagrd.Rows[i].Cells["Keycolms"].Value.ToString();
+
+               
+             //   key_tst.Value = keydatagrd.Rows[i].Cells["Keycolms"].Value.ToString();
+            }
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+
+            MessageBox.Show("keys Created");
+            #endregion
+
+         
 
         }
 
@@ -400,6 +441,48 @@ namespace Generated_File
             {
                 valuedatagrd.Rows.RemoveAt(item.Index);
             }
+        }
+
+        private void btnsaveVal_Click(object sender, EventArgs e)
+        {
+            var elementsToUpdate = doc.Descendants()
+                                 .Where(o => o.Name == "step" && o.HasElements).FirstOrDefault();
+
+            var fields = elementsToUpdate.Descendants()
+                                     .Where(o => o.Name == "values" && o.HasElements).FirstOrDefault();
+
+
+            int rowscount = valuedatagrd.Rows.Count;
+
+            //to append new childs to values
+            for (int i = 0; i < rowscount - 1; i++)
+            {
+                var fiedlNode = fields.Descendants()
+                                       .Where(x => x.Name.LocalName == "value")
+                                       .FirstOrDefault();
+                fields.Add(fiedlNode);
+            }
+
+
+            //to assign new values for values
+            var fieldsNodes_ = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "values" && o.HasElements).ToList();
+
+            int Counted = fields.Descendants().Count();
+            var List_keys = fields.Elements().ToList();
+
+            //to assign new values for keys
+            for (int i = 0; i < Counted; i++)
+            {
+
+                List_keys[i].Value = valuedatagrd.Rows[i].Cells["ValueColms"].Value.ToString(); ;
+
+            }
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+
+            MessageBox.Show("values Created");
         }
     }
 

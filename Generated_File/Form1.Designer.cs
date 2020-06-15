@@ -92,6 +92,7 @@
             this.btnDelKe = new System.Windows.Forms.Button();
             this.btnaddVal = new System.Windows.Forms.Button();
             this.btnDelVal = new System.Windows.Forms.Button();
+            this.btnsaveVal = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.sortpnl.SuspendLayout();
@@ -545,7 +546,7 @@
             // 
             // btnTrgSrt
             // 
-            this.btnTrgSrt.Location = new System.Drawing.Point(211, 308);
+            this.btnTrgSrt.Location = new System.Drawing.Point(195, 308);
             this.btnTrgSrt.Name = "btnTrgSrt";
             this.btnTrgSrt.Size = new System.Drawing.Size(75, 23);
             this.btnTrgSrt.TabIndex = 4;
@@ -613,6 +614,7 @@
             // 
             // MergPnl
             // 
+            this.MergPnl.Controls.Add(this.btnsaveVal);
             this.MergPnl.Controls.Add(this.btnDelVal);
             this.MergPnl.Controls.Add(this.btnaddVal);
             this.MergPnl.Controls.Add(this.btnDelKe);
@@ -630,11 +632,11 @@
             // 
             // btnMergSav
             // 
-            this.btnMergSav.Location = new System.Drawing.Point(201, 294);
+            this.btnMergSav.Location = new System.Drawing.Point(23, 302);
             this.btnMergSav.Name = "btnMergSav";
             this.btnMergSav.Size = new System.Drawing.Size(123, 23);
             this.btnMergSav.TabIndex = 4;
-            this.btnMergSav.Text = "Save";
+            this.btnMergSav.Text = "SaveKeys";
             this.btnMergSav.UseVisualStyleBackColor = true;
             this.btnMergSav.Click += new System.EventHandler(this.btnMergSav_Click);
             // 
@@ -659,7 +661,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(369, 15);
+            this.label22.Location = new System.Drawing.Point(385, 15);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(38, 13);
             this.label22.TabIndex = 1;
@@ -686,7 +688,7 @@
             // 
             // btnDelKe
             // 
-            this.btnDelKe.Location = new System.Drawing.Point(98, 31);
+            this.btnDelKe.Location = new System.Drawing.Point(109, 31);
             this.btnDelKe.Name = "btnDelKe";
             this.btnDelKe.Size = new System.Drawing.Size(46, 23);
             this.btnDelKe.TabIndex = 6;
@@ -713,6 +715,16 @@
             this.btnDelVal.Text = "Del";
             this.btnDelVal.UseVisualStyleBackColor = true;
             this.btnDelVal.Click += new System.EventHandler(this.btnDelVal_Click);
+            // 
+            // btnsaveVal
+            // 
+            this.btnsaveVal.Location = new System.Drawing.Point(350, 302);
+            this.btnsaveVal.Name = "btnsaveVal";
+            this.btnsaveVal.Size = new System.Drawing.Size(111, 23);
+            this.btnsaveVal.TabIndex = 9;
+            this.btnsaveVal.Text = "SaveValues";
+            this.btnsaveVal.UseVisualStyleBackColor = true;
+            this.btnsaveVal.Click += new System.EventHandler(this.btnsaveVal_Click);
             // 
             // Form1
             // 
@@ -813,6 +825,7 @@
         private System.Windows.Forms.Button btnDelKe;
         private System.Windows.Forms.Button btnaddVal;
         private System.Windows.Forms.Button btnDelVal;
+        private System.Windows.Forms.Button btnsaveVal;
     }
 }
 
