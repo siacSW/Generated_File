@@ -19,8 +19,10 @@ namespace Generated_File
 
         List<XElement> ilist = new List<XElement>();
         List<string> MergeSort = new List<string>();
-        string[] AllWords;
+       
         string SqlSourceStat;
+
+        List<string> Connection = new List<string>();
         
         XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
         public Form1()
@@ -50,6 +52,7 @@ namespace Generated_File
                 var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                 name.Value = txtsrname.Text;
+                Connection.Add(txtsrname.Text);
                 server.Value = txtsrServer.Text;
                 type.Value = SrCmb.SelectedItem.ToString();
                 database.Value = txtsrDb.Text;
@@ -108,6 +111,7 @@ namespace Generated_File
                 var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                 name.Value = txtTrgNam.Text;
+                Connection.Add(txtTrgNam.Text);
                 server.Value = txtTrSrV.Text;
                 type.Value = TrgCmb.SelectedItem.ToString();
                 database.Value = txtTrDB.Text;
@@ -211,19 +215,10 @@ namespace Generated_File
             {
                 string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
 
-
                 string FinalWord = BeforeStatment.Before(afterSelect, "from ");
-              //  List<string> Words = new List<string>();
-
-              
+         
                 string[] Arr = FinalWord.Split(',');
 
-                //foreach (var item in Arr)
-                //{
-                //    MergeSort.Add(item);
-                //}
-
-             //   AllWords = Arr;
 
                 for (int i = 0; i < Arr.Length; i++)
                 {
@@ -403,8 +398,6 @@ namespace Generated_File
 
                 List_keys[i].Value = keydatagrd.Rows[i].Cells["Keycolms"].Value.ToString();
 
-               
-             //   key_tst.Value = keydatagrd.Rows[i].Cells["Keycolms"].Value.ToString();
             }
 
 
@@ -483,6 +476,157 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("values Created");
+        }
+
+        private void btnSync_Click(object sender, EventArgs e)
+        {
+            foreach (var item in Connection)
+            {
+                connBox.Items.Add(item.Trim());
+            }
+
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
+            dgvCmb.HeaderText = "Values Column";
+            keycmb.HeaderText = "Keys Column";
+          
+            //For Values datagridView
+            foreach (var item in MergeSort.Distinct())
+            {
+                dgvCmb.Items.Add(item);
+            }
+
+            //To Filter only matched values ..
+            var query = MergeSort.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+
+            //For Keys datagridView
+            foreach (var item in query)
+            {
+                keycmb.Items.Add(item);
+            }
+
+
+
+            dgvCmb.Name = "ValueColms";
+            keycmb.Name = "Keycolms";
+       
+
+            valueSyncGd.Columns.Add(dgvCmb);
+            keySyncGd.Columns.Add(keycmb);
+            syncPnl.Visible = true;
+        }
+
+        private void keysyncAdd_Click(object sender, EventArgs e)
+        {
+            keySyncGd.Rows.Add();
+        }
+
+        private void keySyncDel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void valueSyncAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void valueSyncDel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void btnSaveSync_Click(object sender, EventArgs e)
+        {
+
+            var elementsToUpdate = doc.Descendants()
+                                     .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
+
+
+            var Keyfields = elementsToUpdate.Descendants()
+                                    .Where(o => o.Name == "key" && o.HasElements).FirstOrDefault();
+
+            var ConnectionName = elementsToUpdate.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+
+            ConnectionName.Value = connBox.SelectedItem.ToString();
+
+
+            var LookUpfields = elementsToUpdate.Descendants()
+                                    .Where(o => o.Name == "lookup" && o.HasElements).FirstOrDefault();
+
+            var TableName = LookUpfields.Descendants().Where(y => y.Name == "table").FirstOrDefault();
+            TableName.Value = txtTbleSync.Text;
+
+            //to add new Key Childs
+            int KeyRowCount = keydatagrd.Rows.Count;
+
+            for (int i = 0; i < KeyRowCount - 1; i++)
+            {
+                var KeyFiledFirstOne = LookUpfields.Descendants()
+                                       .Where(x => x.Name.LocalName == "key")
+                                       .FirstOrDefault();
+
+                Keyfields.Add(KeyFiledFirstOne);
+            }
+
+
+
+
+
+
+
+        }
+
+        private void btnSaveSyncKey_Click(object sender, EventArgs e)
+        {
+
+            var elementsToUpdate = doc.Descendants()
+                                     .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
+
+
+            var LookUpfields = elementsToUpdate.Descendants()
+                                    .Where(o => o.Name == "lookup" && o.HasElements).FirstOrDefault();
+
+            //to add new Key Childs
+            int KeyRowCount = keySyncGd.Rows.Count;
+
+            for (int i = 0; i < KeyRowCount-1; i++)
+            {
+                var KeyFiledFirstOne = LookUpfields.Descendants()
+                                       .Where(x => x.Name.LocalName == "key")
+                                       .FirstOrDefault();
+
+                LookUpfields.Add(KeyFiledFirstOne);
+            }
+
+            //to assign new values 
+            var fieldsNodes = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "lookup" && o.HasElements).ToList();
+
+
+            var keystobeupdated = fieldsNodes.Descendants().Where(x => x.Name == "key").ToList();
+
+            int xy = keystobeupdated.Count;
+
+            int Counted = LookUpfields.Descendants().Where(x => x.Name.LocalName == "key").Count();
+
+            for (int i = 0; i < Counted; i++)
+            {
+                var nam_tst = keystobeupdated[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
+
+                var field_tst = keystobeupdated[i].Descendants().Where(z => z.Name == "field").FirstOrDefault();
+                nam_tst.Value = keySyncGd.Rows[i].Cells["Keycolms"].Value.ToString();
+                field_tst.Value = keySyncGd.Rows[i].Cells["Keycolms"].Value.ToString();
+
+            }
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+            MessageBox.Show("Key for Sync Created");
         }
     }
 

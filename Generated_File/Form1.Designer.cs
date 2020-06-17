@@ -83,16 +83,33 @@
             this.btnTrS = new System.Windows.Forms.Button();
             this.btnmerg = new System.Windows.Forms.Button();
             this.MergPnl = new System.Windows.Forms.Panel();
+            this.btnsaveVal = new System.Windows.Forms.Button();
+            this.btnDelVal = new System.Windows.Forms.Button();
+            this.btnaddVal = new System.Windows.Forms.Button();
+            this.btnDelKe = new System.Windows.Forms.Button();
+            this.btnaddKe = new System.Windows.Forms.Button();
             this.btnMergSav = new System.Windows.Forms.Button();
             this.valuedatagrd = new System.Windows.Forms.DataGridView();
             this.keydatagrd = new System.Windows.Forms.DataGridView();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.btnaddKe = new System.Windows.Forms.Button();
-            this.btnDelKe = new System.Windows.Forms.Button();
-            this.btnaddVal = new System.Windows.Forms.Button();
-            this.btnDelVal = new System.Windows.Forms.Button();
-            this.btnsaveVal = new System.Windows.Forms.Button();
+            this.btnSync = new System.Windows.Forms.Button();
+            this.syncPnl = new System.Windows.Forms.Panel();
+            this.label23 = new System.Windows.Forms.Label();
+            this.connBox = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.txtTbleSync = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.valueSyncGd = new System.Windows.Forms.DataGridView();
+            this.keysyncAdd = new System.Windows.Forms.Button();
+            this.keySyncDel = new System.Windows.Forms.Button();
+            this.valueSyncDel = new System.Windows.Forms.Button();
+            this.valueSyncAdd = new System.Windows.Forms.Button();
+            this.keySyncGd = new System.Windows.Forms.DataGridView();
+            this.btnSaveSyncKey = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.btnSaveSync = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.sortpnl.SuspendLayout();
@@ -102,6 +119,9 @@
             this.MergPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valuedatagrd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keydatagrd)).BeginInit();
+            this.syncPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valueSyncGd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keySyncGd)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -630,6 +650,56 @@
             this.MergPnl.TabIndex = 7;
             this.MergPnl.Visible = false;
             // 
+            // btnsaveVal
+            // 
+            this.btnsaveVal.Location = new System.Drawing.Point(350, 302);
+            this.btnsaveVal.Name = "btnsaveVal";
+            this.btnsaveVal.Size = new System.Drawing.Size(111, 23);
+            this.btnsaveVal.TabIndex = 9;
+            this.btnsaveVal.Text = "SaveValues";
+            this.btnsaveVal.UseVisualStyleBackColor = true;
+            this.btnsaveVal.Click += new System.EventHandler(this.btnsaveVal_Click);
+            // 
+            // btnDelVal
+            // 
+            this.btnDelVal.Location = new System.Drawing.Point(429, 31);
+            this.btnDelVal.Name = "btnDelVal";
+            this.btnDelVal.Size = new System.Drawing.Size(43, 23);
+            this.btnDelVal.TabIndex = 8;
+            this.btnDelVal.Text = "Del";
+            this.btnDelVal.UseVisualStyleBackColor = true;
+            this.btnDelVal.Click += new System.EventHandler(this.btnDelVal_Click);
+            // 
+            // btnaddVal
+            // 
+            this.btnaddVal.Location = new System.Drawing.Point(330, 31);
+            this.btnaddVal.Name = "btnaddVal";
+            this.btnaddVal.Size = new System.Drawing.Size(44, 23);
+            this.btnaddVal.TabIndex = 7;
+            this.btnaddVal.Text = "Add";
+            this.btnaddVal.UseVisualStyleBackColor = true;
+            this.btnaddVal.Click += new System.EventHandler(this.btnaddVal_Click);
+            // 
+            // btnDelKe
+            // 
+            this.btnDelKe.Location = new System.Drawing.Point(109, 31);
+            this.btnDelKe.Name = "btnDelKe";
+            this.btnDelKe.Size = new System.Drawing.Size(46, 23);
+            this.btnDelKe.TabIndex = 6;
+            this.btnDelKe.Text = "Del";
+            this.btnDelKe.UseVisualStyleBackColor = true;
+            this.btnDelKe.Click += new System.EventHandler(this.btnDelKe_Click);
+            // 
+            // btnaddKe
+            // 
+            this.btnaddKe.Location = new System.Drawing.Point(14, 31);
+            this.btnaddKe.Name = "btnaddKe";
+            this.btnaddKe.Size = new System.Drawing.Size(44, 23);
+            this.btnaddKe.TabIndex = 5;
+            this.btnaddKe.Text = "Add";
+            this.btnaddKe.UseVisualStyleBackColor = true;
+            this.btnaddKe.Click += new System.EventHandler(this.btnaddKe_Click);
+            // 
             // btnMergSav
             // 
             this.btnMergSav.Location = new System.Drawing.Point(23, 302);
@@ -676,61 +746,185 @@
             this.label21.TabIndex = 0;
             this.label21.Text = "Keys";
             // 
-            // btnaddKe
+            // btnSync
             // 
-            this.btnaddKe.Location = new System.Drawing.Point(14, 31);
-            this.btnaddKe.Name = "btnaddKe";
-            this.btnaddKe.Size = new System.Drawing.Size(44, 23);
-            this.btnaddKe.TabIndex = 5;
-            this.btnaddKe.Text = "Add";
-            this.btnaddKe.UseVisualStyleBackColor = true;
-            this.btnaddKe.Click += new System.EventHandler(this.btnaddKe_Click);
+            this.btnSync.Location = new System.Drawing.Point(1202, 450);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(125, 96);
+            this.btnSync.TabIndex = 8;
+            this.btnSync.Text = "SyncAfterMerge";
+            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
             // 
-            // btnDelKe
+            // syncPnl
             // 
-            this.btnDelKe.Location = new System.Drawing.Point(109, 31);
-            this.btnDelKe.Name = "btnDelKe";
-            this.btnDelKe.Size = new System.Drawing.Size(46, 23);
-            this.btnDelKe.TabIndex = 6;
-            this.btnDelKe.Text = "Del";
-            this.btnDelKe.UseVisualStyleBackColor = true;
-            this.btnDelKe.Click += new System.EventHandler(this.btnDelKe_Click);
+            this.syncPnl.Controls.Add(this.btnSaveSync);
+            this.syncPnl.Controls.Add(this.button8);
+            this.syncPnl.Controls.Add(this.btnSaveSyncKey);
+            this.syncPnl.Controls.Add(this.valueSyncDel);
+            this.syncPnl.Controls.Add(this.valueSyncAdd);
+            this.syncPnl.Controls.Add(this.keySyncDel);
+            this.syncPnl.Controls.Add(this.keysyncAdd);
+            this.syncPnl.Controls.Add(this.label26);
+            this.syncPnl.Controls.Add(this.valueSyncGd);
+            this.syncPnl.Controls.Add(this.label25);
+            this.syncPnl.Controls.Add(this.keySyncGd);
+            this.syncPnl.Controls.Add(this.txtTbleSync);
+            this.syncPnl.Controls.Add(this.label24);
+            this.syncPnl.Controls.Add(this.connBox);
+            this.syncPnl.Controls.Add(this.label23);
+            this.syncPnl.Location = new System.Drawing.Point(1367, 449);
+            this.syncPnl.Name = "syncPnl";
+            this.syncPnl.Size = new System.Drawing.Size(545, 592);
+            this.syncPnl.TabIndex = 9;
+            this.syncPnl.Visible = false;
             // 
-            // btnaddVal
+            // label23
             // 
-            this.btnaddVal.Location = new System.Drawing.Point(330, 31);
-            this.btnaddVal.Name = "btnaddVal";
-            this.btnaddVal.Size = new System.Drawing.Size(44, 23);
-            this.btnaddVal.TabIndex = 7;
-            this.btnaddVal.Text = "Add";
-            this.btnaddVal.UseVisualStyleBackColor = true;
-            this.btnaddVal.Click += new System.EventHandler(this.btnaddVal_Click);
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(20, 42);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(61, 13);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Connection";
             // 
-            // btnDelVal
+            // connBox
             // 
-            this.btnDelVal.Location = new System.Drawing.Point(429, 31);
-            this.btnDelVal.Name = "btnDelVal";
-            this.btnDelVal.Size = new System.Drawing.Size(43, 23);
-            this.btnDelVal.TabIndex = 8;
-            this.btnDelVal.Text = "Del";
-            this.btnDelVal.UseVisualStyleBackColor = true;
-            this.btnDelVal.Click += new System.EventHandler(this.btnDelVal_Click);
+            this.connBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.connBox.FormattingEnabled = true;
+            this.connBox.Location = new System.Drawing.Point(162, 39);
+            this.connBox.Name = "connBox";
+            this.connBox.Size = new System.Drawing.Size(121, 21);
+            this.connBox.TabIndex = 1;
             // 
-            // btnsaveVal
+            // label24
             // 
-            this.btnsaveVal.Location = new System.Drawing.Point(350, 302);
-            this.btnsaveVal.Name = "btnsaveVal";
-            this.btnsaveVal.Size = new System.Drawing.Size(111, 23);
-            this.btnsaveVal.TabIndex = 9;
-            this.btnsaveVal.Text = "SaveValues";
-            this.btnsaveVal.UseVisualStyleBackColor = true;
-            this.btnsaveVal.Click += new System.EventHandler(this.btnsaveVal_Click);
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(23, 94);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(33, 13);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Table";
+            // 
+            // txtTbleSync
+            // 
+            this.txtTbleSync.Location = new System.Drawing.Point(162, 91);
+            this.txtTbleSync.Name = "txtTbleSync";
+            this.txtTbleSync.Size = new System.Drawing.Size(121, 20);
+            this.txtTbleSync.TabIndex = 3;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(61, 159);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(30, 13);
+            this.label25.TabIndex = 5;
+            this.label25.Text = "Keys";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(434, 159);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(38, 13);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "Values";
+            // 
+            // valueSyncGd
+            // 
+            this.valueSyncGd.AllowUserToAddRows = false;
+            this.valueSyncGd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.valueSyncGd.Location = new System.Drawing.Point(360, 219);
+            this.valueSyncGd.Name = "valueSyncGd";
+            this.valueSyncGd.Size = new System.Drawing.Size(160, 236);
+            this.valueSyncGd.TabIndex = 7;
+            // 
+            // keysyncAdd
+            // 
+            this.keysyncAdd.Location = new System.Drawing.Point(14, 188);
+            this.keysyncAdd.Name = "keysyncAdd";
+            this.keysyncAdd.Size = new System.Drawing.Size(36, 23);
+            this.keysyncAdd.TabIndex = 9;
+            this.keysyncAdd.Text = "Add";
+            this.keysyncAdd.UseVisualStyleBackColor = true;
+            this.keysyncAdd.Click += new System.EventHandler(this.keysyncAdd_Click);
+            // 
+            // keySyncDel
+            // 
+            this.keySyncDel.Location = new System.Drawing.Point(107, 188);
+            this.keySyncDel.Name = "keySyncDel";
+            this.keySyncDel.Size = new System.Drawing.Size(39, 23);
+            this.keySyncDel.TabIndex = 10;
+            this.keySyncDel.Text = "Del";
+            this.keySyncDel.UseVisualStyleBackColor = true;
+            this.keySyncDel.Click += new System.EventHandler(this.keySyncDel_Click);
+            // 
+            // valueSyncDel
+            // 
+            this.valueSyncDel.Location = new System.Drawing.Point(478, 190);
+            this.valueSyncDel.Name = "valueSyncDel";
+            this.valueSyncDel.Size = new System.Drawing.Size(39, 23);
+            this.valueSyncDel.TabIndex = 12;
+            this.valueSyncDel.Text = "Del";
+            this.valueSyncDel.UseVisualStyleBackColor = true;
+            this.valueSyncDel.Click += new System.EventHandler(this.valueSyncDel_Click);
+            // 
+            // valueSyncAdd
+            // 
+            this.valueSyncAdd.Location = new System.Drawing.Point(387, 190);
+            this.valueSyncAdd.Name = "valueSyncAdd";
+            this.valueSyncAdd.Size = new System.Drawing.Size(36, 23);
+            this.valueSyncAdd.TabIndex = 11;
+            this.valueSyncAdd.Text = "Add";
+            this.valueSyncAdd.UseVisualStyleBackColor = true;
+            this.valueSyncAdd.Click += new System.EventHandler(this.valueSyncAdd_Click);
+            // 
+            // keySyncGd
+            // 
+            this.keySyncGd.AllowUserToAddRows = false;
+            this.keySyncGd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.keySyncGd.Location = new System.Drawing.Point(14, 219);
+            this.keySyncGd.Name = "keySyncGd";
+            this.keySyncGd.Size = new System.Drawing.Size(141, 236);
+            this.keySyncGd.TabIndex = 4;
+            // 
+            // btnSaveSyncKey
+            // 
+            this.btnSaveSyncKey.Location = new System.Drawing.Point(23, 480);
+            this.btnSaveSyncKey.Name = "btnSaveSyncKey";
+            this.btnSaveSyncKey.Size = new System.Drawing.Size(123, 23);
+            this.btnSaveSyncKey.TabIndex = 13;
+            this.btnSaveSyncKey.Text = "SaveSyncKeys";
+            this.btnSaveSyncKey.UseVisualStyleBackColor = true;
+            this.btnSaveSyncKey.Click += new System.EventHandler(this.btnSaveSyncKey_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(407, 480);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(113, 23);
+            this.button8.TabIndex = 14;
+            this.button8.Text = "SaveSyncValues";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveSync
+            // 
+            this.btnSaveSync.Location = new System.Drawing.Point(204, 507);
+            this.btnSaveSync.Name = "btnSaveSync";
+            this.btnSaveSync.Size = new System.Drawing.Size(150, 63);
+            this.btnSaveSync.TabIndex = 15;
+            this.btnSaveSync.Text = "Save";
+            this.btnSaveSync.UseVisualStyleBackColor = true;
+            this.btnSaveSync.Click += new System.EventHandler(this.btnSaveSync_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.syncPnl);
+            this.Controls.Add(this.btnSync);
             this.Controls.Add(this.MergPnl);
             this.Controls.Add(this.btnmerg);
             this.Controls.Add(this.btnTrS);
@@ -741,7 +935,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "PentahoIntegration";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -756,6 +950,10 @@
             this.MergPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valuedatagrd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.keydatagrd)).EndInit();
+            this.syncPnl.ResumeLayout(false);
+            this.syncPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valueSyncGd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keySyncGd)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -826,6 +1024,23 @@
         private System.Windows.Forms.Button btnaddVal;
         private System.Windows.Forms.Button btnDelVal;
         private System.Windows.Forms.Button btnsaveVal;
+        private System.Windows.Forms.Button btnSync;
+        private System.Windows.Forms.Panel syncPnl;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ComboBox connBox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox txtTbleSync;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.DataGridView valueSyncGd;
+        private System.Windows.Forms.Button keysyncAdd;
+        private System.Windows.Forms.Button keySyncDel;
+        private System.Windows.Forms.Button valueSyncDel;
+        private System.Windows.Forms.Button valueSyncAdd;
+        private System.Windows.Forms.DataGridView keySyncGd;
+        private System.Windows.Forms.Button btnSaveSyncKey;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnSaveSync;
     }
 }
 
