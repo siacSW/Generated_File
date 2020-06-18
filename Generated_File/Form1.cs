@@ -486,14 +486,16 @@ namespace Generated_File
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            DataGridViewComboBoxColumn UpdCmb = new DataGridViewComboBoxColumn();
             DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Values Column";
+            UpdCmb.HeaderText = "Update";
             keycmb.HeaderText = "Keys Column";
           
             //For Values datagridView
             foreach (var item in MergeSort.Distinct())
             {
-                dgvCmb.Items.Add(item);
+                dgvCmb.Items.Add(item.Trim());
             }
 
             //To Filter only matched values ..
@@ -502,19 +504,34 @@ namespace Generated_File
               .Select(y => y.Key)
               .ToList();
 
+            List<string> UpdatValues = new List<string>
+            {
+                "N" , "Y"
+            };
+
             //For Keys datagridView
             foreach (var item in query)
             {
-                keycmb.Items.Add(item);
+                keycmb.Items.Add(item.Trim()) ;
             }
+
+            //For Update Colms
+            foreach (var update_item in UpdatValues)
+            {
+                UpdCmb.Items.Add(update_item.Trim());
+            }
+
+
 
 
 
             dgvCmb.Name = "ValueColms";
             keycmb.Name = "Keycolms";
+            UpdCmb.Name = "UpdColms";
        
 
             valueSyncGd.Columns.Add(dgvCmb);
+            valueSyncGd.Columns.Add(UpdCmb);
             keySyncGd.Columns.Add(keycmb);
             syncPnl.Visible = true;
         }
@@ -526,17 +543,23 @@ namespace Generated_File
 
         private void keySyncDel_Click(object sender, EventArgs e)
         {
-
+            foreach (DataGridViewRow item in this.keySyncGd.SelectedRows)
+            {
+                keydatagrd.Rows.RemoveAt(item.Index);
+            }
         }
 
         private void valueSyncAdd_Click(object sender, EventArgs e)
         {
-
+            valueSyncGd.Rows.Add();
         }
 
         private void valueSyncDel_Click(object sender, EventArgs e)
         {
-
+            foreach (DataGridViewRow item in this.valueSyncGd.SelectedRows)
+            {
+                keydatagrd.Rows.RemoveAt(item.Index);
+            }
         }
 
 
@@ -627,6 +650,101 @@ namespace Generated_File
 
             doc.Save(@"E:\Files\test_trans7.ktr");
             MessageBox.Show("Key for Sync Created");
+        }
+
+        private void btnValueSyncSV_Click(object sender, EventArgs e)
+        {
+            var elementsToUpdate = doc.Descendants()
+                                    .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
+
+
+            var LookUpfields = elementsToUpdate.Descendants()
+                                    .Where(o => o.Name == "lookup" && o.HasElements).FirstOrDefault();
+
+            //to add new Key Childs
+            int ValueRowCount = valueSyncGd.Rows.Count;
+
+            int KeyRowsCount = keySyncGd.Rows.Count;
+
+            for (int i = 0; i < ValueRowCount - 1; i++)
+            {
+                var KeyFiledFirstOne = LookUpfields.Descendants()
+                                       .Where(x => x.Name.LocalName == "value")
+                                       .FirstOrDefault();
+
+                LookUpfields.Add(KeyFiledFirstOne);
+            }
+
+            //to assign new values 
+            var fieldsNodes = elementsToUpdate.Descendants()
+                                 .Where(o => o.Name == "lookup" && o.HasElements).ToList();
+
+
+            var valuestobeupdated = fieldsNodes.Descendants().Where(x => x.Name == "value").ToList();
+
+
+            int Counted = LookUpfields.Descendants().Where(x => x.Name.LocalName == "value").Count();
+
+            //int loopIteration = 0;
+            
+            for (int i = 0; i < Counted; i++)
+            {
+                var nam_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
+
+
+
+                var field_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "rename").FirstOrDefault();
+                nam_tst.Value = valueSyncGd.Rows[i].Cells["ValueColms"].Value.ToString();
+                field_tst.Value = valueSyncGd.Rows[i].Cells["ValueColms"].Value.ToString();
+
+
+
+                var update_tg = valuestobeupdated[i].Descendants().Where(z => z.Name == "update").FirstOrDefault();
+                update_tg.Value = valueSyncGd.Rows[i].Cells["UpdColms"].Value.ToString();
+
+                //for (int intCount = 0; intCount < valueSyncGd.Rows.Count; intCount++)
+                //{
+                //    for (int intSubCount = 0; intSubCount < keySyncGd.Rows.Count; intSubCount++)
+                //    {
+                //        if (keySyncGd.Rows[intSubCount].Cells["Keycolms"].Value.ToString() == valueSyncGd.Rows[intCount].Cells["ValueColms"].Value.ToString())
+                //        {
+                //            update_tg.Value = "N";
+                //        }
+                //        else
+                //        {
+                //            update_tg.Value = "Y";
+                //        }
+                //    }
+                //}
+                //    update_tg.Value = "N";
+                //foreach (DataGridViewRow valuetem in valueSyncGd.Rows)
+                //{
+                //    string ValueChecking = valuetem.Cells["ValueColms"].Value.ToString();
+                //    foreach (DataGridViewRow KeyValue in keySyncGd.Rows)
+                //    {
+
+                //        string KeyChecking = KeyValue.Cells["Keycolms"].Value.ToString();
+
+                //        if (ValueChecking.Contains(KeyChecking))
+                //        {
+                //            update_tg.Value = "N";
+                //        }
+                //        else
+                //        {
+                //            update_tg.Value = "Y";
+                //        }
+                //    }
+                //}
+
+
+
+
+
+            }
+
+
+            doc.Save(@"E:\Files\test_trans7.ktr");
+            MessageBox.Show("Value for Sync Created");
         }
     }
 
