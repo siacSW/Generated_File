@@ -34,8 +34,13 @@ namespace Generated_File
         private void button1_Click_1(object sender, EventArgs e)
         {
             // to read file property 
-            var elementsToUpdate = doc.Descendants()
-                                      .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
+
+            try
+            {
+
+                var elementsToUpdate = doc.Descendants()
+                                          .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
+        
 
             ilist.Add(elementsToUpdate);
 
@@ -86,6 +91,16 @@ namespace Generated_File
             MessageBox.Show("Src Config created ");
 
             ilist.Clear();
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("File Not Found " + ex.Message);
+            }
+            catch(Exception ex)
+            {
+
+                MessageBox.Show(" Error Occured " + ex.Message);
+            }
 
         }
 
@@ -93,6 +108,10 @@ namespace Generated_File
         private void button2_Click(object sender, EventArgs e)
         {
             // to read file property 
+            try
+            {
+
+            
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
 
@@ -143,6 +162,18 @@ namespace Generated_File
             MessageBox.Show("Trg Config created ");
 
             ilist.Clear();
+            }
+            catch (FileNotFoundException ex)
+            {
+
+                MessageBox.Show("File Not Found " + ex.Message);
+             
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(" Error Occured " + ex.Message);
+            }
 
         }
 
@@ -153,6 +184,10 @@ namespace Generated_File
 
         private void btnsort_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+           
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "step" && o.HasElements).Skip(3).FirstOrDefault();
 
@@ -188,6 +223,17 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Sorted Fields Created");
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("File Not Found" + ex.Message);
+               
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(" Error Occured " + ex.Message);
+            }
 
 
         }
@@ -293,6 +339,10 @@ namespace Generated_File
 
         private void btnTrgSrt_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+          
             var elementsToUpdate = doc.Descendants()
                                      .Where(o => o.Name == "step" && o.HasElements).Skip(5).FirstOrDefault();
 
@@ -319,13 +369,24 @@ namespace Generated_File
             {
                 var nam_tst = fieldsNodes[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
                 nam_tst.Value = datagridTrgSRT.Rows[i].Cells["cmbName"].Value.ToString();
-
             }
 
 
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Sorted Fields Created");
+            }
+            catch (FileNotFoundException ex)
+            {
+
+                MessageBox.Show("File Not Found " + ex.Message);
+             
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(" Error Occured " + ex.Message);
+            }
         }
 
         private void btnmerg_Click(object sender, EventArgs e)
@@ -368,6 +429,11 @@ namespace Generated_File
         {
             //Keys Actions
             #region
+
+            try
+            {
+
+
             var elementsToUpdate = doc.Descendants()
                                     .Where(o => o.Name == "step" && o.HasElements).FirstOrDefault();
 
@@ -404,6 +470,19 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("keys Created");
+        }
+               catch (FileNotFoundException ex)
+            {
+
+                MessageBox.Show("File Not Found " + ex.Message);
+                
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Error Occured" + ex.Message);
+            }
+            
             #endregion
 
          
@@ -438,6 +517,10 @@ namespace Generated_File
 
         private void btnsaveVal_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+          
             var elementsToUpdate = doc.Descendants()
                                  .Where(o => o.Name == "step" && o.HasElements).FirstOrDefault();
 
@@ -476,6 +559,16 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("values Created");
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("Error in File" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Error" + ex.Message);
+            }
         }
 
         private void btnSync_Click(object sender, EventArgs e)
@@ -545,7 +638,7 @@ namespace Generated_File
         {
             foreach (DataGridViewRow item in this.keySyncGd.SelectedRows)
             {
-                keydatagrd.Rows.RemoveAt(item.Index);
+                keySyncGd.Rows.RemoveAt(item.Index);
             }
         }
 
@@ -558,43 +651,59 @@ namespace Generated_File
         {
             foreach (DataGridViewRow item in this.valueSyncGd.SelectedRows)
             {
-                keydatagrd.Rows.RemoveAt(item.Index);
+                valueSyncGd.Rows.RemoveAt(item.Index);
             }
         }
 
 
         private void btnSaveSync_Click(object sender, EventArgs e)
         {
+            try
+            {
 
-            var elementsToUpdate = doc.Descendants()
-                                     .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
-
-
-            var Keyfields = elementsToUpdate.Descendants()
-                                    .Where(o => o.Name == "key" && o.HasElements).FirstOrDefault();
-
-            var ConnectionName = elementsToUpdate.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-
-            ConnectionName.Value = connBox.SelectedItem.ToString();
+                var elementsToUpdate = doc.Descendants()
+                                         .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
 
 
-            var LookUpfields = elementsToUpdate.Descendants()
-                                    .Where(o => o.Name == "lookup" && o.HasElements).FirstOrDefault();
+                var Keyfields = elementsToUpdate.Descendants()
+                                        .Where(o => o.Name == "key" && o.HasElements).FirstOrDefault();
 
-            var TableName = LookUpfields.Descendants().Where(y => y.Name == "table").FirstOrDefault();
-            TableName.Value = txtTbleSync.Text;
+                var ConnectionName = elementsToUpdate.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+
+                ConnectionName.Value = connBox.SelectedItem.ToString();
+
+
+                var LookUpfields = elementsToUpdate.Descendants()
+                                        .Where(o => o.Name == "lookup" && o.HasElements).FirstOrDefault();
+
+                var TableName = LookUpfields.Descendants().Where(y => y.Name == "table").FirstOrDefault();
+                TableName.Value = txtTbleSync.Text;
+
+                MessageBox.Show("saved");
+            }
+            catch (FileNotFoundException ex)
+            {
+
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
+
+            
 
             //to add new Key Childs
-            int KeyRowCount = keydatagrd.Rows.Count;
+            //int KeyRowCount = keydatagrd.Rows.Count;
 
-            for (int i = 0; i < KeyRowCount - 1; i++)
-            {
-                var KeyFiledFirstOne = LookUpfields.Descendants()
-                                       .Where(x => x.Name.LocalName == "key")
-                                       .FirstOrDefault();
+            //for (int i = 0; i < KeyRowCount - 1; i++)
+            //{
+            //    var KeyFiledFirstOne = LookUpfields.Descendants()
+            //                           .Where(x => x.Name.LocalName == "key")
+            //                           .FirstOrDefault();
 
-                Keyfields.Add(KeyFiledFirstOne);
-            }
+            //    Keyfields.Add(KeyFiledFirstOne);
+            //}
 
 
 
@@ -606,6 +715,10 @@ namespace Generated_File
 
         private void btnSaveSyncKey_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+          
 
             var elementsToUpdate = doc.Descendants()
                                      .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
@@ -650,10 +763,25 @@ namespace Generated_File
 
             doc.Save(@"E:\Files\test_trans7.ktr");
             MessageBox.Show("Key for Sync Created");
+            }
+
+            catch (FileNotFoundException ex) 
+            {
+
+                MessageBox.Show("Error Occured in File" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
         }
 
         private void btnValueSyncSV_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+               
             var elementsToUpdate = doc.Descendants()
                                     .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
 
@@ -745,6 +873,17 @@ namespace Generated_File
 
             doc.Save(@"E:\Files\test_trans7.ktr");
             MessageBox.Show("Value for Sync Created");
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("Error Occured in File " + ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Error Occured in application " + ex.Message);
+            }
         }
     }
 

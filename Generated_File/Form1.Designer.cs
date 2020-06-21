@@ -831,7 +831,7 @@
             // 
             // keySyncDel
             // 
-            this.keySyncDel.Location = new System.Drawing.Point(107, 188);
+            this.keySyncDel.Location = new System.Drawing.Point(164, 188);
             this.keySyncDel.Name = "keySyncDel";
             this.keySyncDel.Size = new System.Drawing.Size(39, 23);
             this.keySyncDel.TabIndex = 10;
@@ -862,15 +862,15 @@
             // 
             this.valueSyncGd.AllowUserToAddRows = false;
             this.valueSyncGd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.valueSyncGd.Location = new System.Drawing.Point(301, 217);
+            this.valueSyncGd.Location = new System.Drawing.Point(279, 217);
             this.valueSyncGd.Name = "valueSyncGd";
-            this.valueSyncGd.Size = new System.Drawing.Size(219, 236);
+            this.valueSyncGd.Size = new System.Drawing.Size(263, 236);
             this.valueSyncGd.TabIndex = 7;
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(61, 159);
+            this.label25.Location = new System.Drawing.Point(86, 159);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(30, 13);
             this.label25.TabIndex = 5;
