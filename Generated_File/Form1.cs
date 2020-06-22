@@ -66,7 +66,14 @@ namespace Generated_File
                 name.Value = txtsrname.Text;
                 Connection.Add(txtsrname.Text);
                 server.Value = txtsrServer.Text;
-                type.Value = SrCmb.SelectedItem.ToString();
+                if (SrCmb.SelectedItem.ToString() == "SAP")
+                {
+                    type.Value = "GENERIC";
+                }
+              else
+               {
+                        type.Value = SrCmb.SelectedItem.ToString();
+               }
                 type_selectin = type.Value;
                 database.Value = txtsrDb.Text;
                 port.Value = txtsrPor.Text;
@@ -163,9 +170,12 @@ namespace Generated_File
 
             ilist.Add(elementsToUpdate);
 
-            //update elements value
+           string type_selectin = null;
 
-            foreach (XElement element in ilist)
+
+                //update elements value
+
+                foreach (XElement element in ilist)
             {
                 var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
                 var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
@@ -178,7 +188,15 @@ namespace Generated_File
                 name.Value = txtTrgNam.Text;
                 Connection.Add(txtTrgNam.Text);
                 server.Value = txtTrSrV.Text;
-                type.Value = TrgCmb.SelectedItem.ToString();
+                if (TrgCmb.SelectedItem.ToString() == "SAP")
+                 {
+                    type.Value = "GENERIC";
+                 }
+               else
+                 {
+                    type.Value = TrgCmb.SelectedItem.ToString();
+                 }
+                type_selectin = type.Value;
                 database.Value = txtTrDB.Text;
                 port.Value = txtTRPo.Text;
                 username.Value = txtTrgUs.Text;
@@ -188,7 +206,47 @@ namespace Generated_File
 
             ilist.Clear();
 
-            var elementsToTrg = doc.Descendants()
+                if (type_selectin == "MYSQL")
+                {
+                    var AttributesElements = doc.Descendants()
+                                    .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    mySql_Attributes.Save(@"E:\Files\MySql-attributes.xml");
+                    AttributesElements.ReplaceWith(mySql_Attributes.Root);
+                }
+
+                if (type_selectin == "MARIADB")
+                {
+                    var AttributesElements = doc.Descendants()
+                                  .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    AttributesElements.ReplaceWith(MariaDb_attributes.Root);
+                }
+
+                if (type_selectin == "MSSQLNATIVE")
+                {
+                    var AttributesElements = doc.Descendants()
+                             .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                    Port.Value = txtsrPor.Text;
+                    sqlserver_attributes.Save(@"E:\Files\SqlServer-Attributes.xml");
+                    AttributesElements.ReplaceWith(sqlserver_attributes.Root);
+                }
+
+                if (type_selectin == "SAP")
+                {
+                    var AttributesElements = doc.Descendants()
+                             .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                    var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    Jdbc_Conn.Value = txtSAPJDB.Text;
+                    AttributesElements.ReplaceWith(Sap_attributes.Root);
+                }
+
+                var elementsToTrg = doc.Descendants()
                                    .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
 
             ilist.Add(elementsToTrg);
