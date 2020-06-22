@@ -23,8 +23,12 @@ namespace Generated_File
         string SqlSourceStat;
 
         List<string> Connection = new List<string>();
-        
-        XDocument doc = XDocument.Load(@"E:\Files\test_trans7.ktr");
+            
+        XDocument doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
+        XDocument mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
+        XDocument sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
+        XDocument Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
+        XDocument MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
         public Form1()
         {
             InitializeComponent();
@@ -44,13 +48,16 @@ namespace Generated_File
 
             ilist.Add(elementsToUpdate);
 
-            //update elements value
+                //update elements value
+
+           string type_selectin = null;
 
             foreach (XElement element in ilist)
             {
                 var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
                 var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
                 var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+                
                 var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
                 var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
                 var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
@@ -60,6 +67,7 @@ namespace Generated_File
                 Connection.Add(txtsrname.Text);
                 server.Value = txtsrServer.Text;
                 type.Value = SrCmb.SelectedItem.ToString();
+                type_selectin = type.Value;
                 database.Value = txtsrDb.Text;
                 port.Value = txtsrPor.Text;
              
@@ -68,10 +76,48 @@ namespace Generated_File
 
             ilist.Clear();
 
+            if (type_selectin == "MYSQL")
+            {
+                    var AttributesElements = doc.Descendants()
+                                    .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    mySql_Attributes.Save(@"E:\Files\MySql-attributes.xml");
+                    AttributesElements.ReplaceWith(mySql_Attributes.Root);
+             }
+
+            if (type_selectin == "MARIADB")
+            {
+                    var AttributesElements = doc.Descendants()
+                                  .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    AttributesElements.ReplaceWith(MariaDb_attributes.Root);
+            }
+
+           if (type_selectin == "MSSQLNATIVE")
+           {
+                    var AttributesElements = doc.Descendants()
+                             .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                    Port.Value = txtsrPor.Text;
+                    sqlserver_attributes.Save(@"E:\Files\SqlServer-Attributes.xml");
+                    AttributesElements.ReplaceWith(sqlserver_attributes.Root);
+           }
+
+          if (type_selectin == "SAP")
+           {
+                    var AttributesElements = doc.Descendants()
+                             .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                    var Port_Number = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                    var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                    Port_Number.Value = txtsrPor.Text;
+                    Jdbc_Conn.Value = txtSAPJDB.Text;
+                    AttributesElements.ReplaceWith(Sap_attributes.Root);
+           }
 
             var elementsToSrcConn = doc.Descendants()
                                       .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
-
             ilist.Add(elementsToSrcConn);
             foreach (XElement element in ilist)
             {
@@ -692,25 +738,6 @@ namespace Generated_File
             }
 
             
-
-            //to add new Key Childs
-            //int KeyRowCount = keydatagrd.Rows.Count;
-
-            //for (int i = 0; i < KeyRowCount - 1; i++)
-            //{
-            //    var KeyFiledFirstOne = LookUpfields.Descendants()
-            //                           .Where(x => x.Name.LocalName == "key")
-            //                           .FirstOrDefault();
-
-            //    Keyfields.Add(KeyFiledFirstOne);
-            //}
-
-
-
-
-
-
-
         }
 
         private void btnSaveSyncKey_Click(object sender, EventArgs e)
@@ -812,8 +839,6 @@ namespace Generated_File
 
 
             int Counted = LookUpfields.Descendants().Where(x => x.Name.LocalName == "value").Count();
-
-            //int loopIteration = 0;
             
             for (int i = 0; i < Counted; i++)
             {
@@ -829,45 +854,6 @@ namespace Generated_File
 
                 var update_tg = valuestobeupdated[i].Descendants().Where(z => z.Name == "update").FirstOrDefault();
                 update_tg.Value = valueSyncGd.Rows[i].Cells["UpdColms"].Value.ToString();
-
-                //for (int intCount = 0; intCount < valueSyncGd.Rows.Count; intCount++)
-                //{
-                //    for (int intSubCount = 0; intSubCount < keySyncGd.Rows.Count; intSubCount++)
-                //    {
-                //        if (keySyncGd.Rows[intSubCount].Cells["Keycolms"].Value.ToString() == valueSyncGd.Rows[intCount].Cells["ValueColms"].Value.ToString())
-                //        {
-                //            update_tg.Value = "N";
-                //        }
-                //        else
-                //        {
-                //            update_tg.Value = "Y";
-                //        }
-                //    }
-                //}
-                //    update_tg.Value = "N";
-                //foreach (DataGridViewRow valuetem in valueSyncGd.Rows)
-                //{
-                //    string ValueChecking = valuetem.Cells["ValueColms"].Value.ToString();
-                //    foreach (DataGridViewRow KeyValue in keySyncGd.Rows)
-                //    {
-
-                //        string KeyChecking = KeyValue.Cells["Keycolms"].Value.ToString();
-
-                //        if (ValueChecking.Contains(KeyChecking))
-                //        {
-                //            update_tg.Value = "N";
-                //        }
-                //        else
-                //        {
-                //            update_tg.Value = "Y";
-                //        }
-                //    }
-                //}
-
-
-
-
-
             }
 
 
@@ -883,6 +869,22 @@ namespace Generated_File
             {
 
                 MessageBox.Show("Error Occured in application " + ex.Message);
+            }
+        }
+
+        private void SrCmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (SrCmb.SelectedItem.ToString() == "SAP")
+            {
+                lbl_SAPJDBC.Visible = true;
+
+                txtSAPJDB.Visible = true;
+            }
+            else
+            {
+                lbl_SAPJDBC.Visible = false;
+
+                txtSAPJDB.Visible = false;
             }
         }
     }

@@ -110,6 +110,8 @@
             this.label24 = new System.Windows.Forms.Label();
             this.connBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
+            this.lbl_SAPJDBC = new System.Windows.Forms.Label();
+            this.txtSAPJDB = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.sortpnl.SuspendLayout();
@@ -126,6 +128,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.txtSAPJDB);
+            this.panel1.Controls.Add(this.lbl_SAPJDBC);
             this.panel1.Controls.Add(this.SrcSql);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.btnSRC);
@@ -146,7 +150,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(468, 609);
+            this.panel1.Size = new System.Drawing.Size(648, 609);
             this.panel1.TabIndex = 0;
             // 
             // SrcSql
@@ -210,11 +214,14 @@
             this.SrCmb.FormattingEnabled = true;
             this.SrCmb.Items.AddRange(new object[] {
             "MARIADB",
-            "MSSQLNATIVE"});
+            "MSSQLNATIVE",
+            "MYSQL",
+            "SAP"});
             this.SrCmb.Location = new System.Drawing.Point(93, 195);
             this.SrCmb.Name = "SrCmb";
             this.SrCmb.Size = new System.Drawing.Size(121, 21);
             this.SrCmb.TabIndex = 10;
+            this.SrCmb.SelectedIndexChanged += new System.EventHandler(this.SrCmb_SelectedIndexChanged);
             // 
             // txtsrServer
             // 
@@ -360,7 +367,9 @@
             this.TrgCmb.FormattingEnabled = true;
             this.TrgCmb.Items.AddRange(new object[] {
             "MARIADB",
-            "MSSQLNATIVE"});
+            "MSSQLNATIVE",
+            "MYSQL",
+            "SAP"});
             this.TrgCmb.Location = new System.Drawing.Point(152, 179);
             this.TrgCmb.Name = "TrgCmb";
             this.TrgCmb.Size = new System.Drawing.Size(136, 21);
@@ -543,7 +552,7 @@
             // 
             // btnSortView
             // 
-            this.btnSortView.Location = new System.Drawing.Point(119, 627);
+            this.btnSortView.Location = new System.Drawing.Point(119, 637);
             this.btnSortView.Name = "btnSortView";
             this.btnSortView.Size = new System.Drawing.Size(211, 23);
             this.btnSortView.TabIndex = 3;
@@ -614,7 +623,7 @@
             // 
             // btnTrS
             // 
-            this.btnTrS.Location = new System.Drawing.Point(835, 627);
+            this.btnTrS.Location = new System.Drawing.Point(844, 639);
             this.btnTrS.Name = "btnTrS";
             this.btnTrS.Size = new System.Drawing.Size(197, 23);
             this.btnTrS.TabIndex = 5;
@@ -919,6 +928,24 @@
             this.label23.TabIndex = 0;
             this.label23.Text = "Connection";
             // 
+            // lbl_SAPJDBC
+            // 
+            this.lbl_SAPJDBC.AutoSize = true;
+            this.lbl_SAPJDBC.Location = new System.Drawing.Point(276, 163);
+            this.lbl_SAPJDBC.Name = "lbl_SAPJDBC";
+            this.lbl_SAPJDBC.Size = new System.Drawing.Size(82, 13);
+            this.lbl_SAPJDBC.TabIndex = 18;
+            this.lbl_SAPJDBC.Text = "JDBC SAP Conn";
+            this.lbl_SAPJDBC.Visible = false;
+            // 
+            // txtSAPJDB
+            // 
+            this.txtSAPJDB.Location = new System.Drawing.Point(279, 195);
+            this.txtSAPJDB.Name = "txtSAPJDB";
+            this.txtSAPJDB.Size = new System.Drawing.Size(327, 20);
+            this.txtSAPJDB.TabIndex = 19;
+            this.txtSAPJDB.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1042,6 +1069,8 @@
         private System.Windows.Forms.Button btnSaveSyncKey;
         private System.Windows.Forms.Button btnValueSyncSV;
         private System.Windows.Forms.Button btnSaveSync;
+        private System.Windows.Forms.Label lbl_SAPJDBC;
+        private System.Windows.Forms.TextBox txtSAPJDB;
     }
 }
 
