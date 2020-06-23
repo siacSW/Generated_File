@@ -44,12 +44,15 @@ namespace Generated_File
                 sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
                 Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
                 MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
+
+               
             }
             catch (FileNotFoundException ex)
             {
 
                 MessageBox.Show("Error in Reading Template File " + ex.Message);
-                
+                Environment.Exit(1);
+            
             }
         }
 
