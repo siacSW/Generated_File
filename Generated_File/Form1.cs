@@ -26,11 +26,10 @@ namespace Generated_File
         List<string> Connection = new List<string>();
 
         XDocument doc;
-       
-        XDocument mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
-        XDocument sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
-        XDocument Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
-        XDocument MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
+        XDocument mySql_Attributes;
+        XDocument sqlserver_attributes;
+        XDocument Sap_attributes;
+        XDocument MariaDb_attributes;
 
        
         public Form1()
@@ -39,13 +38,18 @@ namespace Generated_File
 
             try
             {
-                //= XDocument.Load(@"E:\Files\test_trans8-Copy.ktr");
+                
                 doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
+                mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
+                sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
+                Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
+                MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
             }
             catch (FileNotFoundException ex)
             {
 
                 MessageBox.Show("Error in Reading Template File " + ex.Message);
+                
             }
         }
 
