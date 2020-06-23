@@ -24,15 +24,29 @@ namespace Generated_File
         string SqlSourceStat;
 
         List<string> Connection = new List<string>();
-            
-        XDocument doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
+
+        XDocument doc;
+       
         XDocument mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
         XDocument sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
         XDocument Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
         XDocument MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
+
+       
         public Form1()
         {
             InitializeComponent();
+
+            try
+            {
+                //= XDocument.Load(@"E:\Files\test_trans8-Copy.ktr");
+                doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
+            }
+            catch (FileNotFoundException ex)
+            {
+
+                MessageBox.Show("Error in Reading Template File " + ex.Message);
+            }
         }
 
         //Source Event
@@ -102,6 +116,7 @@ namespace Generated_File
                                   .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
                     var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
                     Port_Number.Value = txtsrPor.Text;
+                    MariaDb_attributes.Save(@"E:\Files\MariaDb-Attributes.xml");
                     AttributesElements.ReplaceWith(MariaDb_attributes.Root);
             }
 
@@ -123,6 +138,7 @@ namespace Generated_File
                     var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
                     Port_Number.Value = txtsrPor.Text;
                     Jdbc_Conn.Value = txtSAPJDB.Text;
+                    Sap_attributes.Save(@"E:\Files\Sap-Attributes.xml");
                     AttributesElements.ReplaceWith(Sap_attributes.Root);
            }
 
@@ -988,9 +1004,6 @@ namespace Generated_File
             }
 
             return strline;
-            //   Console.WriteLine(strline);
-            //  MessageBox.Show(strline);
-
         }
 
 

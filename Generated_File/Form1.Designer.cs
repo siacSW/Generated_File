@@ -203,6 +203,7 @@
             // 
             this.txtsrPsw.Location = new System.Drawing.Point(93, 411);
             this.txtsrPsw.Name = "txtsrPsw";
+            this.txtsrPsw.PasswordChar = '*';
             this.txtsrPsw.Size = new System.Drawing.Size(121, 20);
             this.txtsrPsw.TabIndex = 14;
             // 
@@ -398,6 +399,7 @@
             // 
             this.txtTrgPs.Location = new System.Drawing.Point(152, 393);
             this.txtTrgPs.Name = "txtTrgPs";
+            this.txtTrgPs.PasswordChar = '*';
             this.txtTrgPs.Size = new System.Drawing.Size(136, 20);
             this.txtTrgPs.TabIndex = 21;
             // 
