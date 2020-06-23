@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtSAPJDB = new System.Windows.Forms.TextBox();
+            this.lbl_SAPJDBC = new System.Windows.Forms.Label();
             this.SrcSql = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.btnSRC = new System.Windows.Forms.Button();
@@ -110,8 +112,6 @@
             this.label24 = new System.Windows.Forms.Label();
             this.connBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.lbl_SAPJDBC = new System.Windows.Forms.Label();
-            this.txtSAPJDB = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.sortpnl.SuspendLayout();
@@ -152,6 +152,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(648, 609);
             this.panel1.TabIndex = 0;
+            // 
+            // txtSAPJDB
+            // 
+            this.txtSAPJDB.Location = new System.Drawing.Point(279, 195);
+            this.txtSAPJDB.Multiline = true;
+            this.txtSAPJDB.Name = "txtSAPJDB";
+            this.txtSAPJDB.Size = new System.Drawing.Size(327, 165);
+            this.txtSAPJDB.TabIndex = 19;
+            this.txtSAPJDB.Visible = false;
+            // 
+            // lbl_SAPJDBC
+            // 
+            this.lbl_SAPJDBC.AutoSize = true;
+            this.lbl_SAPJDBC.Location = new System.Drawing.Point(276, 163);
+            this.lbl_SAPJDBC.Name = "lbl_SAPJDBC";
+            this.lbl_SAPJDBC.Size = new System.Drawing.Size(82, 13);
+            this.lbl_SAPJDBC.TabIndex = 18;
+            this.lbl_SAPJDBC.Text = "JDBC SAP Conn";
+            this.lbl_SAPJDBC.Visible = false;
             // 
             // SrcSql
             // 
@@ -927,24 +946,6 @@
             this.label23.Size = new System.Drawing.Size(61, 13);
             this.label23.TabIndex = 0;
             this.label23.Text = "Connection";
-            // 
-            // lbl_SAPJDBC
-            // 
-            this.lbl_SAPJDBC.AutoSize = true;
-            this.lbl_SAPJDBC.Location = new System.Drawing.Point(276, 163);
-            this.lbl_SAPJDBC.Name = "lbl_SAPJDBC";
-            this.lbl_SAPJDBC.Size = new System.Drawing.Size(82, 13);
-            this.lbl_SAPJDBC.TabIndex = 18;
-            this.lbl_SAPJDBC.Text = "JDBC SAP Conn";
-            this.lbl_SAPJDBC.Visible = false;
-            // 
-            // txtSAPJDB
-            // 
-            this.txtSAPJDB.Location = new System.Drawing.Point(279, 195);
-            this.txtSAPJDB.Name = "txtSAPJDB";
-            this.txtSAPJDB.Size = new System.Drawing.Size(327, 20);
-            this.txtSAPJDB.TabIndex = 19;
-            this.txtSAPJDB.Visible = false;
             // 
             // Form1
             // 

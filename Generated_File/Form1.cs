@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -77,6 +78,8 @@ namespace Generated_File
                 type_selectin = type.Value;
                 database.Value = txtsrDb.Text;
                 port.Value = txtsrPor.Text;
+                username.Value = txtsrUser.Text;
+                password.Value = Methods.PasswordEncrypt(txtsrPsw.Text);
              
             }
 
@@ -175,7 +178,7 @@ namespace Generated_File
 
                 //update elements value
 
-                foreach (XElement element in ilist)
+            foreach (XElement element in ilist)
             {
                 var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
                 var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
@@ -200,7 +203,7 @@ namespace Generated_File
                 database.Value = txtTrDB.Text;
                 port.Value = txtTRPo.Text;
                 username.Value = txtTrgUs.Text;
-                password.Value = txtTrgPs.Text;
+                password.Value = Methods.PasswordEncrypt(txtTrgPs.Text);
 
             }
 
@@ -222,6 +225,7 @@ namespace Generated_File
                                   .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
                     var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
                     Port_Number.Value = txtsrPor.Text;
+                    MariaDb_attributes.Save(@"E:\Files\MariaDb-Attributes.xml");
                     AttributesElements.ReplaceWith(MariaDb_attributes.Root);
                 }
 
@@ -243,6 +247,7 @@ namespace Generated_File
                     var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
                     Port_Number.Value = txtsrPor.Text;
                     Jdbc_Conn.Value = txtSAPJDB.Text;
+                    Sap_attributes.Save(@"E:\Files\Sap-Attributes.xml");
                     AttributesElements.ReplaceWith(Sap_attributes.Root);
                 }
 
@@ -365,7 +370,7 @@ namespace Generated_File
             {
                 string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
 
-                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+                string FinalWord = Methods.Before(afterSelect, "from ");
          
                 string[] Arr = FinalWord.Split(',');
 
@@ -405,7 +410,7 @@ namespace Generated_File
                 string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
 
 
-                string FinalWord = BeforeStatment.Before(afterSelect, "from ");
+                string FinalWord = Methods.Before(afterSelect, "from ");
 
                 string[] Arr = FinalWord.Split(',');
 
@@ -948,7 +953,7 @@ namespace Generated_File
     }
 
 
-    static class BeforeStatment
+    static class Methods
     {
         public static string Before(this string value, string a)
         {
@@ -959,6 +964,39 @@ namespace Generated_File
             }
             return value.Substring(0, posA);
         }
+
+      public  static string PasswordEncrypt(string password)
+        {
+            ProcessStartInfo ps = new ProcessStartInfo
+            {
+                FileName = "E:\\data-integration\\Encr.bat",
+                Arguments = "-kettle  " + password + " ",
+                CreateNoWindow = false,
+                ErrorDialog = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                WorkingDirectory = "E:\\data-integration"
+            };
+            Process p = Process.Start(ps);
+            p.WaitForExit();
+            StreamReader strm = p.StandardOutput;
+            string strline = "";
+            while (strm.EndOfStream == false)
+            {
+                strline = strm.ReadLine();
+            }
+
+            return strline;
+            //   Console.WriteLine(strline);
+            //  MessageBox.Show(strline);
+
+        }
+
+
+
+
+
     }
 
 
