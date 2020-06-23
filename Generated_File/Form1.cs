@@ -66,9 +66,10 @@ namespace Generated_File
 
                 var elementsToUpdate = doc.Descendants()
                                           .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
-        
 
-            ilist.Add(elementsToUpdate);
+
+                this.Cursor = Cursors.WaitCursor;
+                ilist.Add(elementsToUpdate);
 
                 //update elements value
 
@@ -163,7 +164,6 @@ namespace Generated_File
 
                 SqlSourceStat = SrcSql.Text;
             }
-
             // after processing save it in file
             doc.Save(@"E:\Files\test_trans7.ktr");
 
@@ -194,7 +194,8 @@ namespace Generated_File
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
 
-            ilist.Add(elementsToUpdate);
+               this.Cursor = Cursors.WaitCursor;
+                ilist.Add(elementsToUpdate);
 
            string type_selectin = null;
 
@@ -380,81 +381,96 @@ namespace Generated_File
 
         private void btnSortView_Click(object sender, EventArgs e)
         {
-
-            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.HeaderText = "Sort Column";
-
-            SqlSourceStat = SrcSql.Text;
-
-            string toBeSearched = "select ";
-            int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-            if (ix != -1)
+            try
             {
-                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+                dgvCmb.HeaderText = "Sort Column";
 
-                string FinalWord = Methods.Before(afterSelect, "from ");
-         
-                string[] Arr = FinalWord.Split(',');
+                SqlSourceStat = SrcSql.Text;
 
+                string toBeSearched = "select ";
+                int ix = SqlSourceStat.IndexOf(toBeSearched);
 
-                for (int i = 0; i < Arr.Length; i++)
+                if (ix != -1)
                 {
-                    Arr[i] = Arr[i].Trim();
-                    MergeSort.Add(Arr[i]);
+                    string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
 
-                    dgvCmb.Items.Add(Arr[i]);
+                    string FinalWord = Methods.Before(afterSelect, "from ");
+
+                    string[] Arr = FinalWord.Split(',');
+
+
+                    for (int i = 0; i < Arr.Length; i++)
+                    {
+                        Arr[i] = Arr[i].Trim();
+                        MergeSort.Add(Arr[i]);
+
+                        dgvCmb.Items.Add(Arr[i]);
+                    }
+
                 }
 
+
+
+                dgvCmb.Name = "cmbName";
+
+                dataGridView1.Columns.Add(dgvCmb);
+
+                sortpnl.Visible = true;
             }
-
-
-
-            dgvCmb.Name = "cmbName";
-       
-            dataGridView1.Columns.Add(dgvCmb);
-
-            sortpnl.Visible = true;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured" + ex.Message);
+            }
+         
         }
 
         private void btnTrS_Click(object sender, EventArgs e)
         {
-            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.HeaderText = "Sort Column";
-
-
-            SqlSourceStat = trgSql.Text;
-
-            string toBeSearched = "select ";
-            int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-            if (ix != -1)
+            try
             {
-                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+                dgvCmb.HeaderText = "Sort Column";
 
 
-                string FinalWord = Methods.Before(afterSelect, "from ");
+                SqlSourceStat = trgSql.Text;
 
-                string[] Arr = FinalWord.Split(',');
+                string toBeSearched = "select ";
+                int ix = SqlSourceStat.IndexOf(toBeSearched);
 
-
-                for (int i = 0; i < Arr.Length; i++)
+                if (ix != -1)
                 {
-                    Arr[i] = Arr[i].Trim();
-                    MergeSort.Add(Arr[i]);
+                    string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
 
-                    dgvCmb.Items.Add(Arr[i]);
+
+                    string FinalWord = Methods.Before(afterSelect, "from ");
+
+                    string[] Arr = FinalWord.Split(',');
+
+
+                    for (int i = 0; i < Arr.Length; i++)
+                    {
+                        Arr[i] = Arr[i].Trim();
+                        MergeSort.Add(Arr[i]);
+
+                        dgvCmb.Items.Add(Arr[i]);
+                    }
+
                 }
 
+
+
+                dgvCmb.Name = "cmbName";
+
+                datagridTrgSRT.Columns.Add(dgvCmb);
+
+                trgPnl.Visible = true;
             }
-
-
-
-            dgvCmb.Name = "cmbName";
-          
-            datagridTrgSRT.Columns.Add(dgvCmb);
-
-            trgPnl.Visible = true;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
+           
         }
 
         private void btnTrgSr_Click(object sender, EventArgs e)
@@ -523,38 +539,48 @@ namespace Generated_File
 
         private void btnmerg_Click(object sender, EventArgs e)
         {
-            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
-            dgvCmb.HeaderText = "Values Column";
-            keycmb.HeaderText = "Keys Column";
-          
-            //For Values datagridView
-            foreach (var item in MergeSort.Distinct())
+            try
             {
-                dgvCmb.Items.Add(item);
+                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+                DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
+                dgvCmb.HeaderText = "Values Column";
+                keycmb.HeaderText = "Keys Column";
+
+                //For Values datagridView
+                foreach (var item in MergeSort.Distinct())
+                {
+                    dgvCmb.Items.Add(item);
+                }
+
+                //To Filter only matched values ..
+                var query = MergeSort.GroupBy(x => x)
+                  .Where(g => g.Count() > 1)
+                  .Select(y => y.Key)
+                  .ToList();
+
+                //For Keys datagridView
+                foreach (var item in query)
+                {
+                    keycmb.Items.Add(item);
+                }
+
+
+
+                dgvCmb.Name = "ValueColms";
+                keycmb.Name = "Keycolms";
+
+
+                valuedatagrd.Columns.Add(dgvCmb);
+                keydatagrd.Columns.Add(keycmb);
+                MergPnl.Visible = true;
             }
-
-            //To Filter only matched values ..
-            var query = MergeSort.GroupBy(x => x)
-              .Where(g => g.Count() > 1)
-              .Select(y => y.Key)
-              .ToList();
-
-            //For Keys datagridView
-            foreach (var item in query)
+            catch (Exception ex)
             {
-                keycmb.Items.Add(item);
+
+                MessageBox.Show("Error Occured " + ex.Message);
+                
             }
-
-
-
-            dgvCmb.Name = "ValueColms";
-            keycmb.Name = "Keycolms";
-       
-
-            valuedatagrd.Columns.Add(dgvCmb);
-            keydatagrd.Columns.Add(keycmb);
-            MergPnl.Visible = true;
+           
         }
 
         private void btnMergSav_Click(object sender, EventArgs e)
@@ -705,60 +731,68 @@ namespace Generated_File
 
         private void btnSync_Click(object sender, EventArgs e)
         {
-            foreach (var item in Connection)
+            try
             {
-                connBox.Items.Add(item.Trim());
-            }
+                foreach (var item in Connection)
+                {
+                    connBox.Items.Add(item.Trim());
+                }
 
-            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            DataGridViewComboBoxColumn UpdCmb = new DataGridViewComboBoxColumn();
-            DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
-            dgvCmb.HeaderText = "Values Column";
-            UpdCmb.HeaderText = "Update";
-            keycmb.HeaderText = "Keys Column";
-          
-            //For Values datagridView
-            foreach (var item in MergeSort.Distinct())
-            {
-                dgvCmb.Items.Add(item.Trim());
-            }
+                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+                DataGridViewComboBoxColumn UpdCmb = new DataGridViewComboBoxColumn();
+                DataGridViewComboBoxColumn keycmb = new DataGridViewComboBoxColumn();
+                dgvCmb.HeaderText = "Values Column";
+                UpdCmb.HeaderText = "Update";
+                keycmb.HeaderText = "Keys Column";
 
-            //To Filter only matched values ..
-            var query = MergeSort.GroupBy(x => x)
-              .Where(g => g.Count() > 1)
-              .Select(y => y.Key)
-              .ToList();
+                //For Values datagridView
+                foreach (var item in MergeSort.Distinct())
+                {
+                    dgvCmb.Items.Add(item.Trim());
+                }
 
-            List<string> UpdatValues = new List<string>
+                //To Filter only matched values ..
+                var query = MergeSort.GroupBy(x => x)
+                  .Where(g => g.Count() > 1)
+                  .Select(y => y.Key)
+                  .ToList();
+
+                List<string> UpdatValues = new List<string>
             {
                 "N" , "Y"
             };
 
-            //For Keys datagridView
-            foreach (var item in query)
-            {
-                keycmb.Items.Add(item.Trim()) ;
+                //For Keys datagridView
+                foreach (var item in query)
+                {
+                    keycmb.Items.Add(item.Trim());
+                }
+
+                //For Update Colms
+                foreach (var update_item in UpdatValues)
+                {
+                    UpdCmb.Items.Add(update_item.Trim());
+                }
+
+
+
+
+
+                dgvCmb.Name = "ValueColms";
+                keycmb.Name = "Keycolms";
+                UpdCmb.Name = "UpdColms";
+
+
+                valueSyncGd.Columns.Add(dgvCmb);
+                valueSyncGd.Columns.Add(UpdCmb);
+                keySyncGd.Columns.Add(keycmb);
+                syncPnl.Visible = true;
             }
-
-            //For Update Colms
-            foreach (var update_item in UpdatValues)
+            catch (Exception ex)
             {
-                UpdCmb.Items.Add(update_item.Trim());
+                MessageBox.Show("Error Occured " + ex.Message);
             }
-
-
-
-
-
-            dgvCmb.Name = "ValueColms";
-            keycmb.Name = "Keycolms";
-            UpdCmb.Name = "UpdColms";
-       
-
-            valueSyncGd.Columns.Add(dgvCmb);
-            valueSyncGd.Columns.Add(UpdCmb);
-            keySyncGd.Columns.Add(keycmb);
-            syncPnl.Visible = true;
+          
         }
 
         private void keysyncAdd_Click(object sender, EventArgs e)
@@ -994,7 +1028,7 @@ namespace Generated_File
             {
                 FileName = "E:\\data-integration\\Encr.bat",
                 Arguments = "-kettle  " + password + " ",
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 ErrorDialog = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
