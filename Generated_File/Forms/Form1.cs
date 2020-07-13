@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Devart.Data.MySql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -31,6 +33,12 @@ namespace Generated_File
         XDocument Sap_attributes;
         XDocument MariaDb_attributes;
 
+        string username_;
+        string password_;
+        string host;
+        string port_;
+        string database_;
+
        
         public Form1()
         {
@@ -38,21 +46,16 @@ namespace Generated_File
 
             try
             {
-                
                 doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
                 mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
                 sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
                 Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
                 MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
-
-               
             }
             catch (FileNotFoundException ex)
             {
-
                 MessageBox.Show("Error in Reading Template File " + ex.Message);
                 Environment.Exit(1);
-            
             }
         }
 
@@ -89,6 +92,7 @@ namespace Generated_File
                 name.Value = txtsrname.Text;
                 Connection.Add(txtsrname.Text);
                 server.Value = txtsrServer.Text;
+               
                 if (SrCmb.SelectedItem.ToString() == "SAP")
                 {
                     type.Value = "GENERIC";
@@ -99,12 +103,14 @@ namespace Generated_File
                }
                 type_selectin = type.Value;
                 database.Value = txtsrDb.Text;
+              
                 port.Value = txtsrPor.Text;
+                
                 username.Value = txtsrUser.Text;
                 password.Value = Methods.PasswordEncrypt(txtsrPsw.Text);
+                
              
             }
-
 
             ilist.Clear();
 
@@ -164,12 +170,18 @@ namespace Generated_File
 
                 SqlSourceStat = SrcSql.Text;
             }
-            // after processing save it in file
-            doc.Save(@"E:\Files\test_trans7.ktr");
+
+            int FileCounted = dataTableNames.Rows.Count;
+             for (int i = 0; i < FileCounted; i++)
+             {
+                    // after processing save it in file
+                    doc.Save(@"E:\Files\test_trans"+i+".ktr");
+             }
+
 
             MessageBox.Show("Src Config created ");
-
             ilist.Clear();
+           this.Cursor = Cursors.Default;
             }
             catch (FileNotFoundException ex)
             {
@@ -198,9 +210,6 @@ namespace Generated_File
                 ilist.Add(elementsToUpdate);
 
            string type_selectin = null;
-
-
-                //update elements value
 
             foreach (XElement element in ilist)
             {
@@ -296,12 +305,7 @@ namespace Generated_File
 
             ilist.Clear();
             }
-            catch (FileNotFoundException ex)
-            {
-
-                MessageBox.Show("File Not Found " + ex.Message);
-             
-            }
+           
             catch (Exception ex)
             {
 
@@ -356,11 +360,6 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
 
             MessageBox.Show("Sorted Fields Created");
-            }
-            catch (FileNotFoundException ex)
-            {
-                MessageBox.Show("File Not Found" + ex.Message);
-               
             }
             catch (Exception ex)
             {
@@ -524,12 +523,6 @@ namespace Generated_File
 
             MessageBox.Show("Sorted Fields Created");
             }
-            catch (FileNotFoundException ex)
-            {
-
-                MessageBox.Show("File Not Found " + ex.Message);
-             
-            }
             catch (Exception ex)
             {
 
@@ -629,12 +622,7 @@ namespace Generated_File
 
             MessageBox.Show("keys Created");
         }
-               catch (FileNotFoundException ex)
-            {
-
-                MessageBox.Show("File Not Found " + ex.Message);
-                
-            }
+             
             catch (Exception ex)
             {
 
@@ -912,11 +900,6 @@ namespace Generated_File
             MessageBox.Show("Key for Sync Created");
             }
 
-            catch (FileNotFoundException ex) 
-            {
-
-                MessageBox.Show("Error Occured in File" + ex.Message);
-            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error Occured " + ex.Message);
@@ -980,11 +963,6 @@ namespace Generated_File
             doc.Save(@"E:\Files\test_trans7.ktr");
             MessageBox.Show("Value for Sync Created");
             }
-            catch (FileNotFoundException ex)
-            {
-                MessageBox.Show("Error Occured in File " + ex.Message);
-            }
-
             catch (Exception ex)
             {
 
@@ -1007,10 +985,77 @@ namespace Generated_File
                 txtSAPJDB.Visible = false;
             }
         }
+
+        private void btncheck_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                dataTableNames.Columns.Clear();
+                username_ = txtsrUser.Text;
+                password_ = txtsrPsw.Text;
+                host = txtsrServer.Text;
+                database_ = txtsrDb.Text;
+                port_ = txtsrPor.Text;
+
+                if (SrCmb.SelectedItem.ToString() == "MSSQLNATIVE")
+                {
+                    var databaseTabels = Methods.SQLSERVERGET(host, database_, username_, password_);
+
+                    DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+                    dgvCmb.HeaderText = "Database Tables";
+
+                    foreach (var item in databaseTabels)
+                    {
+                        dgvCmb.Items.Add(item.Trim());
+
+                    }
+
+
+
+                    dgvCmb.Name = "TbleName";
+
+                    dataTableNames.Columns.Add(dgvCmb);
+                   // dataTableNames.Columns.Add();
+
+                }
+
+
+            if (SrCmb.SelectedItem.ToString() == "MYSQL")
+            {
+                var databaseTables = Methods.MySqlGET(username_, password_, host, port_, database_);
+                 DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+               dgvCmb.HeaderText = "Database Tables";
+
+                foreach (var item in databaseTables)
+                {
+                   dgvCmb.Items.Add(item.Trim());
+                }
+
+
+
+                    dgvCmb.Name = "TbleName";
+
+                    dataTableNames.Columns.Add(dgvCmb);
+
+
+             }
+        }
+              catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured" + ex.Message);
+            }
+
+
+        }
+
+        private void btnaddTbleName_Click(object sender, EventArgs e)
+        {
+            dataTableNames.Rows.Add();
+        }
     }
 
 
-    static class Methods
+     static class Methods
     {
         public static string Before(this string value, string a)
         {
@@ -1024,27 +1069,103 @@ namespace Generated_File
 
       public  static string PasswordEncrypt(string password)
         {
-            ProcessStartInfo ps = new ProcessStartInfo
-            {
-                FileName = "E:\\data-integration\\Encr.bat",
-                Arguments = "-kettle  " + password + " ",
-                CreateNoWindow = true,
-                ErrorDialog = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                WorkingDirectory = "E:\\data-integration"
-            };
-            Process p = Process.Start(ps);
-            p.WaitForExit();
-            StreamReader strm = p.StandardOutput;
+
             string strline = "";
-            while (strm.EndOfStream == false)
+            try
             {
-                strline = strm.ReadLine();
+                ProcessStartInfo ps = new ProcessStartInfo
+                {
+                    FileName = "E:\\data-integration\\Encr.bat",
+                    Arguments = "-kettle  " + password + " ",
+                    CreateNoWindow = true,
+                    ErrorDialog = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    WorkingDirectory = "E:\\data-integration"
+                };
+                Process p = Process.Start(ps);
+                p.WaitForExit();
+                StreamReader strm = p.StandardOutput;
+              
+                while (strm.EndOfStream == false)
+                {
+                    strline = strm.ReadLine();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error in Encryption Method : " + ex.Message);
             }
 
+
             return strline;
+
+        }
+
+
+
+       public static List<string> MySqlGET (string username, string password, string host, string port, string database)
+        {
+            List<string> TableNames = new List<string>();
+            try
+            {
+                MySqlConnection connection = new MySqlConnection("User Id=" + username + ";Password=" + password + ";Host=" + host + ";Port=" + port + ";Database=" + database + ";Unicode=False;Persist Security Info=False;Character Set=utf8;Found Rows=True");
+
+                MySqlCommand command = connection.CreateCommand();
+               
+                command.CommandText = "SHOW TABLES;";
+                MySqlDataReader Reader;
+                connection.Open();
+                Reader = command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    string row = "";
+                    for (int i = 0; i < Reader.FieldCount; i++)
+                        row += Reader.GetValue(i).ToString();
+                    TableNames.Add(row);
+                }
+                connection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
+
+
+            return TableNames;
+
+        }
+
+
+
+        //fOR Sql-Server Conn
+        public static List<string> SQLSERVERGET(string host, string database, string username, string password)
+        {
+            List<string> TableNames = new List<string>();
+            try
+            {
+                string connection_string = "Data Source=" + host + ",1433;Network Library=DBMSSOCN;Initial Catalog=" + database + ";User ID=" + username + ";Password=" + password + ";";
+                using (SqlConnection connection = new SqlConnection(connection_string))
+                {
+                    connection.Open();
+                    DataTable schema = connection.GetSchema("Tables");
+                   
+                    foreach (DataRow row in schema.Rows)
+                    {
+                        TableNames.Add(row[2].ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Occured " + ex.Message);
+            }
+
+            return TableNames;
+
         }
 
 
