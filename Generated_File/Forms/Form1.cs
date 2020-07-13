@@ -835,11 +835,7 @@ namespace Generated_File
 
                 MessageBox.Show("saved");
             }
-            catch (FileNotFoundException ex)
-            {
-
-                MessageBox.Show("Error Occured " + ex.Message);
-            }
+          
             catch (Exception ex)
             {
                 MessageBox.Show("Error Occured " + ex.Message);

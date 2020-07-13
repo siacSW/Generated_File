@@ -561,7 +561,6 @@ namespace Generated_File
             this.ConnSync.HeaderText = "Sync Connection";
             this.ConnSync.MinimumWidth = 6;
             this.ConnSync.Name = "ConnSync";
-            this.ConnSync.ReadOnly = true;
             this.ConnSync.Width = 125;
             // 
             // TbleMerg
@@ -570,7 +569,6 @@ namespace Generated_File
             this.TbleMerg.HeaderText = "Sync Table";
             this.TbleMerg.MinimumWidth = 6;
             this.TbleMerg.Name = "TbleMerg";
-            this.TbleMerg.ReadOnly = true;
             this.TbleMerg.Width = 125;
             // 
             // SyncKey

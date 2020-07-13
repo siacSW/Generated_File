@@ -38,17 +38,40 @@ namespace Generated_File.Forms
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if (GlobalVariables.SourceArr.Count() > 0)
+            if (GlobalVariables.SourceArr != null)
             {
                 GlobalVariables.SourceSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
             }
 
 
-            if (GlobalVariables.Merge  !=null)
+            if (GlobalVariables.TaregtArr != null)
+            {
+                GlobalVariables.TargetSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+            }
+
+
+
+            if (GlobalVariables.MergeKeysArr  !=null)
             {
                 GlobalVariables.MergeKeys = custom_chklist.CheckedItems.Cast<string>().ToList();
             }
 
+
+            if (GlobalVariables.MergeValuesArr != null)
+            {
+                GlobalVariables.MergeValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+            }
+
+
+            if (GlobalVariables.SyncKeyArr != null)
+            {
+                GlobalVariables.SyncKeys = custom_chklist.CheckedItems.Cast<string>().ToList();
+            }
+
+            if (GlobalVariables.SyncValueArr != null)
+            {
+                GlobalVariables.SyncValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+            }
 
 
             //if (GlobalVariables.Merge.Count() > 0)
