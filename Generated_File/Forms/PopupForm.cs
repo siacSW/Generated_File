@@ -13,11 +13,11 @@ namespace Generated_File.Forms
 {
     public partial class PopupForm : Form
     {
-        private MainForm mMainForm;
-        public PopupForm()
+        private readonly MainForm mMainForm;
+        public PopupForm(MainForm mainForm_)
         {
             InitializeComponent();
-            mMainForm = new MainForm();
+            mMainForm = mainForm_;
         }
 
         private void PopupForm_Load(object sender, EventArgs e)
@@ -32,6 +32,9 @@ namespace Generated_File.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //  mMainForm.CombData.();
+
+        //    mMainForm.CombData.Rows[0].Cells["ColNme"].Value = "123";
             this.Close();
         }
 
@@ -41,12 +44,18 @@ namespace Generated_File.Forms
             if (GlobalVariables.SourceArr != null)
             {
                 GlobalVariables.SourceSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+                string sort_vlues = string.Join(",", GlobalVariables.SourceSortValues);
+               mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SourceSort"].Value = sort_vlues;
             }
 
 
             if (GlobalVariables.TaregtArr != null)
             {
                 GlobalVariables.TargetSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+                string Trg_vlues = string.Join(",", GlobalVariables.TargetSortValues);
+               mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["TrgtSort"].Value = Trg_vlues;
             }
 
 
@@ -54,36 +63,62 @@ namespace Generated_File.Forms
             if (GlobalVariables.MergeKeysArr  !=null)
             {
                 GlobalVariables.MergeKeys = custom_chklist.CheckedItems.Cast<string>().ToList();
+                string merg_keys = string.Join(",", GlobalVariables.MergeKeys);
+                mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["MrgKey"].Value = merg_keys;
             }
 
 
             if (GlobalVariables.MergeValuesArr != null)
             {
                 GlobalVariables.MergeValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+
+                string merg_values = string.Join(",", GlobalVariables.MergeValues);
+              mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["MrgValue"].Value = merg_values;
             }
 
+
+            if (GlobalVariables.ConnList != null)
+            {
+                GlobalVariables.ConnValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+                string connvalues = string.Join(",", GlobalVariables.ConnValues);
+
+                mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["ConnSync"].Value = connvalues;
+
+               // this.Close();
+            }
+
+
+            if (GlobalVariables.TableList != null)
+            {
+                GlobalVariables.TbleValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+                string TbleValues = string.Join(",", GlobalVariables.TbleValues);
+
+                mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["TbleMerg"].Value = TbleValues;
+
+               // this.Close();
+            }
 
             if (GlobalVariables.SyncKeyArr != null)
             {
                 GlobalVariables.SyncKeys = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+
+                string sync_key = string.Join(",", GlobalVariables.SyncKeys);
+               mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SyncKey"].Value = sync_key;
             }
 
             if (GlobalVariables.SyncValueArr != null)
             {
                 GlobalVariables.SyncValues = custom_chklist.CheckedItems.Cast<string>().ToList();
+
+                string sync_values = string.Join(",", GlobalVariables.SyncValues);
+                mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SyncValue"].Value = sync_values;
             }
 
 
-            //if (GlobalVariables.Merge.Count() > 0)
-            //{
-            //    GlobalVariables.Merge = custom_chklist.CheckedItems.Cast<string>().ToList();
-            //}
-
-
-            //if (GlobalVariables.TaregtArr.Count() > 0)
-            //{
-            //   GlobalVariables.TaregtArr = custom_chklist.CheckedItems.Cast<string>().ToList();
-            //}
        
         }
 

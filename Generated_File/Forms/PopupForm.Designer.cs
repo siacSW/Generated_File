@@ -37,19 +37,19 @@
             // 
             this.custom_chklist.CheckOnClick = true;
             this.custom_chklist.FormattingEnabled = true;
-            this.custom_chklist.Location = new System.Drawing.Point(58, 15);
-            this.custom_chklist.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.custom_chklist.Location = new System.Drawing.Point(71, 14);
+            this.custom_chklist.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.custom_chklist.Name = "custom_chklist";
-            this.custom_chklist.Size = new System.Drawing.Size(238, 289);
+            this.custom_chklist.Size = new System.Drawing.Size(277, 346);
             this.custom_chklist.TabIndex = 0;
             this.custom_chklist.SelectedIndexChanged += new System.EventHandler(this.custom_chklist_SelectedIndexChanged);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(26, 362);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button2.Location = new System.Drawing.Point(30, 446);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(114, 65);
+            this.button2.Size = new System.Drawing.Size(133, 80);
             this.button2.TabIndex = 2;
             this.button2.Text = "Ok";
             this.button2.UseVisualStyleBackColor = true;
@@ -57,10 +57,10 @@
             // 
             // btnclose
             // 
-            this.btnclose.Location = new System.Drawing.Point(224, 362);
-            this.btnclose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnclose.Location = new System.Drawing.Point(261, 446);
+            this.btnclose.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnclose.Name = "btnclose";
-            this.btnclose.Size = new System.Drawing.Size(114, 65);
+            this.btnclose.Size = new System.Drawing.Size(133, 80);
             this.btnclose.TabIndex = 3;
             this.btnclose.Text = "Close";
             this.btnclose.UseVisualStyleBackColor = true;
@@ -70,7 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 465);
+            this.ClientSize = new System.Drawing.Size(432, 572);
             this.ControlBox = false;
             this.Controls.Add(this.btnclose);
             this.Controls.Add(this.button2);
@@ -78,13 +78,13 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.MaximizeBox = false;
             this.Name = "PopupForm";
             this.Text = "PopupForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.PopupForm_Load);
-          //  this.ResumeLayout(false);
+            this.ResumeLayout(false);
 
         }
 

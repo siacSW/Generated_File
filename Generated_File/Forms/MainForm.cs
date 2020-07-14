@@ -32,8 +32,6 @@ namespace Generated_File
         {
             InitializeComponent();
 
-
-
             try
             {
                 doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
@@ -87,8 +85,6 @@ namespace Generated_File
                         var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                         name.Value = txtsrname.Text;
-                        GlobalVariables.ConnList = new List<string>();
-                        GlobalVariables.ConnList.Add(txtsrname.Text);
                         // Connection.Add(txtsrname.Text);
                         server.Value = txtsrServer.Text;
 
@@ -318,19 +314,7 @@ namespace Generated_File
 
         private void btnaddNew_Click(object sender, EventArgs e)
         {
-
-
             CombData.Rows.Add();
-
-            //  int row_number = CombData.CurrentCell.RowIndex;
-
-            //PopupForm popupForm = new PopupForm();
-            ////   popupForm.ShowDialog();
-
-            //popupForm.StartPosition = FormStartPosition.CenterParent;
-            //popupForm.ShowDialog(this);
-            // GlobalVariables.row_count = CombData.Rows.Count.ToString();
-            //MessageBox.Show(checkedListBox1)
         }
 
 
@@ -371,7 +355,7 @@ namespace Generated_File
         //Enter Event
         private void CombData_KeyDown(object sender, KeyEventArgs e)
         {
-            PopupForm popupForm = new PopupForm();
+            PopupForm popupForm = new PopupForm(this);
             //try
             //{
             //    if (e.KeyCode == Keys.Enter)
@@ -616,7 +600,7 @@ namespace Generated_File
               e.RowIndex >= 0)
             {
                 this.Cursor = Cursors.WaitCursor;
-                SaveSourceTarget();
+                SaveSourceSort();
 
                 SaveTaregtSort();
 
@@ -855,7 +839,7 @@ namespace Generated_File
         }
 
 
-        void SaveSourceTarget()
+        void SaveSourceSort()
         {
             #region sourcesortvalues
             var elementsToUpdate = doc.Descendants()
@@ -863,8 +847,6 @@ namespace Generated_File
 
             var fields = elementsToUpdate.Descendants()
                                      .Where(o => o.Name == "fields" && o.HasElements).FirstOrDefault();
-
-
 
 
             int rowscount = GlobalVariables.SourceSortValues.Count();
@@ -962,7 +944,8 @@ namespace Generated_File
         //Cell Click
         private void CombData_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            PopupForm popupForm = new PopupForm();
+            GlobalVariables.Row_index = e.RowIndex;
+            PopupForm popupForm = new PopupForm(this);
             if (CombData.Columns[e.ColumnIndex].Name == "SourceSort")
             {
 
@@ -982,8 +965,6 @@ namespace Generated_File
 
                     doc.Save(@"E:\Files\test_transGenerate.ktr");
 
-                    popupForm.StartPosition = FormStartPosition.CenterParent;
-                    popupForm.Show(this);
                     string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
                     string toBeSearched = "select ";
                     int ix = SqlSourceStat.IndexOf(toBeSearched);
@@ -999,22 +980,19 @@ namespace Generated_File
                             Arr[i] = Arr[i].Trim();
                             popupForm.custom_chklist.Items.Add(Arr[i]);
                         }
+
+
+
+                        popupForm.WindowState = FormWindowState.Normal;
+                        popupForm.Show(this);
                     }
 
-                    if (GlobalVariables.SourceSortValues != null)
-                    {
-                        string sort_vlues = string.Join(",", GlobalVariables.SourceSortValues);
-                        CombData.Rows[e.RowIndex].Cells["SourceSort"].Value = sort_vlues;
-                    }
                 }
             }
 
 
             if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
             {
-                GlobalVariables.TableList = new List<string>();
-                GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
-
                 if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
                 {
 
@@ -1035,8 +1013,6 @@ namespace Generated_File
 
                     doc.Save(@"E:\Files\test_transGenerate.ktr");
 
-                    popupForm.StartPosition = FormStartPosition.CenterParent;
-                    popupForm.Show(this);
 
                     string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
                     string toBeSearched = "select ";
@@ -1059,11 +1035,15 @@ namespace Generated_File
 
                     }
 
+
+                    popupForm.WindowState = FormWindowState.Normal;
+
+                    popupForm.Show(this);
+
                     if (GlobalVariables.TargetSortValues != null)
                     {
                         CombData.Refresh();
-                        string Trg_vlues = string.Join(",", GlobalVariables.TargetSortValues);
-                        CombData.Rows[e.RowIndex].Cells["TrgtSort"].Value = Trg_vlues;
+                    
                     }
                 }
 
@@ -1082,16 +1062,10 @@ namespace Generated_File
                 }
 
 
-                popupForm.StartPosition = FormStartPosition.CenterParent;
+                popupForm.WindowState = FormWindowState.Normal;
                 popupForm.Show(this);
 
 
-                if (GlobalVariables.MergeKeys != null)
-                {
-                    CombData.Refresh();
-                    string merg_keys = string.Join(",", GlobalVariables.MergeKeys);
-                    CombData.Rows[e.RowIndex].Cells["MrgKey"].Value = merg_keys;
-                }
             }
 
 
@@ -1107,35 +1081,52 @@ namespace Generated_File
                     popupForm.custom_chklist.Items.Add(item);
                 }
 
-
-                popupForm.StartPosition = FormStartPosition.CenterParent;
+                popupForm.WindowState = FormWindowState.Normal;
                 popupForm.Show();
 
-
-                if (GlobalVariables.MergeValues != null)
-                {
-                    string merg_values = string.Join(",", GlobalVariables.MergeValues);
-                    CombData.Rows[e.RowIndex].Cells["MrgValue"].Value = merg_values;
-                }
 
             }
 
 
             if (CombData.Columns[e.ColumnIndex].Name == "ConnSync")
             {
+                GlobalVariables.ConnList = new List<string>();
+                GlobalVariables.ConnList.Add(txtsrname.Text);
+                GlobalVariables.ConnList.Add(txtTrgNam.Text);
+                popupForm.custom_chklist.Items.Clear();
+
                 foreach (var item in GlobalVariables.ConnList)
                 {
-                    ConnSync.Items.Add(item);
+                    popupForm.custom_chklist.Items.Add(item);
                 }
+
+
+                popupForm.WindowState = FormWindowState.Normal;
+                popupForm.Show(this);
+
+
+
             }
 
 
             if (CombData.Columns[e.ColumnIndex].Name == "TbleMerg")
             {
+
+
+                GlobalVariables.TableList = new List<string>();
+                GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
+
+
+                popupForm.custom_chklist.Items.Clear();
+
                 foreach (var item in GlobalVariables.TableList)
                 {
-                    TbleMerg.Items.Add(item);
+                    popupForm.custom_chklist.Items.Add(item);
                 }
+
+
+                popupForm.WindowState = FormWindowState.Normal;
+                popupForm.Show(this);
             }
 
 
@@ -1150,16 +1141,10 @@ namespace Generated_File
                 }
 
 
-                popupForm.StartPosition = FormStartPosition.CenterParent;
+                popupForm.WindowState = FormWindowState.Normal;
                 popupForm.Show(this);
 
 
-                if (GlobalVariables.SyncKeys != null)
-                {
-                    CombData.Refresh();
-                    string sync_key = string.Join(",", GlobalVariables.SyncKeys);
-                    CombData.Rows[e.RowIndex].Cells["SyncKey"].Value = sync_key;
-                }
             }
 
 
@@ -1174,20 +1159,20 @@ namespace Generated_File
                 }
 
 
-                popupForm.StartPosition = FormStartPosition.CenterParent;
+                popupForm.WindowState = FormWindowState.Normal;
                 popupForm.Show(this);
 
 
-                if (GlobalVariables.SyncValues != null)
-                {
-                    CombData.Refresh();
-                    string sync_values = string.Join(",", GlobalVariables.SyncValues);
-                    CombData.Rows[e.RowIndex].Cells["SyncValue"].Value = sync_values;
-                }
             }
 
+        }
 
-
+        private void btndelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in this.CombData.SelectedRows)
+            {
+                CombData.Rows.RemoveAt(item.Index);
+            }
         }
     }
 }
