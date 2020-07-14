@@ -208,7 +208,7 @@ namespace Generated_File
                         var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                         name.Value = txtTrgNam.Text;
-                        GlobalVariables.ConnList.Add(txtTrgNam.Text);
+                        //GlobalVariables.ConnList.Add(txtTrgNam.Text);
                         server.Value = txtTrSrV.Text;
                         if (TrgCmb.SelectedItem.ToString() == "SAP")
                         {
@@ -586,11 +586,6 @@ namespace Generated_File
 
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-        }
-
-
         //Cell Content As Button for Saving
         private void CombData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -946,224 +941,241 @@ namespace Generated_File
         {
             GlobalVariables.Row_index = e.RowIndex;
             PopupForm popupForm = new PopupForm(this);
-            if (CombData.Columns[e.ColumnIndex].Name == "SourceSort")
+
+            try
             {
 
-                if (CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString() != null)
+                if (CombData.Columns[e.ColumnIndex].Name == "SourceSort")
                 {
-                    var elementsToSrcConn = doc.Descendants()
-                                .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
-                    ilist.Add(elementsToSrcConn);
 
-                    foreach (XElement element in ilist)
+                    if (CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString() != null)
                     {
-                        var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-                        var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-                        connection.Value = txtsrname.Text;
-                        sql.Value = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
-                    }
+                        var elementsToSrcConn = doc.Descendants()
+                                    .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
+                        ilist.Add(elementsToSrcConn);
 
-                    doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-                    string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
-                    string toBeSearched = "select ";
-                    int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-                    if (ix != -1)
-                    {
-                        string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-                        string FinalWord = Methods.Before(afterSelect, "from ");
-                        string[] Arr = FinalWord.Split(',');
-                        GlobalVariables.SourceArr = Arr.ToList();
-                        for (int i = 0; i < Arr.Length; i++)
+                        foreach (XElement element in ilist)
                         {
-                            Arr[i] = Arr[i].Trim();
-                            popupForm.custom_chklist.Items.Add(Arr[i]);
+                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                            var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                            connection.Value = txtsrname.Text;
+                            sql.Value = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
                         }
 
+                        doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+                        string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
+                        string toBeSearched = "select ";
+                        int ix = SqlSourceStat.IndexOf(toBeSearched);
+
+                        if (ix != -1)
+                        {
+                            string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+                            string FinalWord = Methods.Before(afterSelect, "from ");
+                            string[] Arr = FinalWord.Split(',');
+                            GlobalVariables.SourceArr = Arr.ToList();
+                            for (int i = 0; i < Arr.Length; i++)
+                            {
+                                Arr[i] = Arr[i].Trim();
+                                popupForm.custom_chklist.Items.Add(Arr[i]);
+                            }
+
+
+
+                            popupForm.WindowState = FormWindowState.Normal;
+                            popupForm.Show(this);
+                        }
+
+                    }
+                }
+
+
+
+                if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
+                {
+                    GlobalVariables.SourceArr.Clear();
+                    if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
+                    {
+
+                        popupForm.custom_chklist.Items.Clear();
+                        var elementsToTrg = doc.Descendants()
+                                  .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
+
+                        ilist.Add(elementsToTrg);
+                        foreach (XElement element in ilist)
+                        {
+                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                            var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+
+                            connection.Value = txtTrgNam.Text;
+                            sql_trg.Value = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
+
+                        }
+
+                        doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+
+                        string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
+                        string toBeSearched = "select ";
+                        int ix = SqlSourceStat.IndexOf(toBeSearched);
+
+                        if (ix != -1)
+                        {
+                            string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+
+                            string FinalWord = Methods.Before(afterSelect, "from ");
+
+                            string[] Arr = FinalWord.Split(',');
+                            GlobalVariables.TaregtArr = Arr.ToList();
+
+                            for (int i = 0; i < Arr.Length; i++)
+                            {
+                                Arr[i] = Arr[i].Trim();
+                                popupForm.custom_chklist.Items.Add(Arr[i]);
+                            }
+
+                        }
 
 
                         popupForm.WindowState = FormWindowState.Normal;
+
                         popupForm.Show(this);
+
+                        if (GlobalVariables.TargetSortValues != null)
+                        {
+                            CombData.Refresh();
+
+                        }
                     }
 
                 }
-            }
 
 
-            if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
-            {
-                if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
+                if (CombData.Columns[e.ColumnIndex].Name == "MrgKey")
                 {
-
+                    GlobalVariables.TaregtArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
-                    var elementsToTrg = doc.Descendants()
-                              .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
 
-                    ilist.Add(elementsToTrg);
-                    foreach (XElement element in ilist)
+                    GlobalVariables.MergeKeysArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+                    foreach (var item in GlobalVariables.MergeKeysArr)
                     {
-                        var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-                        var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-
-                        connection.Value = txtTrgNam.Text;
-                        sql_trg.Value = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
-
-                    }
-
-                    doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-
-                    string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
-                    string toBeSearched = "select ";
-                    int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-                    if (ix != -1)
-                    {
-                        string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-
-                        string FinalWord = Methods.Before(afterSelect, "from ");
-
-                        string[] Arr = FinalWord.Split(',');
-                        GlobalVariables.TaregtArr = Arr.ToList();
-
-                        for (int i = 0; i < Arr.Length; i++)
-                        {
-                            Arr[i] = Arr[i].Trim();
-                            popupForm.custom_chklist.Items.Add(Arr[i]);
-                        }
-
+                        popupForm.custom_chklist.Items.Add(item);
                     }
 
 
                     popupForm.WindowState = FormWindowState.Normal;
-
                     popupForm.Show(this);
 
-                    if (GlobalVariables.TargetSortValues != null)
+
+                }
+
+
+
+                if (CombData.Columns[e.ColumnIndex].Name == "MrgValue")
+                {
+                    GlobalVariables.MergeKeysArr.Clear();
+                    popupForm.custom_chklist.Items.Clear();
+
+                    GlobalVariables.MergeValuesArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+                    foreach (var item in GlobalVariables.MergeValuesArr)
                     {
-                        CombData.Refresh();
-                    
+                        popupForm.custom_chklist.Items.Add(item);
                     }
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show();
+
+
                 }
 
-            }
 
-
-            if (CombData.Columns[e.ColumnIndex].Name == "MrgKey")
-            {
-
-                popupForm.custom_chklist.Items.Clear();
-
-                GlobalVariables.MergeKeysArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                foreach (var item in GlobalVariables.MergeKeysArr)
+                if (CombData.Columns[e.ColumnIndex].Name == "ConnSync")
                 {
-                    popupForm.custom_chklist.Items.Add(item);
+                    GlobalVariables.ConnList = new List<string>();
+                    GlobalVariables.ConnList.Add(txtsrname.Text);
+                    GlobalVariables.ConnList.Add(txtTrgNam.Text);
+                    popupForm.custom_chklist.Items.Clear();
+
+                    foreach (var item in GlobalVariables.ConnList)
+                    {
+                        popupForm.custom_chklist.Items.Add(item);
+                    }
+
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
+
+
+
                 }
 
 
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show(this);
-
-
-            }
-
-
-
-            if (CombData.Columns[e.ColumnIndex].Name == "MrgValue")
-            {
-
-                popupForm.custom_chklist.Items.Clear();
-
-                GlobalVariables.MergeValuesArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                foreach (var item in GlobalVariables.MergeValuesArr)
+                if (CombData.Columns[e.ColumnIndex].Name == "TbleMerg")
                 {
-                    popupForm.custom_chklist.Items.Add(item);
+
+
+                    GlobalVariables.TableList = new List<string>();
+                    GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
+                    GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
+
+                    popupForm.custom_chklist.Items.Clear();
+
+                    foreach (var item in GlobalVariables.TableList)
+                    {
+                        popupForm.custom_chklist.Items.Add(item);
+                    }
+
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
                 }
 
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show();
 
-
-            }
-
-
-            if (CombData.Columns[e.ColumnIndex].Name == "ConnSync")
-            {
-                GlobalVariables.ConnList = new List<string>();
-                GlobalVariables.ConnList.Add(txtsrname.Text);
-                GlobalVariables.ConnList.Add(txtTrgNam.Text);
-                popupForm.custom_chklist.Items.Clear();
-
-                foreach (var item in GlobalVariables.ConnList)
+                if (CombData.Columns[e.ColumnIndex].Name == "SyncKey")
                 {
-                    popupForm.custom_chklist.Items.Add(item);
+                    GlobalVariables.MergeValuesArr.Clear();
+                    popupForm.custom_chklist.Items.Clear();
+
+                    GlobalVariables.SyncKeyArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+                    foreach (var item in GlobalVariables.SyncKeyArr)
+                    {
+                        popupForm.custom_chklist.Items.Add(item);
+                    }
+
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
+
+
                 }
 
 
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show(this);
-
-
-
-            }
-
-
-            if (CombData.Columns[e.ColumnIndex].Name == "TbleMerg")
-            {
-
-
-                GlobalVariables.TableList = new List<string>();
-                GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
-
-
-                popupForm.custom_chklist.Items.Clear();
-
-                foreach (var item in GlobalVariables.TableList)
+                if (CombData.Columns[e.ColumnIndex].Name == "SyncValue")
                 {
-                    popupForm.custom_chklist.Items.Add(item);
+                    GlobalVariables.SyncKeyArr.Clear();
+                    popupForm.custom_chklist.Items.Clear();
+
+                    GlobalVariables.SyncValueArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+                    foreach (var item in GlobalVariables.SyncValueArr)
+                    {
+                        popupForm.custom_chklist.Items.Add(item);
+                    }
+
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
+
+
                 }
-
-
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show(this);
             }
-
-
-            if (CombData.Columns[e.ColumnIndex].Name == "SyncKey")
+            catch (Exception ex)
             {
-                popupForm.custom_chklist.Items.Clear();
-
-                GlobalVariables.SyncKeyArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                foreach (var item in GlobalVariables.SyncKeyArr)
-                {
-                    popupForm.custom_chklist.Items.Add(item);
-                }
-
-
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show(this);
-
-
+                MessageBox.Show("Error Occured " + ex.Message);
             }
 
-
-            if (CombData.Columns[e.ColumnIndex].Name == "SyncValue")
-            {
-                popupForm.custom_chklist.Items.Clear();
-
-                GlobalVariables.SyncValueArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                foreach (var item in GlobalVariables.SyncValueArr)
-                {
-                    popupForm.custom_chklist.Items.Add(item);
-                }
+        
 
 
-                popupForm.WindowState = FormWindowState.Normal;
-                popupForm.Show(this);
-
-
-            }
 
         }
 
