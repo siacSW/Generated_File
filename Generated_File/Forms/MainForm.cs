@@ -1019,7 +1019,6 @@ namespace Generated_File
 
                 if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
                 {
-                    GlobalVariables.SourceArr.Clear();
                     if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
                     {
 
@@ -1067,11 +1066,7 @@ namespace Generated_File
 
                         popupForm.Show(this);
 
-                        if (GlobalVariables.TargetSortValues != null)
-                        {
-                            CombData.Refresh();
-
-                        }
+                        
                     }
 
                 }
@@ -1079,16 +1074,18 @@ namespace Generated_File
 
                 if (CombData.Columns[e.ColumnIndex].Name == "MrgKey")
                 {
-                    GlobalVariables.TaregtArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
 
                     GlobalVariables.MergeKeysArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+
                     foreach (var item in GlobalVariables.MergeKeysArr)
                     {
                         popupForm.custom_chklist.Items.Add(item);
                     }
 
 
+                    GlobalVariables.TaregtArr.Clear();
+                    GlobalVariables.SourceArr.Clear();
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
 
@@ -1124,10 +1121,12 @@ namespace Generated_File
 
                     foreach (var item in GlobalVariables.ConnList)
                     {
+
                         popupForm.custom_chklist.Items.Add(item);
                     }
 
 
+                    popupForm.custom_chklist.SelectionMode = SelectionMode.One;
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
 
@@ -1152,6 +1151,7 @@ namespace Generated_File
                     }
 
 
+                    popupForm.custom_chklist.SelectionMode = SelectionMode.One;
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
                 }
@@ -1204,6 +1204,13 @@ namespace Generated_File
 
 
         }
+
+        //private void Custom_chklist_ItemCheck(object sender, ItemCheckEventArgs e)
+        //{
+        //    if (e.NewValue == CheckState.Checked)
+        //        for (int ix = 0; ix < Custom_chklist.Items.Count; ++ix)
+        //            if (e.Index != ix) checkedListBox1.SetItemChecked(ix, false);
+        //}
 
         private void btndelete_Click(object sender, EventArgs e)
         {

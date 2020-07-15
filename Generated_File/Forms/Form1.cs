@@ -96,7 +96,7 @@ namespace Generated_File
                
                 if (SrCmb.SelectedItem.ToString() == "SAP")
                 {
-                  server.ReplaceWith(xElementServer);
+                 // server.ReplaceWith(xElementServer);
                     type.Value = "GENERIC";
                 }
               else
