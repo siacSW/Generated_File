@@ -23,6 +23,9 @@ namespace Generated_File
         XDocument sqlserver_attributes;
         XDocument Sap_attributes;
         XDocument MariaDb_attributes;
+        XElement xElementServer = new XElement("server");
+        XElement XElementDb = new XElement("database");
+
 
 
         List<XElement> ilist = new List<XElement>();
@@ -88,19 +91,21 @@ namespace Generated_File
 
                         name.Value = txtsrname.Text;
                         // Connection.Add(txtsrname.Text);
-                        server.Value = txtsrServer.Text;
+                      //  
 
                         if (SrCmb.SelectedItem.ToString() == "SAP")
                         {
+                            server.ReplaceWith(xElementServer);
+                            database.ReplaceWith(XElementDb);
                             type.Value = "GENERIC";
                         }
                         else
                         {
+                            server.Value = txtsrServer.Text;
+                            database.Value = txtsrDb.Text;
                             type.Value = SrCmb.SelectedItem.ToString();
                         }
-                        //  type_selectin = type.Value;
-                        database.Value = txtsrDb.Text;
-
+                  
                         port.Value = txtsrPor.Text;
 
                         username.Value = txtsrUser.Text;
@@ -222,14 +227,17 @@ namespace Generated_File
                         server.Value = txtTrSrV.Text;
                         if (TrgCmb.SelectedItem.ToString() == "SAP")
                         {
+                            server.ReplaceWith(xElementServer);
+                            database.ReplaceWith(XElementDb);
                             type.Value = "GENERIC";
                         }
                         else
                         {
+
+                            database.Value = txtTrDB.Text;
                             type.Value = TrgCmb.SelectedItem.ToString();
                         }
-                        // type_selectin = type.Value;
-                        database.Value = txtTrDB.Text;
+                       
                         port.Value = txtTRPo.Text;
                         username.Value = txtTrgUs.Text;
                         password.Value = Methods.PasswordEncrypt(txtTrgPs.Text);

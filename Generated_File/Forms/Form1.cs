@@ -32,6 +32,7 @@ namespace Generated_File
         XDocument sqlserver_attributes;
         XDocument Sap_attributes;
         XDocument MariaDb_attributes;
+   
 
         string username_;
         string password_;
@@ -91,14 +92,16 @@ namespace Generated_File
 
                 name.Value = txtsrname.Text;
                 Connection.Add(txtsrname.Text);
-                server.Value = txtsrServer.Text;
+                
                
                 if (SrCmb.SelectedItem.ToString() == "SAP")
                 {
+                  server.ReplaceWith(xElementServer);
                     type.Value = "GENERIC";
                 }
               else
                {
+                        server.Value = txtsrServer.Text;
                         type.Value = SrCmb.SelectedItem.ToString();
                }
                 type_selectin = type.Value;
