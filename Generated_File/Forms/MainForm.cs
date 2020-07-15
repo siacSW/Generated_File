@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Design;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -49,14 +50,15 @@ namespace Generated_File
 
         private void btngenerate_Click(object sender, EventArgs e)
         {
-            CombData.Rows.Add();
-
+            CombData.Rows.Clear();
+            TrgColumn.Items.Clear();
+            SrcColumn.Items.Clear();
 
             try
             {
-                //  btnaddNew.Visible = true;
                 this.Cursor = Cursors.WaitCursor;
-                CombData.Rows.Clear();
+                CombData.Rows.Add();
+              
 
                 var elementsToUpdateSource = doc.Descendants()
                                           .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
@@ -108,7 +110,7 @@ namespace Generated_File
 
                     ilist.Clear();
 
-                    CombData.Rows.Add();
+                 //   CombData.Rows.Add();
                     switch (SrCmb.SelectedItem.ToString())
                     {
 
@@ -176,6 +178,14 @@ namespace Generated_File
                             Jdbc_Conn.Value = txtSAPJDB.Text;
                             Sap_attributes.Save(@"E:\Files\Sap-Attributes.xml");
                             AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+
+                            var datasource = Methods.SapTables(txtSAPJDB.Text);
+
+                            foreach (var item in datasource)
+                            {
+                                SrcColumn.Items.Add(item);
+                            }
+
                             break;
 
                         default:
@@ -288,6 +298,15 @@ namespace Generated_File
                             Jdbc_Conn.Value = TrgJdbc.Text;
                             Sap_attributes.Save(@"E:\Files\Sap-Attributes.xml");
                             AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+
+                            var datasource = Methods.SapTables(TrgJdbc.Text);
+
+                            foreach (var item in datasource)
+                            {
+                                TrgCmb.Items.Add(item);
+                            }
+
+
                             break;
 
                         default:
@@ -988,7 +1007,6 @@ namespace Generated_File
 
                     }
                 }
-
 
 
                 if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")

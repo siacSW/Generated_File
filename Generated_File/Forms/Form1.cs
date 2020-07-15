@@ -1166,7 +1166,31 @@ namespace Generated_File
 
 
 
+        public static List<string> SapTables(string word2)
+        {
+           // string word2 = "jdbc:saperp:Host=10.1.1.52;User=Dina;Password=Da@2020;Client=310;System Number=30;ConnectionType=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;Tables=MSEG,MKPF,MARA,T001W,T156T,MAKT,T023T,T134T,MCHA,KNA1,AUSP,CABNT;Views=MSEG,MKPF,MARA,T001W,T156T,MAKT,T023T,T134T,MCHA,AUSP,KNA1,CABNT";
 
+            List<string> Tables = new List<string>();
+            // string word2 = "Tables=MSEG,MKPF,MARA,T001W,T156T,MAKT,T023T,T134T,MCHA,KNA1,AUSP,CABNT;Views=MSEG,MKPF,MARA,T001W,T156T,MAKT,T023T,T134T,MCHA,AUSP,KNA1,CABNT";
+            int start = word2.IndexOf("Tables", 0);
+            int End = word2.IndexOf("Views", start);
+            string final = word2.Substring(start, End - start);
+
+            string toBeSearched = "Tables=";
+            int ix = word2.IndexOf(toBeSearched);
+
+            if (ix != -1)
+            {
+                string afterSelect = word2.Substring(ix + toBeSearched.Length);
+                string FinalWord = Before(afterSelect, "Views");
+                string[] Arr = FinalWord.Split(new char[] { ',', ';' });
+
+                Tables = Arr.ToList();
+            }
+
+
+            return Tables;
+        }
 
     }
 
