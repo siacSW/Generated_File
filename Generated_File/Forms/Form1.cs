@@ -1188,6 +1188,8 @@ namespace Generated_File
                 Tables = Arr.ToList();
             }
 
+            Tables = Tables.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+
 
             return Tables;
         }
