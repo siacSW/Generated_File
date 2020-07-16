@@ -8,6 +8,8 @@ namespace Generated_File.Classes
 {
     static class GlobalVariables
     {
+
+        public static List<string> AllValues { get; set; }
         public static int Row_index { get; set; }
         public static List<string> SourceArr { get; set; }
         public static List<string> TaregtArr { get; set; }

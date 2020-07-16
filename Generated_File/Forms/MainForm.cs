@@ -26,7 +26,7 @@ namespace Generated_File
         XElement xElementServer = new XElement("server");
         XElement XElementDb = new XElement("database");
 
-
+       // List<string> MultiValues = new List<string>();
 
         List<XElement> ilist = new List<XElement>();
 
@@ -1001,13 +1001,14 @@ namespace Generated_File
                             string FinalWord = Methods.Before(afterSelect, "from ");
                             string[] Arr = FinalWord.Split(',');
                             GlobalVariables.SourceArr = Arr.ToList();
+                            GlobalVariables.AllValues = Arr.ToList();
                             for (int i = 0; i < Arr.Length; i++)
                             {
                                 Arr[i] = Arr[i].Trim();
                                 popupForm.custom_chklist.Items.Add(Arr[i]);
                             }
 
-
+                          //  MultiValues = GlobalVariables.SourceArr;
 
                             popupForm.WindowState = FormWindowState.Normal;
                             popupForm.Show(this);
@@ -1019,6 +1020,7 @@ namespace Generated_File
 
                 if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
                 {
+
                     if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
                     {
 
@@ -1061,6 +1063,9 @@ namespace Generated_File
 
                         }
 
+                        //MultiValues = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
+
+                        GlobalVariables.SourceArr.Clear();
 
                         popupForm.WindowState = FormWindowState.Normal;
 
@@ -1076,16 +1081,24 @@ namespace Generated_File
                 {
                     popupForm.custom_chklist.Items.Clear();
 
-                    GlobalVariables.MergeKeysArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-
-                    foreach (var item in GlobalVariables.MergeKeysArr)
+                    foreach (var item in GlobalVariables.TaregtArr)
                     {
+                        GlobalVariables.AllValues.Add(item);
+                    }
+                    GlobalVariables.MergeKeysArr = new List<string>();
+                
+                    foreach (var item in GlobalVariables.AllValues)
+                    {
+                        GlobalVariables.MergeKeysArr.Add(item);
+
                         popupForm.custom_chklist.Items.Add(item);
                     }
 
+                    //foreach (var item in GlobalVariables.AllValues)
+                    //{
+                    //}
 
                     GlobalVariables.TaregtArr.Clear();
-                    GlobalVariables.SourceArr.Clear();
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
 
@@ -1099,12 +1112,16 @@ namespace Generated_File
                     GlobalVariables.MergeKeysArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
 
-                    GlobalVariables.MergeValuesArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                    foreach (var item in GlobalVariables.MergeValuesArr)
+                    GlobalVariables.MergeValuesArr = new List<string>();
+
+                    foreach (var item in GlobalVariables.AllValues)
                     {
+                        GlobalVariables.MergeValuesArr.Add(item);
+
                         popupForm.custom_chklist.Items.Add(item);
                     }
 
+                  
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show();
 
@@ -1162,12 +1179,16 @@ namespace Generated_File
                     GlobalVariables.MergeValuesArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
 
-                    GlobalVariables.SyncKeyArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                    foreach (var item in GlobalVariables.SyncKeyArr)
+
+                    GlobalVariables.SyncKeyArr = new List<string>();
+                    // GlobalVariables.SyncKeyArr = GlobalVariables.AllValues;
+                    foreach (var item in GlobalVariables.AllValues)
                     {
+                        GlobalVariables.SyncKeyArr.Add(item);
+
                         popupForm.custom_chklist.Items.Add(item);
                     }
-
+                   
 
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
@@ -1181,11 +1202,16 @@ namespace Generated_File
                     GlobalVariables.SyncKeyArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
 
-                    GlobalVariables.SyncValueArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-                    foreach (var item in GlobalVariables.SyncValueArr)
+                    GlobalVariables.SyncValueArr = new List<string>();
+
+                    foreach (var item in GlobalVariables.AllValues)
                     {
+                        GlobalVariables.SyncValueArr.Add(item);
+
                         popupForm.custom_chklist.Items.Add(item);
                     }
+
+                   
 
 
                     popupForm.WindowState = FormWindowState.Normal;
