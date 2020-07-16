@@ -159,9 +159,8 @@ namespace Generated_File.Forms
                     mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SyncValue"].Value = sync_values;
 
                     this.Close();
-
-                    GlobalVariables.SyncValueArr.Clear();
                 }
+                GlobalVariables.SyncValueArr.Clear();
             }
 
         }

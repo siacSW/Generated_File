@@ -968,6 +968,8 @@ namespace Generated_File
         {
             GlobalVariables.Row_index = e.RowIndex;
             PopupForm popupForm = new PopupForm(this);
+            //GlobalVariables.AllValues = new List<string>();
+            //GlobalVariables.AllValues.Clear();
 
             try
             {
@@ -1089,9 +1091,9 @@ namespace Generated_File
                 
                     foreach (var item in GlobalVariables.AllValues)
                     {
-                        GlobalVariables.MergeKeysArr.Add(item);
+                        GlobalVariables.MergeKeysArr.Add(item.Trim());
 
-                        popupForm.custom_chklist.Items.Add(item);
+                        popupForm.custom_chklist.Items.Add(item.Trim());
                     }
 
                     //foreach (var item in GlobalVariables.AllValues)
@@ -1116,9 +1118,9 @@ namespace Generated_File
 
                     foreach (var item in GlobalVariables.AllValues)
                     {
-                        GlobalVariables.MergeValuesArr.Add(item);
+                        GlobalVariables.MergeValuesArr.Add(item.Trim());
 
-                        popupForm.custom_chklist.Items.Add(item);
+                        popupForm.custom_chklist.Items.Add(item.Trim());
                     }
 
                   
@@ -1181,12 +1183,11 @@ namespace Generated_File
 
 
                     GlobalVariables.SyncKeyArr = new List<string>();
-                    // GlobalVariables.SyncKeyArr = GlobalVariables.AllValues;
                     foreach (var item in GlobalVariables.AllValues)
                     {
-                        GlobalVariables.SyncKeyArr.Add(item);
+                        GlobalVariables.SyncKeyArr.Add(item.Trim());
 
-                        popupForm.custom_chklist.Items.Add(item);
+                        popupForm.custom_chklist.Items.Add(item.Trim());
                     }
                    
 
@@ -1206,13 +1207,10 @@ namespace Generated_File
 
                     foreach (var item in GlobalVariables.AllValues)
                     {
-                        GlobalVariables.SyncValueArr.Add(item);
+                        GlobalVariables.SyncValueArr.Add(item.Trim());
 
-                        popupForm.custom_chklist.Items.Add(item);
+                        popupForm.custom_chklist.Items.Add(item.Trim());
                     }
-
-                   
-
 
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);

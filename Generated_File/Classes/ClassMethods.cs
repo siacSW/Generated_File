@@ -63,8 +63,6 @@ namespace Generated_File.Classes
 
         }
 
-
-
         //fOR Sql-Server Conn
         public static List<string> SQLSERVERGET(string host, string database, string username, string password)
         {
