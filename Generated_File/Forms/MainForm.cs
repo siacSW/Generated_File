@@ -968,8 +968,6 @@ namespace Generated_File
         {
             GlobalVariables.Row_index = e.RowIndex;
             PopupForm popupForm = new PopupForm(this);
-            //GlobalVariables.AllValues = new List<string>();
-            //GlobalVariables.AllValues.Clear();
 
             try
             {
@@ -1096,18 +1094,12 @@ namespace Generated_File
                         popupForm.custom_chklist.Items.Add(item.Trim());
                     }
 
-                    //foreach (var item in GlobalVariables.AllValues)
-                    //{
-                    //}
-
                     GlobalVariables.TaregtArr.Clear();
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
 
 
                 }
-
-
 
                 if (CombData.Columns[e.ColumnIndex].Name == "MrgValue")
                 {
@@ -1123,16 +1115,13 @@ namespace Generated_File
                         popupForm.custom_chklist.Items.Add(item.Trim());
                     }
 
-                  
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show();
 
-
                 }
-
-
                 if (CombData.Columns[e.ColumnIndex].Name == "ConnSync")
                 {
+                    GlobalVariables.MergeValuesArr.Clear();
                     GlobalVariables.ConnList = new List<string>();
                     GlobalVariables.ConnList.Add(txtsrname.Text);
                     GlobalVariables.ConnList.Add(txtTrgNam.Text);
@@ -1157,7 +1146,8 @@ namespace Generated_File
                 if (CombData.Columns[e.ColumnIndex].Name == "TbleMerg")
                 {
 
-
+                    GlobalVariables.MergeValuesArr.Clear();
+                    GlobalVariables.ConnList.Clear();
                     GlobalVariables.TableList = new List<string>();
                     GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
                     GlobalVariables.TableList.Add(CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
@@ -1178,6 +1168,7 @@ namespace Generated_File
 
                 if (CombData.Columns[e.ColumnIndex].Name == "SyncKey")
                 {
+                    GlobalVariables.TableList.Clear();
                     GlobalVariables.MergeValuesArr.Clear();
                     popupForm.custom_chklist.Items.Clear();
 
@@ -1222,19 +1213,7 @@ namespace Generated_File
             {
                 MessageBox.Show("Error Occured " + ex.Message);
             }
-
-        
-
-
-
         }
-
-        //private void Custom_chklist_ItemCheck(object sender, ItemCheckEventArgs e)
-        //{
-        //    if (e.NewValue == CheckState.Checked)
-        //        for (int ix = 0; ix < Custom_chklist.Items.Count; ++ix)
-        //            if (e.Index != ix) checkedListBox1.SetItemChecked(ix, false);
-        //}
 
         private void btndelete_Click(object sender, EventArgs e)
         {
