@@ -29,13 +29,11 @@ namespace Generated_File.Classes
         public static List<string> TableList { get; set; }
 
         public static List<string> SyncKeyArr { get; set; }
-
+        
         public static List<string> SyncValueArr { get; set; }
         public static List<string> SyncKeys { get; set; }
 
         public static List<string> SyncValues { get; set; }
-
-
 
         public static List<string> ConnValues { get; set; }
 

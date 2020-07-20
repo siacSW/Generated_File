@@ -17,7 +17,7 @@ namespace Generated_File
 {
     public partial class MainForm : Form
     {
-        public string grid_Count;
+      //  public string grid_Count;
         XDocument doc;
         XDocument mySql_Attributes;
         XDocument sqlserver_attributes;
@@ -30,7 +30,8 @@ namespace Generated_File
 
         List<XElement> ilist = new List<XElement>();
 
-
+        string SourceSelectionValue;
+        string TaregtSelectionValue;
 
         public MainForm()
         {
@@ -56,6 +57,21 @@ namespace Generated_File
             CombData.Rows.Clear();
             TrgColumn.Items.Clear();
             SrcColumn.Items.Clear();
+
+            ProgressBar pBar = new ProgressBar
+            {
+                Location = new System.Drawing.Point(25, 125),
+                Name = "progressBar1",
+                Width = 350,
+                Height = 30,
+                Minimum = 0,
+                Maximum = 100,
+                Value = 30
+            };
+            Controls.Add(pBar);
+
+            SourceSelectionValue = SrCmb.SelectedItem.ToString();
+            TaregtSelectionValue = TrgCmb.SelectedItem.ToString();
 
             try
             {
@@ -90,8 +106,6 @@ namespace Generated_File
                         var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                         name.Value = txtsrname.Text;
-                        // Connection.Add(txtsrname.Text);
-                      //  
 
                         if (SrCmb.SelectedItem.ToString() == "SAP")
                         {
@@ -109,7 +123,8 @@ namespace Generated_File
                         port.Value = txtsrPor.Text;
 
                         username.Value = txtsrUser.Text;
-                        password.Value = Methods.PasswordEncrypt(txtsrPsw.Text);
+                     //   password.Value = txtsrPsw.Text;
+                        password.Value = Methods.PasswordEncrypt(txtsrPsw.Text , txtbrowsValue.Text);
 
                     }
 
@@ -128,7 +143,7 @@ namespace Generated_File
                             AttributesElements.ReplaceWith(sqlserver_attributes.Root);
 
                             var dataCollectionSQlServer = Methods.SQLSERVERGET(txtsrServer.Text, txtsrDb.Text, txtsrUser.Text, txtsrPsw.Text);
-
+                            
                             foreach (var item in dataCollectionSQlServer)
                             {
                                 SrcColumn.Items.Add(item);
@@ -240,7 +255,9 @@ namespace Generated_File
                        
                         port.Value = txtTRPo.Text;
                         username.Value = txtTrgUs.Text;
-                        password.Value = Methods.PasswordEncrypt(txtTrgPs.Text);
+                        password.Value = Methods.PasswordEncrypt(txtTrgPs.Text, txtbrowsValue.Text) ;
+
+                      //  password.Value = txtTrgPs.Text;
 
                     }
 
@@ -382,7 +399,6 @@ namespace Generated_File
         //Enter Event
         private void CombData_KeyDown(object sender, KeyEventArgs e)
         {
-            PopupForm popupForm = new PopupForm(this);
             //try
             //{
             //    if (e.KeyCode == Keys.Enter)
@@ -636,10 +652,16 @@ namespace Generated_File
 
                 var final_repot = XDocument.Load(@"E:\Files\test_transGenerate.ktr");
 
-                final_repot.Save(@"E:\Files\test_transGenerate" + e.RowIndex + ".ktr");
+                if (File.Exists(@"E:\Files\test_transGenerate.ktr"))
+                {
+                    final_repot.Save(@"E:\Files\test_transGenerate.ktr");
+                }
+                else
+                {
+                    final_repot.Save(@"E:\Files\test_transGenerate" + e.RowIndex + ".ktr");
+                }
 
                 MessageBox.Show("file created");
-
 
                 this.Cursor = Cursors.Default;
 
@@ -940,8 +962,6 @@ namespace Generated_File
                 {
                     var nam_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
 
-
-
                     var field_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "rename").FirstOrDefault();
                     nam_tst.Value = GlobalVariables.SyncValues[i].ToString();
                     field_tst.Value = GlobalVariables.SyncValues[i].ToString();
@@ -971,130 +991,155 @@ namespace Generated_File
 
             try
             {
+                List<string> ReturnedValues = new List<string>();
+
+                List<string> TargetReturnedValues = new List<string>();
+
 
                 if (CombData.Columns[e.ColumnIndex].Name == "SourceSort")
                 {
+                    popupForm.custom_chklist.Items.Clear();
+                    GlobalVariables.SourceArr = new List<string>();
 
-                    if (CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString() != null)
+                    if (SourceSelectionValue == "MSSQLNATIVE")
                     {
-                        var elementsToSrcConn = doc.Descendants()
-                                    .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
-                        ilist.Add(elementsToSrcConn);
-
-                        foreach (XElement element in ilist)
-                        {
-                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-                            var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-                            connection.Value = txtsrname.Text;
-                            sql.Value = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
-                        }
-
-                        doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-                        string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["SourceSql"].Value.ToString();
-                        string toBeSearched = "select ";
-                        int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-                        if (ix != -1)
-                        {
-                            string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-                            string FinalWord = Methods.Before(afterSelect, "from ");
-                            string[] Arr = FinalWord.Split(',');
-                            GlobalVariables.SourceArr = Arr.ToList();
-                            GlobalVariables.AllValues = Arr.ToList();
-                            for (int i = 0; i < Arr.Length; i++)
-                            {
-                                Arr[i] = Arr[i].Trim();
-                                popupForm.custom_chklist.Items.Add(Arr[i]);
-                            }
-
-                          //  MultiValues = GlobalVariables.SourceArr;
-
-                            popupForm.WindowState = FormWindowState.Normal;
-                            popupForm.Show(this);
-                        }
+                        ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
 
                     }
+                    else if (SourceSelectionValue == "MARIADB" || SourceSelectionValue == "MYSQL")
+                    {
+                        ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
+
+                    }
+
+                    GlobalVariables.AllValues = ReturnedValues;
+
+                    foreach (var item in ReturnedValues)
+                    {
+                        popupForm.custom_chklist.Items.Add(item);
+                        GlobalVariables.SourceArr.Add(item);
+                       // GlobalVariables.AllValues.Add(item);
+                    }
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
+
+                    var elementsToSrcConn = doc.Descendants()
+                                .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
+                    ilist.Add(elementsToSrcConn);
+
+                    string query = string.Join(",", ReturnedValues);
+                    var SELECT = query.Insert(0, "SELECT ");
+                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString() + " ");
+
+                    foreach (XElement element in ilist)
+                    {
+                        var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                        var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                        connection.Value = txtsrname.Text;
+                        sql.Value = FINAL_SQL;
+                    }
+
+                    doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+                    ilist.Clear();
+
                 }
 
 
                 if (CombData.Columns[e.ColumnIndex].Name == "TrgtSort")
                 {
-
-                    if (CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString() != null)
+                   
+                    popupForm.custom_chklist.Items.Clear();
+                    if (GlobalVariables.SourceArr !=null)
                     {
-
-                        popupForm.custom_chklist.Items.Clear();
-                        var elementsToTrg = doc.Descendants()
-                                  .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
-
-                        ilist.Add(elementsToTrg);
-                        foreach (XElement element in ilist)
+                        if (GlobalVariables.SourceArr.Count > 0)
                         {
-                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-                            var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-
-                            connection.Value = txtTrgNam.Text;
-                            sql_trg.Value = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
-
+                            GlobalVariables.SourceArr.Clear();
                         }
-
-                        doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-
-                        string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["TrgSql"].Value.ToString();
-                        string toBeSearched = "select ";
-                        int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-                        if (ix != -1)
-                        {
-                            string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-
-                            string FinalWord = Methods.Before(afterSelect, "from ");
-
-                            string[] Arr = FinalWord.Split(',');
-                            GlobalVariables.TaregtArr = Arr.ToList();
-
-                            for (int i = 0; i < Arr.Length; i++)
-                            {
-                                Arr[i] = Arr[i].Trim();
-                                popupForm.custom_chklist.Items.Add(Arr[i]);
-                            }
-
-                        }
-
-                        //MultiValues = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-
-                        GlobalVariables.SourceArr.Clear();
-
-                        popupForm.WindowState = FormWindowState.Normal;
-
-                        popupForm.Show(this);
-
-                        
                     }
+                    GlobalVariables.TaregtArr = new List<string>();
+
+                    if (TaregtSelectionValue == "MSSQLNATIVE")
+                    {
+                        TargetReturnedValues = Methods.ReturnFields(TaregtSelectionValue, CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
+                       
+                    }
+                    else if (TaregtSelectionValue == "MARIADB" || TaregtSelectionValue == "MYSQL")
+                    {
+                        TargetReturnedValues = Methods.ReturnFields(TaregtSelectionValue, CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString());
+                    }
+
+                    if (GlobalVariables.AllValues != null)
+                    {
+                        if (GlobalVariables.AllValues.Count > 0)
+                        {
+                            foreach (var item in TargetReturnedValues)
+                            {
+                                popupForm.custom_chklist.Items.Add(item);
+                                GlobalVariables.TaregtArr.Add(item);
+                                GlobalVariables.AllValues.Add(item);
+                            }
+                        }
+                    }
+                    else if (GlobalVariables.AllValues == null)
+                    {
+                        foreach (var item in TargetReturnedValues)
+                        {
+                            popupForm.custom_chklist.Items.Add(item);
+                            GlobalVariables.TaregtArr.Add(item);
+                        }
+                    }
+
+                    popupForm.WindowState = FormWindowState.Normal;
+                    popupForm.Show(this);
+
+
+                    var elementsToTrg = doc.Descendants()
+                               .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
+
+
+                    string query = string.Join(",", TargetReturnedValues);
+                    var SELECT = query.Insert(0, "SELECT ");
+                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[e.RowIndex].Cells["TrgColumn"].Value.ToString() + " ");
+
+                    ilist.Add(elementsToTrg);
+                    foreach (XElement element in ilist)
+                    {
+                        var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                        var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                        connection.Value = txtTrgNam.Text;
+                        sql_trg.Value = FINAL_SQL;
+                    }
+
+                    doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+                    ilist.Clear();
+
 
                 }
 
 
                 if (CombData.Columns[e.ColumnIndex].Name == "MrgKey")
                 {
-                    popupForm.custom_chklist.Items.Clear();
-
-                    foreach (var item in GlobalVariables.TaregtArr)
+                    if (GlobalVariables.TaregtArr != null)
                     {
-                        GlobalVariables.AllValues.Add(item);
+                        if (GlobalVariables.TaregtArr.Count  > 0)
+                        {
+                            GlobalVariables.TaregtArr.Clear();
+                        }
                     }
+                    
+                    popupForm.custom_chklist.Items.Clear();
                     GlobalVariables.MergeKeysArr = new List<string>();
-                
+
                     foreach (var item in GlobalVariables.AllValues)
                     {
                         GlobalVariables.MergeKeysArr.Add(item.Trim());
 
-                        popupForm.custom_chklist.Items.Add(item.Trim());
+                         popupForm.custom_chklist.Items.Add(item.Trim());
                     }
-
-                    GlobalVariables.TaregtArr.Clear();
+                   
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
 
@@ -1180,7 +1225,7 @@ namespace Generated_File
 
                         popupForm.custom_chklist.Items.Add(item.Trim());
                     }
-                   
+
 
                     popupForm.WindowState = FormWindowState.Normal;
                     popupForm.Show(this);
@@ -1220,6 +1265,128 @@ namespace Generated_File
             foreach (DataGridViewRow item in this.CombData.SelectedRows)
             {
                 CombData.Rows.RemoveAt(item.Index);
+            }
+        }
+
+        private void btnbrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\",
+                Title = "Browse Encryption bat File",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "bat",
+                Filter = "bat files (*.bat)|*.bat",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtbrowsValue.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\",
+                Title = "Browse pentaho project Files",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "ktr",
+                Filter = "ktr files (*.ktr)|*.ktr",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+
+            List<XElement> SouceList = new List<XElement>();
+            List<XElement> TargetList = new List<XElement>();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                XDocument Opened_File = XDocument.Load(openFileDialog1.FileName);
+
+                var elementsToUpdateSource = Opened_File.Descendants()
+                                          .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
+
+
+                var elementsToUpdateTaregt = Opened_File.Descendants()
+                                   .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
+
+                SouceList.Add(elementsToUpdateSource);
+
+                TargetList.Add(elementsToUpdateTaregt);
+
+                foreach (XElement element in SouceList)
+                {
+                    var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                    var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                    var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+
+                    var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                    var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                    var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                    var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                    txtsrname.Text = name.Value;
+                    txtsrServer.Text = server.Value;
+                    if (type.Value == "GENERIC")
+                    {
+                        SrCmb.SelectedItem = "SAP";
+                    }
+                    else
+                    {
+                        SrCmb.SelectedItem = type.Value;
+                    }
+                    txtsrDb.Text = database.Value;
+                    txtsrPor.Text = port.Value;
+                    txtsrUser.Text = username.Value;
+                    txtsrPsw.Text = password.Value;
+
+                }
+
+                foreach (XElement element in TargetList)
+                {
+                    var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                    var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                    var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+
+                    var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                    var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                    var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                    var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                    txtTrgNam.Text = name.Value;
+                    txtTrSrV.Text = server.Value;
+                    if (type.Value == "GENERIC")
+                    {
+                        TrgCmb.SelectedItem = "SAP";
+                    }
+                    else
+                    {
+                        TrgCmb.SelectedItem = type.Value;
+                    }
+
+                    txtTrDB.Text = database.Value;
+                    txtTRPo.Text = port.Value;
+                    txtTrgUs.Text = username.Value;
+                    txtTrgPs.Text = password.Value;
+
+                }
+
+                SouceList.Clear();
+                TargetList.Clear();
             }
         }
     }

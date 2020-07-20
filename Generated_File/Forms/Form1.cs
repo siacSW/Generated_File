@@ -110,7 +110,7 @@ namespace Generated_File
                 port.Value = txtsrPor.Text;
                 
                 username.Value = txtsrUser.Text;
-                password.Value = Methods.PasswordEncrypt(txtsrPsw.Text);
+               // password.Value = Methods.PasswordEncrypt(txtsrPsw.Text);
                 
              
             }
@@ -239,7 +239,7 @@ namespace Generated_File
                 database.Value = txtTrDB.Text;
                 port.Value = txtTRPo.Text;
                 username.Value = txtTrgUs.Text;
-                password.Value = Methods.PasswordEncrypt(txtTrgPs.Text);
+               // password.Value = Methods.PasswordEncrypt(txtTrgPs.Text);
 
             }
 
@@ -1056,6 +1056,9 @@ namespace Generated_File
 
      static class Methods
     {
+        static string SqlServer_ConnectionString;
+
+        static string MySql_ConnectionString;
         public static string Before(this string value, string a)
         {
             int posA = value.IndexOf(a);
@@ -1066,7 +1069,7 @@ namespace Generated_File
             return value.Substring(0, posA);
         }
 
-      public  static string PasswordEncrypt(string password)
+      public  static string PasswordEncrypt(string password , string path )
         {
 
             string strline = "";
@@ -1074,14 +1077,16 @@ namespace Generated_File
             {
                 ProcessStartInfo ps = new ProcessStartInfo
                 {
-                    FileName = "E:\\data-integration\\Encr.bat",
+                    FileName = @""+path+" ",
+                    //FileName = @"E:\data-integration\Encr.bat",
+                    //FileName = "E:\\data-integration\\Encr.bat",
                     Arguments = "-kettle  " + password + " ",
                     CreateNoWindow = true,
                     ErrorDialog = true,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
-                    WorkingDirectory = "E:\\data-integration"
+                    //WorkingDirectory = @"E:\data-integration"
                 };
                 Process p = Process.Start(ps);
                 p.WaitForExit();
@@ -1110,7 +1115,12 @@ namespace Generated_File
             List<string> TableNames = new List<string>();
             try
             {
-                MySqlConnection connection = new MySqlConnection("User Id=" + username + ";Password=" + password + ";Host=" + host + ";Port=" + port + ";Database=" + database + ";Unicode=False;Persist Security Info=False;Character Set=utf8;Found Rows=True");
+                string Connection_str = "User Id = " + username + "; Password = " + password + "; Host = " + host + "; Port = " + port + "; Database = " + database + "; Unicode = False; Persist Security Info = False; Character Set = utf8; Found Rows = True";
+
+
+                MySqlConnection connection = new MySqlConnection(Connection_str);
+
+                MySql_ConnectionString = Connection_str;
 
                 MySqlCommand command = connection.CreateCommand();
                
@@ -1147,6 +1157,8 @@ namespace Generated_File
             try
             {
                 string connection_string = "Data Source=" + host + ",1433;Network Library=DBMSSOCN;Initial Catalog=" + database + ";User ID=" + username + ";Password=" + password + ";";
+                SqlServer_ConnectionString = connection_string;
+
                 using (SqlConnection connection = new SqlConnection(connection_string))
                 {
                     connection.Open();
@@ -1195,6 +1207,60 @@ namespace Generated_File
 
 
             return Tables;
+        }
+
+
+        public static List<string> ReturnFields(string data_type , string tble_name)
+        {
+            List<string> FieldsName = new List<string>(); 
+
+            if (data_type == "MSSQLNATIVE")
+            {
+             
+                using (SqlConnection conn = new SqlConnection(SqlServer_ConnectionString))
+                {
+                    conn.Open();
+                    string Query = "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" +tble_name+ "' ";
+                    SqlCommand command = new SqlCommand(Query, conn);
+
+                    SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                    while (sqlDataReader.Read())
+                    {
+                        FieldsName.Add(sqlDataReader[0].ToString());
+                    }
+
+                    conn.Close();
+                }
+
+            }
+
+
+            if (data_type == "MYSQL" || data_type == "MARIADB")
+            {
+
+                using (MySqlConnection conn = new MySqlConnection(MySql_ConnectionString))
+                {
+                    conn.Open();
+                    DataTable dataTable_ = new DataTable();
+                    string Query = "select COLUMN_NAME as 'name' from information_schema.columns where table_name= '" + tble_name + "'   ";
+                    MySqlCommand command = new MySqlCommand(Query, conn);
+
+                    MySqlDataAdapter dataAdapter = new MySqlDataAdapter(command);
+
+                    dataAdapter.Fill(dataTable_);
+
+                    foreach (DataRow item in dataTable_.Rows)
+                    {
+                        FieldsName.Add(item["Name"].ToString());
+                    }
+
+                    conn.Close();
+                }
+
+            }
+
+            return FieldsName;
         }
 
     }
