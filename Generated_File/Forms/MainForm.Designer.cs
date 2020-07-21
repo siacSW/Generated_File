@@ -198,8 +198,11 @@ namespace Generated_File
             this.txtSAPJDB.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSAPJDB.Multiline = true;
             this.txtSAPJDB.Name = "txtSAPJDB";
-            this.txtSAPJDB.Size = new System.Drawing.Size(444, 223);
+            this.txtSAPJDB.Size = new System.Drawing.Size(444, 210);
             this.txtSAPJDB.TabIndex = 27;
+            this.txtSAPJDB.Text = "jdbc:saperp:Host=***;User=***;Password=***;Client=**;System Number=**;ConnectionT" +
+    "ype=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;T" +
+    "ables=**;Views=**;";
             this.txtSAPJDB.Visible = false;
             // 
             // txtsrname
@@ -302,6 +305,9 @@ namespace Generated_File
             this.TrgJdbc.Name = "TrgJdbc";
             this.TrgJdbc.Size = new System.Drawing.Size(500, 223);
             this.TrgJdbc.TabIndex = 38;
+            this.TrgJdbc.Text = "jdbc:saperp:Host=***;User=***;Password=***;Client=**;System Number=**;ConnectionT" +
+    "ype=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;T" +
+    "ables=**;Views=**;\r\n";
             this.TrgJdbc.Visible = false;
             // 
             // lbl_jdbc
@@ -332,7 +338,7 @@ namespace Generated_File
             // 
             // txtTrgPs
             // 
-            this.txtTrgPs.Location = new System.Drawing.Point(129, 465);
+            this.txtTrgPs.Location = new System.Drawing.Point(129, 452);
             this.txtTrgPs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTrgPs.Name = "txtTrgPs";
             this.txtTrgPs.PasswordChar = '*';
@@ -382,7 +388,7 @@ namespace Generated_File
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(29, 470);
+            this.label9.Location = new System.Drawing.Point(28, 459);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 17);
             this.label9.TabIndex = 29;

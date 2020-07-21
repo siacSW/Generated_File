@@ -50,6 +50,10 @@ namespace Generated_File
                 MessageBox.Show("Error in Reading Template File " + ex.Message);
                 Environment.Exit(1);
             }
+
+
+
+            //txtSAPJDB.Text = 
         }
 
         private void btngenerate_Click(object sender, EventArgs e)
@@ -123,14 +127,13 @@ namespace Generated_File
                         port.Value = txtsrPor.Text;
 
                         username.Value = txtsrUser.Text;
-                     //   password.Value = txtsrPsw.Text;
+
                         password.Value = Methods.PasswordEncrypt(txtsrPsw.Text , txtbrowsValue.Text);
 
                     }
 
                     ilist.Clear();
 
-                 //   CombData.Rows.Add();
                     switch (SrCmb.SelectedItem.ToString())
                     {
 
@@ -370,6 +373,8 @@ namespace Generated_File
                 lbl_SAPJDBC.Visible = true;
 
                 txtSAPJDB.Visible = true;
+
+                MessageBox.Show("You have to change the host , username , password , Client , SystemNumber and Tables");
             }
             else
             {
@@ -386,6 +391,9 @@ namespace Generated_File
                 lbl_jdbc.Visible = true;
 
                 TrgJdbc.Visible = true;
+
+
+                MessageBox.Show("You have to change the host , username , password , Client , SystemNumber and Tables");
             }
             else
             {
@@ -399,233 +407,6 @@ namespace Generated_File
         //Enter Event
         private void CombData_KeyDown(object sender, KeyEventArgs e)
         {
-            //try
-            //{
-            //    if (e.KeyCode == Keys.Enter)
-            //    {
-            //        int row_number = CombData.CurrentCell.RowIndex;
-            //        int columnIndex = CombData.CurrentCell.ColumnIndex;
-
-            //        GlobalVariables.TableList.Add(CombData.Rows[row_number].Cells["SrcColumn"].Value.ToString());
-
-            //        if (CombData.Rows[row_number].Cells["SourceSql"].Value.ToString() != null && columnIndex == 4)
-            //        {
-            //            var elementsToSrcConn = doc.Descendants()
-            //                        .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
-            //            ilist.Add(elementsToSrcConn);
-
-            //            foreach (XElement element in ilist)
-            //            {
-            //                var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-            //                var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-            //                connection.Value = txtsrname.Text;
-            //                sql.Value = CombData.Rows[row_number].Cells["SourceSql"].Value.ToString();
-            //            }
-
-            //            doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-            //            string SqlSourceStat = CombData.Rows[row_number].Cells["SourceSql"].Value.ToString();
-            //            string toBeSearched = "select ";
-            //            int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-            //            if (ix != -1)
-            //            {
-            //                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-            //                string FinalWord = Methods.Before(afterSelect, "from ");
-            //                string[] Arr = FinalWord.Split(',');
-            //                GlobalVariables.SourceArr = Arr.ToList();
-            //                for (int i = 0; i < Arr.Length; i++)
-            //                {
-            //                    Arr[i] = Arr[i].Trim();
-            //                    popupForm.custom_chklist.Items.Add(Arr[i]);
-            //                }
-            //            }
-
-            //            if (GlobalVariables.SourceSortValues != null)
-            //            {
-            //                string sort_vlues = string.Join(",", GlobalVariables.SourceSortValues);
-            //                CombData.Rows[row_number].Cells["SourceSort"].Value = sort_vlues;
-            //            }
-            //        }
-
-            //        if (CombData.Rows[row_number].Cells["TrgSql"].Value.ToString() != null && columnIndex == 5)
-            //        {
-            //            GlobalVariables.TableList.Add(CombData.Rows[row_number].Cells["TrgColumn"].Value.ToString());
-
-            //            popupForm.custom_chklist.Items.Clear();
-            //            var elementsToTrg = doc.Descendants()
-            //                      .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
-
-            //            ilist.Add(elementsToTrg);
-            //            foreach (XElement element in ilist)
-            //            {
-            //                var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-            //                var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-
-            //                connection.Value = txtTrgNam.Text;
-            //                sql_trg.Value = CombData.Rows[row_number].Cells["TrgSql"].Value.ToString();
-
-            //            }
-
-            //            doc.Save(@"E:\Files\test_transGenerate.ktr");
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-
-            //            string SqlSourceStat = CombData.Rows[row_number].Cells["TrgSql"].Value.ToString();
-            //            string toBeSearched = "select ";
-            //            int ix = SqlSourceStat.IndexOf(toBeSearched);
-
-            //            if (ix != -1)
-            //            {
-            //                string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
-
-            //                string FinalWord = Methods.Before(afterSelect, "from ");
-
-            //                string[] Arr = FinalWord.Split(',');
-            //                GlobalVariables.TaregtArr = Arr.ToList();
-
-            //                for (int i = 0; i < Arr.Length; i++)
-            //                {
-            //                    Arr[i] = Arr[i].Trim();
-            //                    popupForm.custom_chklist.Items.Add(Arr[i]);
-            //                }
-
-            //            }
-
-            //            if (GlobalVariables.TargetSortValues != null)
-            //            {
-            //                CombData.Refresh();
-            //                string Trg_vlues = string.Join(",", GlobalVariables.TargetSortValues);
-            //                CombData.Rows[row_number].Cells["TrgtSort"].Value = Trg_vlues;
-            //            }
-
-            //        }
-
-            //        if (columnIndex == 6)
-            //        {
-            //            popupForm.custom_chklist.Items.Clear();
-
-            //            GlobalVariables.MergeKeysArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-            //            foreach (var item in GlobalVariables.MergeKeysArr)
-            //            {
-            //                popupForm.custom_chklist.Items.Add(item);
-            //            }
-
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-
-
-            //            if (GlobalVariables.SourceArr != null && GlobalVariables.TaregtArr != null)
-            //            {
-            //                CombData.Refresh();
-            //                string merg_keys = string.Join(",", GlobalVariables.MergeKeys);
-            //                CombData.Rows[row_number].Cells["MrgKey"].Value = merg_keys;
-            //            }
-
-
-            //        }
-
-
-
-            //        if (columnIndex == 7)
-            //        {
-            //            popupForm.custom_chklist.Items.Clear();
-
-            //            GlobalVariables.MergeValuesArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-            //            foreach (var item in GlobalVariables.MergeValuesArr)
-            //            {
-            //                popupForm.custom_chklist.Items.Add(item);
-            //            }
-
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-
-
-            //            if (GlobalVariables.SourceArr != null && GlobalVariables.TaregtArr != null)
-            //            {
-            //                CombData.Refresh();
-            //                string merg_values = string.Join(",", GlobalVariables.MergeValues);
-            //                CombData.Rows[row_number].Cells["MrgValue"].Value = merg_values;
-            //            }
-
-
-            //        }
-
-
-            //        if (columnIndex == 8)
-            //        {
-            //            foreach (var item in GlobalVariables.ConnList)
-            //            {
-            //                ConnSync.Items.Add(item);
-            //            }
-            //        }
-
-            //        if (columnIndex == 9)
-            //        {
-            //            foreach (var item in GlobalVariables.TableList)
-            //            {
-            //                TbleMerg.Items.Add(item);
-            //            }
-            //        }
-
-
-            //        if (columnIndex == 10)
-            //        {
-            //            popupForm.custom_chklist.Items.Clear();
-
-            //            GlobalVariables.SyncKeyArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-            //            foreach (var item in GlobalVariables.SyncKeyArr)
-            //            {
-            //                popupForm.custom_chklist.Items.Add(item);
-            //            }
-
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-
-
-            //            if (GlobalVariables.SyncKeys != null)
-            //            {
-            //                CombData.Refresh();
-            //                string sync_key = string.Join(",", GlobalVariables.SyncKeys);
-            //                CombData.Rows[row_number].Cells["SyncKey"].Value = sync_key;
-            //            }
-            //        }
-
-            //        if (columnIndex == 11)
-            //        {
-            //            popupForm.custom_chklist.Items.Clear();
-
-            //            GlobalVariables.SyncValueArr = GlobalVariables.SourceArr.Joins(GlobalVariables.TaregtArr);
-            //            foreach (var item in GlobalVariables.SyncValueArr)
-            //            {
-            //                popupForm.custom_chklist.Items.Add(item);
-            //            }
-
-
-            //            popupForm.StartPosition = FormStartPosition.CenterParent;
-            //            popupForm.Show(this);
-
-
-            //            if (GlobalVariables.SyncValues != null)
-            //            {
-            //                CombData.Refresh();
-            //                string sync_values = string.Join(",", GlobalVariables.SyncValues);
-            //                CombData.Rows[row_number].Cells["SyncValue"].Value = sync_values;
-            //            }
-            //        }
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error : " + ex.Message);
-            //}
 
         }
 
@@ -1324,6 +1105,21 @@ namespace Generated_File
                 var elementsToUpdateTaregt = Opened_File.Descendants()
                                    .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
 
+
+                var AttributesElementsSap = elementsToUpdateSource.Descendants()
+                          .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+
+
+                var AttributesElementsSapTrg = elementsToUpdateTaregt.Descendants()
+                         .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+
+                var Jdbc_Conn = AttributesElementsSap.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+
+
+                var Jdbc_ConnTrg = AttributesElementsSapTrg.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+
+                // MessageBox.Show(Jdbc_Conn.Value);
+
                 SouceList.Add(elementsToUpdateSource);
 
                 TargetList.Add(elementsToUpdateTaregt);
@@ -1344,6 +1140,9 @@ namespace Generated_File
                     if (type.Value == "GENERIC")
                     {
                         SrCmb.SelectedItem = "SAP";
+                        txtSAPJDB.Visible = true;
+                        txtSAPJDB.Text = Jdbc_Conn.Value;
+
                     }
                     else
                     {
@@ -1372,6 +1171,8 @@ namespace Generated_File
                     if (type.Value == "GENERIC")
                     {
                         TrgCmb.SelectedItem = "SAP";
+                        TrgJdbc.Visible = true;
+                        TrgJdbc.Text = Jdbc_ConnTrg.Value;
                     }
                     else
                     {
