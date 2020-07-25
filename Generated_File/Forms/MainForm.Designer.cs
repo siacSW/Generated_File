@@ -66,17 +66,6 @@ namespace Generated_File
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.CombData = new System.Windows.Forms.DataGridView();
-            this.SrcColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.TrgColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.SourceSort = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrgtSort = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MrgKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MrgValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConnSync = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TbleMerg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SyncKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SyncValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnsave = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btngenerate = new System.Windows.Forms.Button();
             this.btnaddNew = new System.Windows.Forms.Button();
             this.btndelete = new System.Windows.Forms.Button();
@@ -86,6 +75,19 @@ namespace Generated_File
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SrcColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.TrgColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.SourceSQL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TargtSQL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SourceSort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TrgtSort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MrgKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MrgValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConnSync = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TbleMerg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SyncKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SyncValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnsave = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CombData)).BeginInit();
@@ -455,6 +457,8 @@ namespace Generated_File
             this.CombData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SrcColumn,
             this.TrgColumn,
+            this.SourceSQL,
+            this.TargtSQL,
             this.SourceSort,
             this.TrgtSort,
             this.MrgKey,
@@ -474,7 +478,87 @@ namespace Generated_File
             this.CombData.TabIndex = 3;
             this.CombData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CombData_CellClick_1);
             this.CombData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CombData_CellContentClick);
-            this.CombData.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CombData_KeyDown);
+            // 
+            // btngenerate
+            // 
+            this.btngenerate.Location = new System.Drawing.Point(764, 587);
+            this.btngenerate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btngenerate.Name = "btngenerate";
+            this.btngenerate.Size = new System.Drawing.Size(105, 46);
+            this.btngenerate.TabIndex = 4;
+            this.btngenerate.Text = "Generate";
+            this.btngenerate.UseVisualStyleBackColor = true;
+            this.btngenerate.Click += new System.EventHandler(this.btngenerate_Click);
+            // 
+            // btnaddNew
+            // 
+            this.btnaddNew.Location = new System.Drawing.Point(24, 592);
+            this.btnaddNew.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnaddNew.Name = "btnaddNew";
+            this.btnaddNew.Size = new System.Drawing.Size(98, 37);
+            this.btnaddNew.TabIndex = 5;
+            this.btnaddNew.Text = "Add Rows";
+            this.btnaddNew.UseVisualStyleBackColor = true;
+            this.btnaddNew.Click += new System.EventHandler(this.btnaddNew_Click);
+            // 
+            // btndelete
+            // 
+            this.btndelete.Location = new System.Drawing.Point(1602, 583);
+            this.btndelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btndelete.Name = "btndelete";
+            this.btndelete.Size = new System.Drawing.Size(108, 46);
+            this.btndelete.TabIndex = 6;
+            this.btndelete.Text = "Delete Row";
+            this.btndelete.UseVisualStyleBackColor = true;
+            this.btndelete.Click += new System.EventHandler(this.btndelete_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // btnbrowse
+            // 
+            this.btnbrowse.Location = new System.Drawing.Point(401, 541);
+            this.btnbrowse.Name = "btnbrowse";
+            this.btnbrowse.Size = new System.Drawing.Size(153, 33);
+            this.btnbrowse.TabIndex = 7;
+            this.btnbrowse.Text = "Browse Encryption";
+            this.btnbrowse.UseVisualStyleBackColor = true;
+            this.btnbrowse.Click += new System.EventHandler(this.btnbrowse_Click);
+            // 
+            // txtbrowsValue
+            // 
+            this.txtbrowsValue.Location = new System.Drawing.Point(619, 546);
+            this.txtbrowsValue.Name = "txtbrowsValue";
+            this.txtbrowsValue.ReadOnly = true;
+            this.txtbrowsValue.Size = new System.Drawing.Size(539, 24);
+            this.txtbrowsValue.TabIndex = 8;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1741, 28);
+            this.menuStrip1.TabIndex = 9;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // SrcColumn
             // 
@@ -493,6 +577,22 @@ namespace Generated_File
             this.TrgColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.TrgColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.TrgColumn.Width = 125;
+            // 
+            // SourceSQL
+            // 
+            this.SourceSQL.HeaderText = "Source SQL";
+            this.SourceSQL.MinimumWidth = 6;
+            this.SourceSQL.Name = "SourceSQL";
+            this.SourceSQL.Visible = false;
+            this.SourceSQL.Width = 125;
+            // 
+            // TargtSQL
+            // 
+            this.TargtSQL.HeaderText = "Target SQL";
+            this.TargtSQL.MinimumWidth = 6;
+            this.TargtSQL.Name = "TargtSQL";
+            this.TargtSQL.Visible = false;
+            this.TargtSQL.Width = 125;
             // 
             // SourceSort
             // 
@@ -578,87 +678,6 @@ namespace Generated_File
             this.btnsave.Text = "Save Currently";
             this.btnsave.Width = 125;
             // 
-            // btngenerate
-            // 
-            this.btngenerate.Location = new System.Drawing.Point(764, 587);
-            this.btngenerate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btngenerate.Name = "btngenerate";
-            this.btngenerate.Size = new System.Drawing.Size(105, 46);
-            this.btngenerate.TabIndex = 4;
-            this.btngenerate.Text = "Generate";
-            this.btngenerate.UseVisualStyleBackColor = true;
-            this.btngenerate.Click += new System.EventHandler(this.btngenerate_Click);
-            // 
-            // btnaddNew
-            // 
-            this.btnaddNew.Location = new System.Drawing.Point(24, 592);
-            this.btnaddNew.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnaddNew.Name = "btnaddNew";
-            this.btnaddNew.Size = new System.Drawing.Size(98, 37);
-            this.btnaddNew.TabIndex = 5;
-            this.btnaddNew.Text = "Add Rows";
-            this.btnaddNew.UseVisualStyleBackColor = true;
-            this.btnaddNew.Click += new System.EventHandler(this.btnaddNew_Click);
-            // 
-            // btndelete
-            // 
-            this.btndelete.Location = new System.Drawing.Point(1602, 583);
-            this.btndelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btndelete.Name = "btndelete";
-            this.btndelete.Size = new System.Drawing.Size(108, 46);
-            this.btndelete.TabIndex = 6;
-            this.btndelete.Text = "Delete Row";
-            this.btndelete.UseVisualStyleBackColor = true;
-            this.btndelete.Click += new System.EventHandler(this.btndelete_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // btnbrowse
-            // 
-            this.btnbrowse.Location = new System.Drawing.Point(401, 541);
-            this.btnbrowse.Name = "btnbrowse";
-            this.btnbrowse.Size = new System.Drawing.Size(153, 33);
-            this.btnbrowse.TabIndex = 7;
-            this.btnbrowse.Text = "Browse Encryption";
-            this.btnbrowse.UseVisualStyleBackColor = true;
-            this.btnbrowse.Click += new System.EventHandler(this.btnbrowse_Click);
-            // 
-            // txtbrowsValue
-            // 
-            this.txtbrowsValue.Location = new System.Drawing.Point(619, 546);
-            this.txtbrowsValue.Name = "txtbrowsValue";
-            this.txtbrowsValue.ReadOnly = true;
-            this.txtbrowsValue.Size = new System.Drawing.Size(539, 24);
-            this.txtbrowsValue.TabIndex = 8;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1741, 28);
-            this.menuStrip1.TabIndex = 9;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -732,8 +751,13 @@ namespace Generated_File
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnbrowse;
         private System.Windows.Forms.TextBox txtbrowsValue;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.DataGridViewComboBoxColumn SrcColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn TrgColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SourceSQL;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TargtSQL;
         private System.Windows.Forms.DataGridViewTextBoxColumn SourceSort;
         private System.Windows.Forms.DataGridViewTextBoxColumn TrgtSort;
         private System.Windows.Forms.DataGridViewTextBoxColumn MrgKey;
@@ -743,9 +767,6 @@ namespace Generated_File
         private System.Windows.Forms.DataGridViewTextBoxColumn SyncKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn SyncValue;
         private System.Windows.Forms.DataGridViewButtonColumn btnsave;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         //  private BIKESTORESDataSetTableAdapters.brandsTableAdapter brandsTableAdapter;
     }
 }

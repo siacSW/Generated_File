@@ -59,26 +59,28 @@ namespace Generated_File
         private void btngenerate_Click(object sender, EventArgs e)
         {
             CombData.Rows.Clear();
+
+            if (SrCmb.SelectedItem.ToString() == "SAP")
+            {
+                SourceSQL.Visible = true;
+            }
+
+            if (TrgCmb.SelectedItem.ToString() == "SAP")
+            {
+                TargtSQL.Visible = true;
+            }
+
             TrgColumn.Items.Clear();
             SrcColumn.Items.Clear();
 
-            ProgressBar pBar = new ProgressBar
-            {
-                Location = new System.Drawing.Point(25, 125),
-                Name = "progressBar1",
-                Width = 350,
-                Height = 30,
-                Minimum = 0,
-                Maximum = 100,
-                Value = 30
-            };
-            Controls.Add(pBar);
+         
 
             SourceSelectionValue = SrCmb.SelectedItem.ToString();
             TaregtSelectionValue = TrgCmb.SelectedItem.ToString();
 
             try
             {
+
                 this.Cursor = Cursors.WaitCursor;
                 CombData.Rows.Add();
               
@@ -92,7 +94,7 @@ namespace Generated_File
                 #region SourceRegion
                 if (SrCmb.SelectedItem == null)
                 {
-                    MessageBox.Show("You cannot set to null");
+                    MessageBox.Show("You cannot set SOURCE SELECTION DB to null");
 
                 }
                 else
@@ -167,7 +169,6 @@ namespace Generated_File
                             foreach (var item in dataCollectionMySql)
                             {
                                 SrcColumn.Items.Add(item);
-                                //SrcColumn.Items.Add(new CheckComboBox.CheckComboBoxItem(item, true));
                             }
 
 
@@ -187,7 +188,6 @@ namespace Generated_File
                             foreach (var item in dataCollectionMySql_)
                             {
                                 SrcColumn.Items.Add(item);
-                                //SrcColumn.Items.Add(new CheckComboBox.CheckComboBoxItem(item, true));
                             }
                             break;
 
@@ -404,12 +404,6 @@ namespace Generated_File
         }
 
 
-        //Enter Event
-        private void CombData_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
         //Cell Content As Button for Saving
         private void CombData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -448,9 +442,6 @@ namespace Generated_File
 
             }
         }
-
-
-
 
         void SaveMergeKeys()
         {
@@ -782,24 +773,86 @@ namespace Generated_File
                     popupForm.custom_chklist.Items.Clear();
                     GlobalVariables.SourceArr = new List<string>();
 
-                    if (SourceSelectionValue == "MSSQLNATIVE")
+
+                    switch (SourceSelectionValue)
                     {
-                        ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
+                        case "MSSQLNATIVE":
+                            ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
 
+                            GlobalVariables.AllValues = ReturnedValues;
+                            break;
+
+                        case "MARIADB":
+                        case "MYSQL":
+                            ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
+
+                            GlobalVariables.AllValues = ReturnedValues;
+                            break;
+
+                        default:
+                            break;
                     }
-                    else if (SourceSelectionValue == "MARIADB" || SourceSelectionValue == "MYSQL")
+
+                    if (SourceSelectionValue == "SAP")
                     {
-                        ReturnedValues = Methods.ReturnFields(SourceSelectionValue, CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString());
+                        if (CombData.Rows[e.RowIndex].Cells["SourceSQL"].Visible == true && CombData.Rows[e.RowIndex].Cells["SourceSQL"].Value.ToString() != null)
+                        {
 
+                            string SqlSourceStat = CombData.Rows[e.RowIndex].Cells["SourceSQL"].Value.ToString();
+                            string toBeSearched = "select ";
+                            string Capital = "SELECT ";
+                            bool VerifySql = SqlSourceStat.Contains(Capital);
+                            int ix = 0;
+                            if (VerifySql == true)
+                            {
+                               ix = SqlSourceStat.IndexOf(Capital);
+                                if (ix != -1)
+                                {
+                                    string afterSelect = SqlSourceStat.Substring(ix + Capital.Length);
+
+                                    string FinalWord = Methods.Before(afterSelect, "FROM ");
+
+                                    string[] Arr = FinalWord.Split(',');
+                                    GlobalVariables.AllValues = Arr.ToList();
+
+                                    for (int i = 0; i < Arr.Length; i++)
+                                    {
+                                        Arr[i] = Arr[i].Trim();
+                                        popupForm.custom_chklist.Items.Add(Arr[i]);
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                ix = SqlSourceStat.IndexOf(toBeSearched);
+                                if (ix != -1)
+                                {
+                                    string afterSelect = SqlSourceStat.Substring(ix + toBeSearched.Length);
+
+                                    string FinalWord = Methods.Before(afterSelect, "from ");
+
+                                    string[] Arr = FinalWord.Split(',');
+                                    GlobalVariables.AllValues = Arr.ToList();
+
+                                    for (int i = 0; i < Arr.Length; i++)
+                                    {
+                                        Arr[i] = Arr[i].Trim();
+                                        popupForm.custom_chklist.Items.Add(Arr[i]);
+                                    }
+
+                                }
+                            }
+
+                           
+                        }
                     }
 
-                    GlobalVariables.AllValues = ReturnedValues;
 
                     foreach (var item in ReturnedValues)
                     {
                         popupForm.custom_chklist.Items.Add(item);
                         GlobalVariables.SourceArr.Add(item);
-                       // GlobalVariables.AllValues.Add(item);
                     }
 
                     popupForm.WindowState = FormWindowState.Normal;
@@ -809,21 +862,41 @@ namespace Generated_File
                                 .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
                     ilist.Add(elementsToSrcConn);
 
-                    string query = string.Join(",", ReturnedValues);
-                    var SELECT = query.Insert(0, "SELECT ");
-                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString() + " ");
-
-                    foreach (XElement element in ilist)
+                    if (SourceSelectionValue != "SAP")
                     {
-                        var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
-                        var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
-                        connection.Value = txtsrname.Text;
-                        sql.Value = FINAL_SQL;
+                        string query = string.Join(",", ReturnedValues);
+                        var SELECT = query.Insert(0, "SELECT ");
+                        var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[e.RowIndex].Cells["SrcColumn"].Value.ToString() + " ");
+
+                        foreach (XElement element in ilist)
+                        {
+                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                            var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                            connection.Value = txtsrname.Text;
+                            sql.Value = FINAL_SQL;
+                        }
+
+                        doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+                        ilist.Clear();
                     }
 
-                    doc.Save(@"E:\Files\test_transGenerate.ktr");
+                    else
+                    {
+                        foreach (XElement element in ilist)
+                        {
+                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                            var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                            connection.Value = txtsrname.Text;
+                            sql.Value = CombData.Rows[e.RowIndex].Cells["SourceSQL"].Value.ToString();
+                        }
 
-                    ilist.Clear();
+                        doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+                        ilist.Clear();
+                    }
+
+                    
 
                 }
 
@@ -1115,10 +1188,7 @@ namespace Generated_File
 
                 var Jdbc_Conn = AttributesElementsSap.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
 
-
                 var Jdbc_ConnTrg = AttributesElementsSapTrg.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
-
-                // MessageBox.Show(Jdbc_Conn.Value);
 
                 SouceList.Add(elementsToUpdateSource);
 
