@@ -11,6 +11,7 @@ namespace Generated_File.Classes
 
         public static List<string> AllValues { get; set; }
         public static int Row_index { get; set; }
+
         public static List<string> SourceArr { get; set; }
         public static List<string> TaregtArr { get; set; }
 
