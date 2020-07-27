@@ -1,5 +1,6 @@
 ﻿using Generated_File.Classes;
 using Generated_File.Forms;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,6 @@ namespace Generated_File
 {
     public partial class MainForm : Form
     {
-      //  public string grid_Count;
         XDocument doc;
         XDocument mySql_Attributes;
         XDocument sqlserver_attributes;
@@ -26,8 +26,9 @@ namespace Generated_File
         XElement xElementServer = new XElement("server");
         XElement XElementDb = new XElement("database");
 
-
-       // List<string> MultiValues = new List<string>();
+        bool FileOpened = false;
+        string File_Opend_Path = "";
+        string New_Path = "";
 
         List<XElement> ilist = new List<XElement>();
 
@@ -53,9 +54,6 @@ namespace Generated_File
                 Environment.Exit(1);
             }
 
-
-
-            //txtSAPJDB.Text = 
         }
 
         private void btngenerate_Click(object sender, EventArgs e)
@@ -82,6 +80,8 @@ namespace Generated_File
 
             try
             {
+
+              
 
                 this.Cursor = Cursors.WaitCursor;
                 CombData.Rows.Add();
@@ -218,8 +218,7 @@ namespace Generated_File
                     }
                 }
 
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
-                ilist.Clear();
+               // ilist.Clear();
 
                 #endregion
 
@@ -344,13 +343,24 @@ namespace Generated_File
                     }
                 }
 
+                #endregion
 
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
+                if (FileOpened == true)
+                {
+                    doc.Save(File_Opend_Path);
+                }
+                else
+                {
+                    string New_File_Generated = Interaction.InputBox("Enter the File Path", "File Path", "Enter the new File Path here");
+                    New_Path = @"" + New_File_Generated + "\\test_transGenerateNew.ktr";
+                    doc.Save(New_Path);
+                    // doc.Save(@""+New_File_Generated+"\test_transGenerateNew.ktr");
+                }
+
+                //doc.Save(@"E:\Files\test_transGenerate.ktr");
                 ilist.Clear();
 
                 this.Cursor = Cursors.Default;
-                #endregion
-
             }
 
             catch (Exception ee)
@@ -415,6 +425,7 @@ namespace Generated_File
               e.RowIndex >= 0)
             {
                 this.Cursor = Cursors.WaitCursor;
+
                 SaveSourceSort();
 
                 SaveTaregtSort();
@@ -427,18 +438,29 @@ namespace Generated_File
 
                 SaveSyncValues();
 
-                var final_repot = XDocument.Load(@"E:\Files\test_transGenerate.ktr");
 
-                if (File.Exists(@"E:\Files\test_transGenerate.ktr"))
+                if (FileOpened == true)
                 {
-                    final_repot.Save(@"E:\Files\test_transGenerate.ktr");
+                    var final_repot = XDocument.Load(File_Opend_Path);
+                    final_repot.Save(File_Opend_Path);
+
+                    MessageBox.Show("File Edited");
                 }
+
                 else
                 {
-                    final_repot.Save(@"E:\Files\test_transGenerate" + e.RowIndex + ".ktr");
-                }
+                    var final_repot = XDocument.Load(New_Path);
 
-                MessageBox.Show("file created");
+                    var UpperFile = final_repot.Descendants()
+                                           .Where(o => o.Name == "info" && o.HasElements).FirstOrDefault();
+
+                    var FileName = UpperFile.Descendants()
+                                             .Where(o => o.Name == "name").FirstOrDefault();
+
+                    FileName.Value = Interaction.InputBox("Are you sure to save the file?", "Title", "Enter the file name here here");
+
+                    final_repot.Save(New_Path);
+                }
 
                 this.Cursor = Cursors.Default;
 
@@ -483,7 +505,15 @@ namespace Generated_File
 
                 }
 
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
+                if (FileOpened == true)
+                {
+                    doc.Save(File_Opend_Path);
+                }
+                else
+                {
+                    doc.Save(New_Path);
+                }
+                // doc.Save(@"E:\Files\test_transGenerate.ktr");
 
             }
 
@@ -538,7 +568,15 @@ namespace Generated_File
 
                 }
 
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
+                if (FileOpened == true)
+                {
+                    doc.Save(File_Opend_Path);
+                }
+                else
+                {
+                    doc.Save(New_Path);
+                }
+                //doc.Save(@"E:\Files\test_transGenerate.ktr");
 
             }
             catch (Exception ex)
@@ -607,8 +645,15 @@ namespace Generated_File
 
                 }
 
-
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
+                if (FileOpened == true)
+                {
+                    doc.Save(File_Opend_Path);
+                }
+                else
+                {
+                    doc.Save(New_Path);
+                }
+                // doc.Save(@"E:\Files\test_transGenerate.ktr");
 
 
             }
@@ -650,8 +695,15 @@ namespace Generated_File
                 nam_tst.Value = GlobalVariables.TargetSortValues[i].ToString();
             }
 
-
-            doc.Save(@"E:\Files\test_transGenerate.ktr");
+            if (FileOpened == true)
+            {
+                doc.Save(File_Opend_Path);
+            }
+            else
+            {
+                doc.Save(New_Path);
+            }
+            // doc.Save(@"E:\Files\test_transGenerate.ktr");
 
             #endregion
         }
@@ -688,7 +740,17 @@ namespace Generated_File
                 nam_tst.Value = GlobalVariables.SourceSortValues[i].ToString();
 
             }
-            doc.Save(@"E:\Files\test_transGenerate.ktr");
+
+            if (FileOpened == true)
+            {
+                doc.Save(File_Opend_Path);
+            }
+            else
+            {
+                doc.Save(New_Path);
+            }
+
+            //doc.Save(@"E:\Files\test_transGenerate.ktr");
             #endregion
         }
 
@@ -746,8 +808,15 @@ namespace Generated_File
                     update_tg.Value = "Y";
                 }
 
-
-                doc.Save(@"E:\Files\test_transGenerate.ktr");
+                if (FileOpened == true)
+                {
+                    doc.Save(File_Opend_Path);
+                }
+                else
+                {
+                    doc.Save(New_Path);
+                }
+                // doc.Save(@"E:\Files\test_transGenerate.ktr");
             }
             catch (Exception ex)
             {
@@ -1334,13 +1403,15 @@ namespace Generated_File
                 ReadOnlyChecked = true,
                 ShowReadOnly = true
             };
-
+     
             List<XElement> SouceList = new List<XElement>();
             List<XElement> TargetList = new List<XElement>();
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+
                 XDocument Opened_File = XDocument.Load(openFileDialog1.FileName);
 
+                File_Opend_Path = openFileDialog1.FileName;
                 var elementsToUpdateSource = Opened_File.Descendants()
                                           .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
 
@@ -1373,7 +1444,7 @@ namespace Generated_File
                     var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
                     var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
                     var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
-                    var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+                  //  var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                     txtsrname.Text = name.Value;
                     txtsrServer.Text = server.Value;
@@ -1391,7 +1462,7 @@ namespace Generated_File
                     txtsrDb.Text = database.Value;
                     txtsrPor.Text = port.Value;
                     txtsrUser.Text = username.Value;
-                    txtsrPsw.Text = password.Value;
+                   // txtsrPsw.Text = password.Value;
 
                 }
 
@@ -1404,7 +1475,7 @@ namespace Generated_File
                     var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
                     var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
                     var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
-                    var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+                  //  var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
 
                     txtTrgNam.Text = name.Value;
                     txtTrSrV.Text = server.Value;
@@ -1422,10 +1493,10 @@ namespace Generated_File
                     txtTrDB.Text = database.Value;
                     txtTRPo.Text = port.Value;
                     txtTrgUs.Text = username.Value;
-                    txtTrgPs.Text = password.Value;
+                   // txtTrgPs.Text = password.Value;
 
                 }
-
+                FileOpened = true;
                 SouceList.Clear();
                 TargetList.Clear();
             }

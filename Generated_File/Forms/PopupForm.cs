@@ -32,9 +32,6 @@ namespace Generated_File.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //  mMainForm.CombData.();
-
-        //    mMainForm.CombData.Rows[0].Cells["ColNme"].Value = "123";
             this.Close();
         }
 
@@ -82,8 +79,6 @@ namespace Generated_File.Forms
                 }
             }
 
-
-
             if (GlobalVariables.MergeValuesArr != null)
             {
                 if (GlobalVariables.MergeValuesArr.Count > 0)
@@ -95,10 +90,6 @@ namespace Generated_File.Forms
                     this.Close();
                 }
             }
-
-
-
-
 
             if (GlobalVariables.ConnList != null)
             {
@@ -121,7 +112,6 @@ namespace Generated_File.Forms
             {
                 if (GlobalVariables.TableList.Count > 0)
                 {
-
                     GlobalVariables.TbleValues = custom_chklist.CheckedItems.Cast<string>().ToList();
 
                     string TbleValues = string.Join(",", GlobalVariables.TbleValues);
