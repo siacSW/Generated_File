@@ -354,10 +354,8 @@ namespace Generated_File
                     string New_File_Generated = Interaction.InputBox("Enter the File Path", "File Path", "Enter the new File Path here");
                     New_Path = @"" + New_File_Generated + "\\test_transGenerateNew.ktr";
                     doc.Save(New_Path);
-                    // doc.Save(@""+New_File_Generated+"\test_transGenerateNew.ktr");
                 }
 
-                //doc.Save(@"E:\Files\test_transGenerate.ktr");
                 ilist.Clear();
 
                 this.Cursor = Cursors.Default;
@@ -449,6 +447,9 @@ namespace Generated_File
 
                 else
                 {
+
+
+
                     var final_repot = XDocument.Load(New_Path);
 
                     var UpperFile = final_repot.Descendants()
@@ -459,7 +460,11 @@ namespace Generated_File
 
                     FileName.Value = Interaction.InputBox("Are you sure to save the file?", "Title", "Enter the file name here here");
 
-                    final_repot.Save(New_Path);
+
+                    string ktr_fileName = New_Path.Replace("test_transGenerateNew" , FileName.Value);
+                    final_repot.Save(ktr_fileName);
+
+                    MessageBox.Show("File Created");
                 }
 
                 this.Cursor = Cursors.Default;
