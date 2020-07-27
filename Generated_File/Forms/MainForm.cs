@@ -458,8 +458,7 @@ namespace Generated_File
                     var FileName = UpperFile.Descendants()
                                              .Where(o => o.Name == "name").FirstOrDefault();
 
-                    FileName.Value = Interaction.InputBox("Are you sure to save the file?", "Title", "Enter the file name here here");
-
+                    FileName.Value = Interaction.InputBox("Are you sure to save the file?", "Enter the file Name", "Enter the file name here here");
 
                     string ktr_fileName = New_Path.Replace("test_transGenerateNew" , FileName.Value);
                     final_repot.Save(ktr_fileName);
