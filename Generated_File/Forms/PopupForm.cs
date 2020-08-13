@@ -14,6 +14,15 @@ namespace Generated_File.Forms
     public partial class PopupForm : Form
     {
         private readonly MainForm mMainForm;
+
+        private readonly WizardForm wizardForm;
+
+        public PopupForm(WizardForm _wizardForm)
+        {
+            InitializeComponent();
+            wizardForm = _wizardForm;
+        }
+
         public PopupForm(MainForm mainForm_)
         {
             InitializeComponent();
@@ -43,8 +52,10 @@ namespace Generated_File.Forms
                 {
                     GlobalVariables.SourceSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
 
-                    string sort_vlues = string.Join(",", GlobalVariables.SourceSortValues);
-                    mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SourceSort"].Value = sort_vlues;
+                   // string sort_vlues = string.Join(",", GlobalVariables.SourceSortValues);
+                   // mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["SourceSort"].Value = sort_vlues;
+
+                   // wizardForm.CombData.Rows[GlobalVariables.Row_index].Cells["SourceSort"].Value = sort_vlues;
 
                     this.Close();
                 }
@@ -56,11 +67,17 @@ namespace Generated_File.Forms
             {
                 if (GlobalVariables.TaregtArr.Count > 0)
                 {
+                    
+
                     GlobalVariables.TargetSortValues = custom_chklist.CheckedItems.Cast<string>().ToList();
 
                     string Trg_vlues = string.Join(",", GlobalVariables.TargetSortValues);
-                    mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["TrgtSort"].Value = Trg_vlues;
+                    // mMainForm.CombData.Rows[GlobalVariables.Row_index].Cells["TrgtSort"].Value = Trg_vlues;
 
+                    GlobalVariables.TargetSortValues = GlobalVariables.TargetSortValues.ConvertAll(d => d.ToLower());
+                    GlobalVariables.PrimaryKeysList = GlobalVariables.TargetSortValues;
+                    wizardForm.CombData.Rows[GlobalVariables.Row_index].Cells["SourceSort"].Value = Trg_vlues;
+                   
 
                     this.Close();
                 }

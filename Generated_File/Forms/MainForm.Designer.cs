@@ -617,6 +617,7 @@ namespace Generated_File
             this.btnaddNew.TabIndex = 5;
             this.btnaddNew.Text = "Add Rows";
             this.btnaddNew.UseVisualStyleBackColor = true;
+            this.btnaddNew.Visible = false;
             this.btnaddNew.Click += new System.EventHandler(this.btnaddNew_Click);
             // 
             // btndelete
@@ -674,7 +675,7 @@ namespace Generated_File
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -695,7 +696,9 @@ namespace Generated_File
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -1,4 +1,5 @@
 ﻿using Devart.Data.MySql;
+using Generated_File.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -327,15 +328,11 @@ namespace Generated_File
             try
             {
 
-           
             var elementsToUpdate = doc.Descendants()
                                       .Where(o => o.Name == "step" && o.HasElements).Skip(3).FirstOrDefault();
 
             var fields = elementsToUpdate.Descendants()
                                      .Where(o => o.Name == "fields" && o.HasElements).FirstOrDefault();
-
-
-
 
             int rowscount = dataGridView1.Rows.Count;
 
@@ -1069,7 +1066,7 @@ namespace Generated_File
             return value.Substring(0, posA);
         }
 
-      public  static string PasswordEncrypt(string password , string path )
+        public  static string PasswordEncrypt(string password , string path )
         {
 
             string strline = "";
@@ -1140,7 +1137,9 @@ namespace Generated_File
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Occured " + ex.Message);
+                MessageBox.Show("Error Occured in MySQl Connection " + ex.Message);
+
+                TableNames.Add("Not");
             }
 
 
@@ -1150,10 +1149,10 @@ namespace Generated_File
 
 
 
-        //fOR Sql-Server Conn
         public static List<string> SQLSERVERGET(string host, string database, string username, string password)
         {
             List<string> TableNames = new List<string>();
+
             try
             {
                 string connection_string = "Data Source=" + host + ",1433;Network Library=DBMSSOCN;Initial Catalog=" + database + ";User ID=" + username + ";Password=" + password + ";";
@@ -1172,7 +1171,9 @@ namespace Generated_File
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Occured " + ex.Message);
+                MessageBox.Show("Error Occured in Sqlserver Connection " + ex.Message);
+
+                TableNames.Add("Not");
             }
 
             return TableNames;
@@ -1261,6 +1262,114 @@ namespace Generated_File
             }
 
             return FieldsName;
+        }
+
+        
+        public static List<string> ReturnPk(string data_type,string table_name)
+        {
+
+            List<string> PrimaryKeys = new List<string>();
+
+            try
+            {
+
+
+
+                if (data_type == "MYSQL" || data_type == "MARIADB")
+                {
+                    using (MySqlConnection conn = new MySqlConnection(MySql_ConnectionString))
+                    {
+                        conn.Open();
+                        DataTable dataTable_ = new DataTable();
+                        DataTable ukDataTable = new DataTable();
+                        //string Query = "SHOW KEYS FROM " + table_name + " WHERE Key_name = 'PRIMARY'";
+                        //string UkQuery = "show indexes from "+table_name+" WHERE Key_name != 'PRIMARY'; ";
+
+                        string Query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu WHERE kcu.TABLE_NAME = '" + table_name + "' AND kcu.CONSTRAINT_SCHEMA = '" + GlobalVariables.DbName + "'; ";
+
+                        MySqlCommand command = new MySqlCommand(Query, conn);
+
+
+                        MySqlDataAdapter dataAdapter = new MySqlDataAdapter(command);
+
+
+                        dataAdapter.Fill(dataTable_);
+
+                        foreach (DataRow item in dataTable_.Rows)
+                        {
+                            PrimaryKeys.Add(item["COLUMN_NAME"].ToString());
+                        }
+
+                        conn.Close();
+                    }
+                }
+
+
+                if (data_type == "MSSQLNATIVE")
+                {
+                    using (SqlConnection conn = new SqlConnection(SqlServer_ConnectionString))
+                    {
+                        conn.Open();
+                        // string Query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGEWHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '"+table_name+"' ";
+                        string ukQuery = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME = '" + table_name + "'";
+                        // SqlCommand command = new SqlCommand(Query, conn);
+
+                        SqlCommand ukcommand = new SqlCommand(ukQuery, conn);
+
+                        //   SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                        SqlDataReader ukReader = ukcommand.ExecuteReader();
+
+                        //while (sqlDataReader.Read())
+                        //{
+                        //    PrimaryKeys.Add(sqlDataReader[0].ToString());
+                        //}
+
+                        while (ukReader.Read())
+                        {
+                            PrimaryKeys.Add(ukReader[0].ToString());
+                        }
+
+                        conn.Close();
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show("Error occured " + exp.Message);
+            }
+
+          //  GlobalVariables.PrimaryKeysList = PrimaryKeys.Distinct().ToList();
+            return PrimaryKeys.Distinct().ToList();
+        }
+
+
+
+        public static List<string> SourceSql(string SourceSql)
+        {
+           List<string>result = new List<string>();
+            string SourceStat = SourceSql.ToLower();
+            string first = "select ";
+            string second = "from";
+            int start = SourceStat.IndexOf(first) + first.Length;
+            int end = SourceStat.IndexOf(second, start);
+            string retString = SourceStat.Substring(start, end - start);
+            string[] Arr = retString.Split(',');
+
+            for (int i = 0; i < Arr.Length; i++)
+            {
+                Arr[i] = Arr[i].Trim();
+                string separator = "as ";
+                int separatorIndex = Arr[i].IndexOf(separator);
+                if (separatorIndex >= 0)
+                {
+                    result.Add(Arr[i].Substring(separatorIndex + separator.Length));
+
+                }
+              
+            }
+
+            return result;
         }
 
     }

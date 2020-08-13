@@ -41,12 +41,13 @@ namespace Generated_File
 
             try
             {
-
-                doc = XDocument.Load(@"E:\Files\test_trans7-Copy.ktr");
-                mySql_Attributes = XDocument.Load(@"E:\Files\MySql-attributes.xml");
-                sqlserver_attributes = XDocument.Load(@"E:\Files\SqlServer-Attributes.xml");
-                Sap_attributes = XDocument.Load(@"E:\Files\Sap-Attributes.xml");
-                MariaDb_attributes = XDocument.Load(@"E:\Files\MariaDb-Attributes.xml");
+               FormBorderStyle = FormBorderStyle.FixedDialog;
+                WindowState = FormWindowState.Maximized;
+                doc = XDocument.Load(@"C:\Files\test_trans7-Copy.ktr");
+                mySql_Attributes = XDocument.Load(@"C:\Files\MySql-attributes.xml");
+                sqlserver_attributes = XDocument.Load(@"C:\Files\SqlServer-Attributes.xml");
+                Sap_attributes = XDocument.Load(@"C:\Files\Sap-Attributes.xml");
+                MariaDb_attributes = XDocument.Load(@"C:\Files\MariaDb-Attributes.xml");
             }
             catch (Exception ex)
             {
@@ -58,25 +59,34 @@ namespace Generated_File
 
         private void btngenerate_Click(object sender, EventArgs e)
         {
-            CombData.Rows.Clear();
 
-            if (SrCmb.SelectedItem.ToString() == "SAP")
+            try
             {
-                SourceSQL.Visible = true;
+                CombData.Rows.Clear();
+
+                if (SrCmb.SelectedItem.ToString() == "SAP")
+                {
+                    SourceSQL.Visible = true;
+                }
+
+                if (TrgCmb.SelectedItem.ToString() == "SAP")
+                {
+                    TargtSQL.Visible = true;
+                }
+
+                TrgColumn.Items.Clear();
+                SrcColumn.Items.Clear();
+
+
+
+                SourceSelectionValue = SrCmb.SelectedItem.ToString();
+                TaregtSelectionValue = TrgCmb.SelectedItem.ToString();
+            }
+            catch (Exception xe)
+            {
+                MessageBox.Show("Exception occured ", xe.Message);
             }
 
-            if (TrgCmb.SelectedItem.ToString() == "SAP")
-            {
-                TargtSQL.Visible = true;
-            }
-
-            TrgColumn.Items.Clear();
-            SrcColumn.Items.Clear();
-
-         
-
-            SourceSelectionValue = SrCmb.SelectedItem.ToString();
-            TaregtSelectionValue = TrgCmb.SelectedItem.ToString();
 
             try
             {
@@ -183,7 +193,6 @@ namespace Generated_File
                             Port_Number_.Value = txtsrPor.Text;
                             mySql_Attributes.Save(@"E:\Files\MySql-attributes.xml");
                             AttributesElementsMySql.ReplaceWith(mySql_Attributes.Root);
-
 
                             var dataCollectionMySql_ = Methods.MySqlGET(txtsrUser.Text, txtsrPsw.Text, txtsrServer.Text, txtsrPor.Text, txtsrDb.Text);
 
@@ -357,6 +366,13 @@ namespace Generated_File
                 }
 
                 ilist.Clear();
+
+                if (FileOpened == true)
+                {
+                    btnaddNew.Visible = true;
+                }
+
+
 
                 this.Cursor = Cursors.Default;
             }
@@ -834,6 +850,8 @@ namespace Generated_File
         private void CombData_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             GlobalVariables.Row_index = e.RowIndex;
+            // PopupForm popupForm = new PopupForm(this);
+
             PopupForm popupForm = new PopupForm(this);
 
             try
@@ -1177,6 +1195,7 @@ namespace Generated_File
                         if (GlobalVariables.MergeKeysArr.Count > 0)
                         {
                             GlobalVariables.MergeKeysArr.Clear();
+                            GlobalVariables.SourceArr.Clear();
                         }
                     }
 
@@ -1195,6 +1214,8 @@ namespace Generated_File
                     popupForm.Show();
 
                 }
+
+
                 if (CombData.Columns[e.ColumnIndex].Name == "ConnSync")
                 {
                     if (GlobalVariables.MergeValuesArr != null)
@@ -1359,10 +1380,18 @@ namespace Generated_File
 
         private void btndelete_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in this.CombData.SelectedRows)
+            try
             {
-                CombData.Rows.RemoveAt(item.Index);
+                foreach (DataGridViewRow item in this.CombData.SelectedRows)
+                {
+                    CombData.Rows.RemoveAt(item.Index);
+                }
             }
+            catch (Exception exx)
+            {
+                MessageBox.Show("Error ", exx.Message);
+            }
+
         }
 
         private void btnbrowse_Click(object sender, EventArgs e)
