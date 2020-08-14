@@ -12,6 +12,7 @@ namespace Generated_File.Classes
         public static List<string> AllValues { get; set; }
         public static int Row_index { get; set; }
 
+        public static string Encrypted_Password { get; set; }
         public static string DbName { get; set; }
         public static List<string> PrimaryKeysList { get; set; }
 

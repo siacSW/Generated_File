@@ -519,6 +519,7 @@
             this.configwizard.Size = new System.Drawing.Size(958, 326);
             this.configwizard.TabIndex = 3;
             this.configwizard.Text = "Configurations";
+//            this.configwizard.Rollback += new System.EventHandler<AeroWizard.WizardPageConfirmEventArgs>(this.configwizard_Rollback);
             // 
             // btnadd
             // 

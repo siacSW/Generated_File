@@ -15,16 +15,14 @@ namespace Generated_File.Forms
 {
     public partial class WizardForm : Form
     {
-
-
         XDocument doc;
         XDocument mySql_Attributes;
         XDocument sqlserver_attributes;
         XDocument Sap_attributes;
         XDocument MariaDb_attributes;
+
         XElement xElementServer = new XElement("server");
         XElement XElementDb = new XElement("database");
-
 
         List<XElement> ilist = new List<XElement>();
 
@@ -53,18 +51,252 @@ namespace Generated_File.Forms
         private void wizardControl1_Finished(object sender, EventArgs e)
         {
 
-
             try
             {
+
+                doc = new XDocument();
+
+                doc = XDocument.Load(@"C:\Files\test_trans7-Copy.ktr");
+
+
+
+
+                try
+                {
+                    
+
+                    SourceSelectionValue = SrCmb.SelectedItem.ToString();
+                    TaregtSelectionValue = TrgCmbe.SelectedItem.ToString();
+
+                    var elementsToUpdateSource = doc.Descendants()
+                                                  .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
+
+                    var elementsToUpdateTaregt = doc.Descendants()
+                                        .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
+
+                    #region SourceRegion
+                    if (SrCmb.SelectedItem == null)
+                    {
+                        MessageBox.Show("You cannot set SOURCE SELECTION DB to null");
+                    }
+                    else
+                    {
+                        ilist.Add(elementsToUpdateSource);
+                        foreach (XElement element in ilist)
+                        {
+                            var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                            var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                            var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+
+                            var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                            var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                            var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                            var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                            name.Value = txtsrname.Text;
+
+                            if (SrCmb.SelectedItem.ToString() == "SAP")
+                            {
+                                server.ReplaceWith(xElementServer);
+                                database.ReplaceWith(XElementDb);
+                                type.Value = "GENERIC";
+                            }
+                            else
+                            {
+                                server.Value = txtsrServer.Text;
+                                database.Value = txtsrDb.Text;
+                                type.Value = SrCmb.SelectedItem.ToString();
+                            }
+
+                            port.Value = txtsrPor.Text;
+
+                            username.Value = txtsrUser.Text;
+
+                            // password.Value = Methods.PasswordEncrypt(txtsrPsw.Text, txtbrowsValue.Text);
+
+                            password.Value = GlobalVariables.Encrypted_Password;
+                        }
+
+                        ilist.Clear();
+
+                        switch (SrCmb.SelectedItem.ToString())
+                        {
+
+                            case "MSSQLNATIVE":
+
+                                var AttributesElements = elementsToUpdateSource.Descendants().Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                Port.Value = txtsrPor.Text;
+                                sqlserver_attributes.Save(@"C:\Files\SqlServer-Attributes.xml");
+                                AttributesElements.ReplaceWith(sqlserver_attributes.Root);
+
+                                break;
+
+                            case "MARIADB":
+                                var AttributesElementsMaria = elementsToUpdateSource.Descendants()
+                                      .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                Port_Number.Value = txtsrPor.Text;
+                                MariaDb_attributes.Save(@"C:\Files\MariaDb-Attributes.xml");
+                                AttributesElementsMaria.ReplaceWith(MariaDb_attributes.Root);
+
+                                break;
+
+                            case "MYSQL":
+                                var AttributesElementsMySql = elementsToUpdateSource.Descendants()
+                                    .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_Number_ = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                Port_Number_.Value = txtsrPor.Text;
+                                mySql_Attributes.Save(@"C:\Files\MySql-attributes.xml");
+                                AttributesElementsMySql.ReplaceWith(mySql_Attributes.Root);
+                                break;
+
+
+                            case "SAP":
+
+                                var AttributesElementsSap = elementsToUpdateSource.Descendants()
+                              .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_NumberSAP = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                Port_NumberSAP.Value = "1521";
+                                var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                                string Jdbc_conn_ = "jdbc:saperp:Host=" + txtsrServer.Text + ";User=" + txtsrUser.Text + ";Password=" + txtsrPsw.Text + ";Client=" + txtsapclient.Text + ";System Number=" + txtsrPor.Text + ";ConnectionType=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;Tables=" + txtsaptbles.Text + ";Views=" + txtsapviews.Text + "";
+
+                                Jdbc_Conn.Value = Jdbc_conn_;
+                                Sap_attributes.Save(@"C:\Files\Sap-Attributes.xml");
+                                AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+                                break;
+
+
+                            default:
+                                break;
+                        }
+                    }
+
+                    // ilist.Clear();
+
+                    #endregion
+
+                    #region TargetRegion
+                    if (TrgCmbe.SelectedItem == null)
+                    {
+                        MessageBox.Show("You cannot set Target Db to null");
+                    }
+                    else
+                    {
+
+                        ilist.Add(elementsToUpdateTaregt);
+                        foreach (XElement element in ilist)
+                        {
+                            var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                            var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                            var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+                            var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                            var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                            var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                            var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                            name.Value = txtTrgName.Text;
+                            server.Value = txtTrSrVe.Text;
+                            if (TrgCmbe.SelectedItem.ToString() == "SAP")
+                            {
+                                server.ReplaceWith(xElementServer);
+                                database.ReplaceWith(XElementDb);
+                                type.Value = "GENERIC";
+                            }
+                            else
+                            {
+                                database.Value = txtTrDBt.Text;
+                                GlobalVariables.DbName = txtTrDBt.Text;
+                                type.Value = TrgCmbe.SelectedItem.ToString();
+                            }
+
+                            port.Value = txtTRPot.Text;
+                            username.Value = txtTrgUse.Text;
+                          //  password.Value = Methods.PasswordEncrypt(txtTrgPst.Text, txtbrowsValue.Text);
+
+                            password.Value = GlobalVariables.Encrypted_Password;
+                        }
+
+                        ilist.Clear();
+
+                        switch (TrgCmbe.SelectedItem.ToString())
+                        {
+                            case "MSSQLNATIVE":
+                                var AttributesElementsSQlServ = elementsToUpdateTaregt.Descendants()
+                               .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                Port.Value = txtTRPo.Text;
+                                sqlserver_attributes.Save(@"C:\Files\SqlServer-Attributes.xml");
+                                AttributesElementsSQlServ.ReplaceWith(sqlserver_attributes.Root);
+
+                                break;
+
+                            case "MYSQL":
+                                var AttributesElements = elementsToUpdateTaregt.Descendants()
+                                       .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_Number = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                Port_Number.Value = txtTRPo.Text;
+                                mySql_Attributes.Save(@"C:\Files\MySql-attributes.xml");
+                                AttributesElements.ReplaceWith(mySql_Attributes.Root);
+
+                                break;
+
+                            case "MARIADB":
+
+                                var AttributesElementsMaria = elementsToUpdateTaregt.Descendants()
+                                    .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_NumberMaria = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                Port_NumberMaria.Value = txtTRPo.Text;
+                                MariaDb_attributes.Save(@"C:\Files\MariaDb-Attributes.xml");
+                                AttributesElementsMaria.ReplaceWith(MariaDb_attributes.Root);
+
+                                break;
+
+                            case "SAP":
+                                var AttributesElementsSap = elementsToUpdateSource.Descendants()
+                               .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                var Port_NumberSAP = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                                Port_NumberSAP.Value = txtsrPor.Text;
+                                string Jdbc_conn_ = "jdbc:saperp:Host=" + txtsrServer.Text + ";User=" + txtsrUser.Text + ";Password=" + txtsrPsw.Text + ";Client=" + txtsapclient.Text + ";System Number=" + txtsrPor.Text + ";ConnectionType=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;Tables=" + txtsaptbles.Text + ";Views=" + txtsapviews.Text + "";
+
+                                Jdbc_Conn.Value = Jdbc_conn_;
+                                Sap_attributes.Save(@"C:\Files\Sap-Attributes.xml");
+                                AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+
+                    #endregion
+                    // doc.Save(@"E:\Files\test_transGenerate1.ktr");
+                    doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
+
+                    ilist.Clear();
+
+                }
+
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Error Occured : " + ee.Message);
+                }
+
+
+
+
+
                 var elementsToSrcConn = doc.Descendants()
-                               .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
+                              .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
                 ilist.Add(elementsToSrcConn);
 
                 if (SourceSelectionValue != "SAP")
                 {
                     string query = string.Join(",", GlobalVariables.SourceArr);
                     var SELECT = query.Insert(0, "SELECT ");
-                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["SrcColumn"].Value.ToString() + " ");
+                    // var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["SrcColumn"].Value.ToString() + " ");
 
                     foreach (XElement element in ilist)
                     {
@@ -95,15 +327,11 @@ namespace Generated_File.Forms
                 }
 
 
-
-
-
-
-
                 var elementsToTrg = doc.Descendants()
-                        .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
+                            .Where(o => o.Name == "step" && o.HasElements).Skip(4).FirstOrDefault();
 
                 ilist.Add(elementsToTrg);
+
 
                 if (TaregtSelectionValue != "SAP")
                 {
@@ -138,7 +366,7 @@ namespace Generated_File.Forms
                         }
                     }
 
-                   
+
 
                     doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
 
@@ -208,6 +436,7 @@ namespace Generated_File.Forms
                 TaregtSelectionValue = TrgCmbe.SelectedItem.ToString();
 
 
+
                 CombData.Rows.Clear();
 
                 try
@@ -216,6 +445,9 @@ namespace Generated_File.Forms
 
                     CombData.Rows.Add();
                     TrgColumn.Items.Clear();
+
+                    //doc = new XDocument();
+                    //doc = XDocument.Load(@"C:\Files\test_trans7-Copy.ktr");
 
                     var elementsToUpdateSource = doc.Descendants()
                                               .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
@@ -262,6 +494,8 @@ namespace Generated_File.Forms
                             username.Value = txtsrUser.Text;
 
                             password.Value = Methods.PasswordEncrypt(txtsrPsw.Text, txtbrowsValue.Text);
+
+                            GlobalVariables.Encrypted_Password = password.Value;
 
                         }
 
@@ -353,9 +587,7 @@ namespace Generated_File.Forms
                             }
                             else
                             {
-
                                 database.Value = txtTrDBt.Text;
-
                                 GlobalVariables.DbName = txtTrDBt.Text;
                                 type.Value = TrgCmbe.SelectedItem.ToString();
                             }
@@ -364,8 +596,7 @@ namespace Generated_File.Forms
                             username.Value = txtTrgUse.Text;
                             password.Value = Methods.PasswordEncrypt(txtTrgPst.Text, txtbrowsValue.Text);
 
-                            
-
+                            GlobalVariables.Encrypted_Password = password.Value;
                         }
 
                         ilist.Clear();
@@ -441,7 +672,8 @@ namespace Generated_File.Forms
                     }
 
                     #endregion
-                    doc.Save(@"E:\Files\test_transGenerate1.ktr");
+                   // doc.Save(@"E:\Files\test_transGenerate1.ktr");
+                    doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
 
                     ilist.Clear();
 
@@ -667,6 +899,240 @@ namespace Generated_File.Forms
             try
             {
 
+                doc = new XDocument();
+
+                doc = XDocument.Load(@"C:\Files\test_trans7-Copy.ktr");
+
+
+
+
+                    try
+                    {
+
+                    SourceSelectionValue = SrCmb.SelectedItem.ToString();
+                    TaregtSelectionValue = TrgCmbe.SelectedItem.ToString();
+
+                    var elementsToUpdateSource = doc.Descendants()
+                                                  .Where(o => o.Name == "connection" && o.HasElements).FirstOrDefault();
+
+                        var elementsToUpdateTaregt = doc.Descendants()
+                                            .Where(o => o.Name == "connection" && o.HasElements).Skip(1).FirstOrDefault();
+
+                        #region SourceRegion
+                        if (SrCmb.SelectedItem == null)
+                        {
+                            MessageBox.Show("You cannot set SOURCE SELECTION DB to null");
+                        }
+                        else
+                        {
+                            ilist.Add(elementsToUpdateSource);
+                            foreach (XElement element in ilist)
+                            {
+                                var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                                var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                                var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+
+                                var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                                var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                                var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                                var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                                name.Value = txtsrname.Text;
+
+                                if (SrCmb.SelectedItem.ToString() == "SAP")
+                                {
+                                    server.ReplaceWith(xElementServer);
+                                    database.ReplaceWith(XElementDb);
+                                    type.Value = "GENERIC";
+                                }
+                                else
+                                {
+                                    server.Value = txtsrServer.Text;
+                                    database.Value = txtsrDb.Text;
+                                    type.Value = SrCmb.SelectedItem.ToString();
+                                }
+
+                                port.Value = txtsrPor.Text;
+
+                                username.Value = txtsrUser.Text;
+
+                            //password.Value = Methods.PasswordEncrypt(txtsrPsw.Text, txtbrowsValue.Text);
+
+                            password.Value = GlobalVariables.Encrypted_Password;
+                            }
+
+                            ilist.Clear();
+
+                            switch (SrCmb.SelectedItem.ToString())
+                            {
+
+                                case "MSSQLNATIVE":
+
+                                    var AttributesElements = elementsToUpdateSource.Descendants().Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                    Port.Value = txtsrPor.Text;
+                                    sqlserver_attributes.Save(@"C:\Files\SqlServer-Attributes.xml");
+                                    AttributesElements.ReplaceWith(sqlserver_attributes.Root);
+
+                                    break;
+
+                                case "MARIADB":
+                                    var AttributesElementsMaria = elementsToUpdateSource.Descendants()
+                                          .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_Number = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                    Port_Number.Value = txtsrPor.Text;
+                                    MariaDb_attributes.Save(@"C:\Files\MariaDb-Attributes.xml");
+                                    AttributesElementsMaria.ReplaceWith(MariaDb_attributes.Root);
+
+                                    break;
+
+                                case "MYSQL":
+                                    var AttributesElementsMySql = elementsToUpdateSource.Descendants()
+                                        .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_Number_ = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                    Port_Number_.Value = txtsrPor.Text;
+                                    mySql_Attributes.Save(@"C:\Files\MySql-attributes.xml");
+                                    AttributesElementsMySql.ReplaceWith(mySql_Attributes.Root);
+                                    break;
+
+
+                                case "SAP":
+
+                                    var AttributesElementsSap = elementsToUpdateSource.Descendants()
+                                  .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_NumberSAP = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                    Port_NumberSAP.Value = "1521";
+                                    var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                                    string Jdbc_conn_ = "jdbc:saperp:Host=" + txtsrServer.Text + ";User=" + txtsrUser.Text + ";Password=" + txtsrPsw.Text + ";Client=" + txtsapclient.Text + ";System Number=" + txtsrPor.Text + ";ConnectionType=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;Tables=" + txtsaptbles.Text + ";Views=" + txtsapviews.Text + "";
+
+                                    Jdbc_Conn.Value = Jdbc_conn_;
+                                    Sap_attributes.Save(@"C:\Files\Sap-Attributes.xml");
+                                    AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+                                    break;
+
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        // ilist.Clear();
+
+                        #endregion
+
+                        #region TargetRegion
+                        if (TrgCmbe.SelectedItem == null)
+                        {
+                            MessageBox.Show("You cannot set Target Db to null");
+                        }
+                        else
+                        {
+
+                            ilist.Add(elementsToUpdateTaregt);
+                            foreach (XElement element in ilist)
+                            {
+                                var name = element.Descendants().Where(z => z.Name == "name").FirstOrDefault();
+                                var server = element.Descendants().Where(z => z.Name == "server").FirstOrDefault();
+                                var type = element.Descendants().Where(z => z.Name == "type").FirstOrDefault();
+                                var database = element.Descendants().Where(z => z.Name == "database").FirstOrDefault();
+                                var port = element.Descendants().Where(z => z.Name == "port").FirstOrDefault();
+                                var username = element.Descendants().Where(z => z.Name == "username").FirstOrDefault();
+                                var password = element.Descendants().Where(z => z.Name == "password").FirstOrDefault();
+
+                                name.Value = txtTrgName.Text;
+                                server.Value = txtTrSrVe.Text;
+                                if (TrgCmbe.SelectedItem.ToString() == "SAP")
+                                {
+                                    server.ReplaceWith(xElementServer);
+                                    database.ReplaceWith(XElementDb);
+                                    type.Value = "GENERIC";
+                                }
+                                else
+                                {
+                                    database.Value = txtTrDBt.Text;
+                                    GlobalVariables.DbName = txtTrDBt.Text;
+                                    type.Value = TrgCmbe.SelectedItem.ToString();
+                                }
+
+                                port.Value = txtTRPot.Text;
+                                username.Value = txtTrgUse.Text;
+                            // password.Value = Methods.PasswordEncrypt(txtTrgPst.Text, txtbrowsValue.Text);
+                            password.Value = GlobalVariables.Encrypted_Password;
+                            }
+
+                            ilist.Clear();
+
+                            switch (TrgCmbe.SelectedItem.ToString())
+                            {
+                                case "MSSQLNATIVE":
+                                    var AttributesElementsSQlServ = elementsToUpdateTaregt.Descendants()
+                                   .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port = sqlserver_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                    Port.Value = txtTRPo.Text;
+                                    sqlserver_attributes.Save(@"C:\Files\SqlServer-Attributes.xml");
+                                    AttributesElementsSQlServ.ReplaceWith(sqlserver_attributes.Root);
+
+                                   
+                                    break;
+
+                                case "MYSQL":
+                                    var AttributesElements = elementsToUpdateTaregt.Descendants()
+                                           .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_Number = mySql_Attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                    Port_Number.Value = txtTRPo.Text;
+                                    mySql_Attributes.Save(@"C:\Files\MySql-attributes.xml");
+                                    AttributesElements.ReplaceWith(mySql_Attributes.Root);
+
+                                    
+                                    break;
+
+                                case "MARIADB":
+
+                                    var AttributesElementsMaria = elementsToUpdateTaregt.Descendants()
+                                        .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_NumberMaria = MariaDb_attributes.Descendants().Where(x => x.Name == "attribute").Skip(7).FirstOrDefault();
+                                    Port_NumberMaria.Value = txtTRPo.Text;
+                                    MariaDb_attributes.Save(@"C:\Files\MariaDb-Attributes.xml");
+                                    AttributesElementsMaria.ReplaceWith(MariaDb_attributes.Root);
+
+                                    break;
+
+                                case "SAP":
+                                    var AttributesElementsSap = elementsToUpdateSource.Descendants()
+                                   .Where(o => o.Name == "attributes" && o.HasElements).FirstOrDefault();
+                                    var Port_NumberSAP = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(13).FirstOrDefault();
+                                    var Jdbc_Conn = Sap_attributes.Descendants().Where(x => x.Name == "attribute").Skip(3).FirstOrDefault();
+                                    Port_NumberSAP.Value = txtsrPor.Text;
+                                    string Jdbc_conn_ = "jdbc:saperp:Host=" + txtsrServer.Text + ";User=" + txtsrUser.Text + ";Password=" + txtsrPsw.Text + ";Client=" + txtsapclient.Text + ";System Number=" + txtsrPor.Text + ";ConnectionType=CLASSIC_UNICODE;SupportEnhancedSQL=True;UseSimpleNames=False;TableMode=All;Tables=" + txtsaptbles.Text + ";Views=" + txtsapviews.Text + "";
+
+                                    Jdbc_Conn.Value = Jdbc_conn_;
+                                    Sap_attributes.Save(@"C:\Files\Sap-Attributes.xml");
+                                    AttributesElementsSap.ReplaceWith(Sap_attributes.Root);
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        #endregion
+                        // doc.Save(@"E:\Files\test_transGenerate1.ktr");
+                        doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
+
+                        ilist.Clear();
+
+                    }
+
+                    catch (Exception ee)
+                    {
+                        MessageBox.Show("Error Occured : " + ee.Message);
+                    }
+                
+
+
+
+
                 var elementsToSrcConn = doc.Descendants()
                               .Where(o => o.Name == "step" && o.HasElements).Skip(2).FirstOrDefault();
                 ilist.Add(elementsToSrcConn);
@@ -675,14 +1141,14 @@ namespace Generated_File.Forms
                 {
                     string query = string.Join(",", GlobalVariables.SourceArr);
                     var SELECT = query.Insert(0, "SELECT ");
-                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["SrcColumn"].Value.ToString() + " ");
+                   // var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["SrcColumn"].Value.ToString() + " ");
 
                     foreach (XElement element in ilist)
                     {
                         var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
                         var sql = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
                         connection.Value = txtsrname.Text;
-                        sql.Value = FINAL_SQL;
+                        sql.Value = CombData.Rows[GlobalVariables.Row_index].Cells["SrcColumn"].Value.ToString();
                     }
 
                     doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
@@ -712,16 +1178,30 @@ namespace Generated_File.Forms
                     ilist.Add(elementsToTrg);
 
 
+                if (TaregtSelectionValue != "SAP")
+                {
+                    string query = string.Join(",", XValues);
+                    var SELECT = query.Insert(0, "SELECT ");
+                    var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["TrgColumn"].Value.ToString() + " ");
 
-                    if (TaregtSelectionValue != "SAP")
+
+
+                    ilist.Add(elementsToTrg);
+
+                    if (CombData.Rows[GlobalVariables.Row_index].Cells["whereTrg"].Value == null)
                     {
-                        string query = string.Join(",", XValues);
-                        var SELECT = query.Insert(0, "SELECT ");
-                        var FINAL_SQL = SELECT.Insert(SELECT.Length, " FROM " + CombData.Rows[GlobalVariables.Row_index].Cells["TrgColumn"].Value.ToString() + " ");
-
+                        foreach (XElement element in ilist)
+                        {
+                            var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
+                            var sql_trg = element.Descendants().Where(z => z.Name == "sql").FirstOrDefault();
+                            connection.Value = txtTrgName.Text;
+                            sql_trg.Value = FINAL_SQL;
+                        }
+                    }
+                    else
+                    {
                         var WhereClause = FINAL_SQL.Insert(FINAL_SQL.Length, "WHERE " + CombData.Rows[GlobalVariables.Row_index].Cells["whereTrg"].Value.ToString() + " ");
 
-                        ilist.Add(elementsToTrg);
                         foreach (XElement element in ilist)
                         {
                             var connection = element.Descendants().Where(z => z.Name == "connection").FirstOrDefault();
@@ -729,22 +1209,29 @@ namespace Generated_File.Forms
                             connection.Value = txtTrgName.Text;
                             sql_trg.Value = WhereClause;
                         }
+                    }
 
-                        doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
 
-                        ilist.Clear();
 
-                        SaveSourceSort();
+                    doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
 
-                        SaveTaregtSort();
 
-                        SaveMergeKeys();
+                    ilist.Clear();
 
-                        SaveMergeValues();
 
-                        SaveSyncKeys();
+                    SaveSourceSort();
 
-                        SaveSyncValues();
+                    SaveTaregtSort();
+
+                    SaveMergeKeys();
+
+                    SaveMergeValues();
+
+                    SaveSyncKeys();
+
+                    SaveSyncValues();
+
+
 
                 }
 
@@ -773,6 +1260,11 @@ namespace Generated_File.Forms
                         {
                             this.wizardControl1.SelectedPage.NextPage = srcwizard;
                         }
+                        else
+                        {
+
+                            this.wizardControl1.SelectedPage.NextPage = Trgtwizard;
+                        }
                         break;
 
                     case "MARIADB":
@@ -782,6 +1274,12 @@ namespace Generated_File.Forms
                         {
                             this.wizardControl1.SelectedPage.NextPage = srcwizard;
                         }
+                        else
+                        {
+
+                            this.wizardControl1.SelectedPage.NextPage = Trgtwizard;
+                        }
+
                         break;
 
 
@@ -809,6 +1307,11 @@ namespace Generated_File.Forms
                     {
                         this.wizardControl1.SelectedPage.NextPage = Trgtwizard;
                     }
+                    else
+                    {
+
+                        this.wizardControl1.SelectedPage.NextPage = Encrypt ;
+                    }
 
                     break;
 
@@ -820,6 +1323,11 @@ namespace Generated_File.Forms
                     if (dataCollectionMySql.Contains("Not"))
                     {
                         this.wizardControl1.SelectedPage.NextPage = Trgtwizard;
+                    }
+                    else
+                    {
+
+                        this.wizardControl1.SelectedPage.NextPage = Encrypt;
                     }
                     break;
 
@@ -833,8 +1341,6 @@ namespace Generated_File.Forms
                     break;
             }
         }
-
-
 
         void SaveTaregtSort()
         {
@@ -1036,6 +1542,9 @@ namespace Generated_File.Forms
                 }
 
 
+
+
+
                 //to assign new values for values
                 var fieldsNodes_ = elementsToUpdate.Descendants()
                                      .Where(o => o.Name == "values" && o.HasElements).ToList();
@@ -1043,15 +1552,15 @@ namespace Generated_File.Forms
                 int Counted = fields.Descendants().Count();
                 var List_keys = fields.Elements().ToList();
 
-                //to assign new values for keys
-                for (int i = 0; i < Counted; i++)
-                {
+                    //to assign new values for keys
+                    for (int i = 0; i < Counted; i++)
+                    {
 
-                    List_keys[i].Value = GlobalVariables.AllValues[i].ToString();
+                        List_keys[i].Value = GlobalVariables.AllValues[i].ToString();
 
-                }
-
-
+                    }
+                
+               
                 doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
 
 
@@ -1072,7 +1581,7 @@ namespace Generated_File.Forms
             catch (Exception ex)
             {
 
-                MessageBox.Show("Error" + ex.Message);
+                MessageBox.Show("Error " + ex.Message);
             }
         }
 
@@ -1081,7 +1590,6 @@ namespace Generated_File.Forms
 
             try
             {
-
                 int row_number = CombData.CurrentCell.RowIndex;
                 var elementsToUpdate = doc.Descendants()
                                          .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
@@ -1167,8 +1675,10 @@ namespace Generated_File.Forms
 
             try
             {
+
                 var elementsToUpdate = doc.Descendants()
                                         .Where(o => o.Name == "step" && o.HasElements).Skip(1).FirstOrDefault();
+
 
 
                 var LookUpfields = elementsToUpdate.Descendants()
@@ -1200,37 +1710,40 @@ namespace Generated_File.Forms
 
                 int Counted = LookUpfields.Descendants().Where(x => x.Name.LocalName == "value").Count();
 
-                for (int i = 0; i < Counted; i++)
-                {
-                    var nam_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
-
-                    var field_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "rename").FirstOrDefault();
-                    nam_tst.Value = GlobalVariables.AllValues[i].ToString();
-                    field_tst.Value = GlobalVariables.AllValues[i].ToString();
-
-                    var update_tg = valuestobeupdated[i].Descendants().Where(z => z.Name == "update").FirstOrDefault();
-
-                    string PkValue = "";
-                    GlobalVariables.PrimaryKeysList = GlobalVariables.PrimaryKeysList.ConvertAll(d => d.ToLower());
-                    for (int z = 0; z < GlobalVariables.PrimaryKeysList.Count; z++)
+                
+                    for (int i = 0; i < Counted ; i++)
                     {
-                        PkValue = GlobalVariables.PrimaryKeysList[z].ToString();
+                        var nam_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "name").FirstOrDefault();
+
+                        var field_tst = valuestobeupdated[i].Descendants().Where(z => z.Name == "rename").FirstOrDefault();
+                        nam_tst.Value = GlobalVariables.AllValues[i].ToString();
+                        field_tst.Value = GlobalVariables.AllValues[i].ToString();
+
+                        var update_tg = valuestobeupdated[i].Descendants().Where(z => z.Name == "update").FirstOrDefault();
+
+                        string PkValue = "";
+                        GlobalVariables.PrimaryKeysList = GlobalVariables.PrimaryKeysList.ConvertAll(d => d.ToLower());
+                        for (int z = 0; z < GlobalVariables.PrimaryKeysList.Count; z++)
+                        {
+                            PkValue = GlobalVariables.PrimaryKeysList[z].ToString();
+                        }
+
+                        if (GlobalVariables.AllValues[i].ToString() == PkValue)
+                        {
+                            update_tg.Value = "N";
+                        }
+
+                        else
+                        {
+
+                            update_tg.Value = "Y";
+                        }
+
+
+
                     }
+                
 
-                    if (GlobalVariables.AllValues[i].ToString() == PkValue)
-                    {
-                        update_tg.Value = "N";
-                    }
-
-                    else
-                    {
-
-                        update_tg.Value = "Y";
-                    }
-
-
-
-                }
 
 
                 doc.Save(@"E:\WizardGenerator\test_trans" + GlobalVariables.Row_index + ".ktr");
@@ -1251,5 +1764,7 @@ namespace Generated_File.Forms
                 MessageBox.Show("Error Occured in application " + ex.Message);
             }
         }
+
+       
     }
 }
